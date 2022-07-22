@@ -1,0 +1,21 @@
+﻿@model Project
+
+<form method="post" asp-action="Delete">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Project</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProjectCode"></label>
+            <input asp-for="ProjectCode" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to Delete this?')) { return false }" style="width:150px">Delete</button>
+        <a asp-controller="Project" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+    </div>
+</form>
