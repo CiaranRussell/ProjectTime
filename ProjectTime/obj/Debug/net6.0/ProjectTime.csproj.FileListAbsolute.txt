@@ -272,3 +272,6 @@ C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.
 C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\MailKit.dll
+C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\MimeKit.dll
+C:\EAD\ProjectTime\ProjectTime\bin\Debug\net6.0\BouncyCastle.Crypto.dll
