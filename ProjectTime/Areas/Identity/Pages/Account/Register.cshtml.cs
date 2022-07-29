@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ProjectTime.Data;
 using ProjectTime.Models;
 using ProjectTime.Utility;
 
@@ -35,6 +36,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -42,7 +44,8 @@ namespace ProjectTime.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender
-,           RoleManager<IdentityRole> roleManager)
+,           RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -51,6 +54,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _db = db;
 
         }
 
@@ -115,8 +119,13 @@ namespace ProjectTime.Areas.Identity.Pages.Account
 
             public string? Role { get; set; }
 
+            public int DepartmentId { get; set; }
+
             [ValidateNever]
-            public IEnumerable<SelectListItem> RoleList { get; set; }  
+            public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            [ValidateNever]
+            public IEnumerable<SelectListItem> DepartmentList { get; set; }
         }
 
 
@@ -137,8 +146,13 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                     Text = i,
                     Value = i
 
-                })
+                }),
+                DepartmentList = _db.departments.Select(d => new SelectListItem
+                {
+                    Text = d.Name,
+                    Value = d.Id.ToString()
 
+                }),
             };
         }
 
@@ -153,6 +167,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FullName = Input.FullName;
+                user.DepartmentId = Input.DepartmentId;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
