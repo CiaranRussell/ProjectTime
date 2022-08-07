@@ -20,9 +20,10 @@ namespace ProjectTime.Models
         [ValidateNever]
         public Department Department { get; set; }
 
+        [NotMapped]
+        public string Role { get; set; }
+
         
-
-
 
 
     }

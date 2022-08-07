@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "List of all users";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-4">
+            <h2 class="text-primary">User List</h2>
+        </div> 
+</div>
+<br />
+
+<table id="tblDataUsers" class="table table-bordered table-striped" style`="width 100%">
+    <thead> 
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Department Name</th>
+            <th>Email Confirmed</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    @*<tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td width="50%">@obj.FullName</td>
+                <td width="50%">@obj.Email</td>
+                <td width="50%">@obj.Department.Name</td>
+            </tr>
+        }
+    </tbody>*@
+</table>
+</div>
+
+@section scripts{
+    <script src="~/js/users.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var save = '@TempData["save"]'
+            if(save!='') {
+                alertify.success(save);
+            }
+            var edit = '@TempData["edit"]'
+            if(edit!='') {
+                alertify.success(edit);
+            }
+            var del = '@TempData["delete"]'
+            if (del!='') {
+                alertify.error(del);
+            }
+        })
+    </script>
+}

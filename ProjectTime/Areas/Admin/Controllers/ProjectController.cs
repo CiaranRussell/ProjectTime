@@ -26,7 +26,7 @@ namespace ProjectTime.Controllers
             return View();
         }
 
-        // Post method with validation to prevent duplicate Projects being created
+        // Post method with validation to prevent duplicate Projects been added
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project obj)

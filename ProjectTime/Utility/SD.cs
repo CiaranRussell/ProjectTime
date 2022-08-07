@@ -4,6 +4,6 @@
     {
         public const string Role_Admin = "PMO";
         public const string Role_SuperUser = "Project Manager";
-        public const string Role_User = "Employee";
+        public const string Role_User = "User";
     }
 }

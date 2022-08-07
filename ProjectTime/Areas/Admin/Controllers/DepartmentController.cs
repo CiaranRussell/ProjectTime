@@ -28,7 +28,7 @@ namespace ProjectTime.Controllers
                 return View();
         }
 
-        // Post method with validation to prevent duplicate department names being created
+        // Post async method with validation to prevent duplicate department names being created
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Department obj)
@@ -67,7 +67,7 @@ namespace ProjectTime.Controllers
                 return View(departmentSearch);
         }
 
-        // Post method to edit departments with validation to prevent duplicate department names being created during edit
+        // Post async method to edit departments with validation to prevent duplicate department names being created during edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Department obj)
@@ -91,7 +91,7 @@ namespace ProjectTime.Controllers
 
         }
 
-        // Get method to return Delete department page
+        // Get method to return Delete department page by Department Id
         public IActionResult Delete(int? id)
         {
                 if (id == null)
@@ -108,7 +108,7 @@ namespace ProjectTime.Controllers
                 return View(departmentSearch);
         }
 
-        // Post method to delete departments
+        // Post async method to delete departments by department Id
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int? id)

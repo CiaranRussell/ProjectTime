@@ -117,8 +117,9 @@ namespace ProjectTime.Areas.Identity.Pages.Account
 
             public string FullName { get; set; }
 
-            public string? Role { get; set; }
+            public string Role { get; set; }
 
+            [Required(ErrorMessage = "Department is required")]
             public int DepartmentId { get; set; }
 
             [ValidateNever]
@@ -139,6 +140,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            // Adding input models for Roles and Department in the register page
             Input = new InputModel()
             {
                 RoleList = _roleManager.Roles.Select(r => r.Name).Select(i => new SelectListItem
@@ -150,7 +152,8 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                 DepartmentList = _db.departments.Select(d => new SelectListItem
                 {
                     Text = d.Name,
-                    Value = d.Id.ToString()
+                    Value = d.Id.ToString(),
+
 
                 }),
             };
@@ -168,6 +171,8 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FullName = Input.FullName;
                 user.DepartmentId = Input.DepartmentId;
+                //user.Role = Input.Role;
+
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

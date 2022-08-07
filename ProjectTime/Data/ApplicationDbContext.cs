@@ -17,5 +17,7 @@ namespace ProjectTime.Data
         public DbSet<Project> projects { get; set; }
 
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page
 @using ProjectTime.Utility
+@using ProjectTime.Models
 @model RegisterModel
 @{
     ViewData["Title"] = "Create New Account";
@@ -44,6 +45,12 @@ else
                     <option disabled selected>-Select Depatment-</option>
                     </select>
                 </div>
+                @*--delete when Account set up is complete-- *@
+                @*<div class="form-floating py-2">
+                    <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class=form-select>
+                    <option disabled selected>-Select Role-</option>
+                    </select>
+                </div>*@
             @if (User.IsInRole(SD.Role_Admin))
             {
                 <div class="form-floating py-2">
