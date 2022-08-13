@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
-
+using System.Linq;
 
 namespace ProjectTime.Areas.Admin.Controllers
 {
@@ -29,14 +29,14 @@ namespace ProjectTime.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objUsersList = _db.applicationUsers.Include(d => d.Department).ToList();
-            var userRole = _db.UserRoles.ToList();
-            var roles = _db.Roles.ToList();
+            //var userRole = _db.UserRoles.ToList();
+            //var roles = _db.Roles.ToList();
 
-            foreach (var user in objUsersList)
-            {
-                var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
-                user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-            }
+            //foreach (var user in objUsersList)
+            //{
+            //    var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
+            //    user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+            //}
             return View(objUsersList);
             
 
@@ -46,25 +46,16 @@ namespace ProjectTime.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(IdentityUser appUser)
         {
-            var user = _userManager.Users.FirstOrDefault(x => x.Id == appUser.Id);
+            ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
+
+            var user = _userManager.Users.Include(d => d.Department).FirstOrDefault(x => x.Id == appUser.Id);
 
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            //var userRoles = await _roleManager.GetRoleNameAsync(user);
-            ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
-            
-            var model = new ApplicationUser
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                //Role = user.Role,
-                Department = user.Department,
-            };
-            return View(model);
+            return View(user);
 
         }
 
@@ -95,10 +86,11 @@ namespace ProjectTime.Areas.Admin.Controllers
                 user.Id = appUser.Id;
                 user.FullName = appUser.FullName;
                 user.Email = appUser.Email;
-                user.Department = appUser.Department;
-                //user.Role = appUser.Role;
+                user.DepartmentId = appUser.DepartmentId;
+                
             }
 
+            ModelState.Remove("Role");
             if (ModelState.IsValid)
             {
                 await _userManager.UpdateAsync(user);
@@ -109,26 +101,26 @@ namespace ProjectTime.Areas.Admin.Controllers
             return View(user);
 
         }
-        // Get user & roles by user Id  
-        [HttpGet]
+
+        // Get method to return user roles by user Id   
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.UserId = userId;
+            
 
             var user = await _userManager.FindByIdAsync(userId);
 
-            //var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
 
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new List<UserRoles>();
+            var model = new List<UserRolesViewModel>();
 
             foreach (var role in _roleManager.Roles)
             {
-                var userRoles = new UserRoles
+                var userRoles = new UserRolesViewModel
                 {
                     RoleId = role.Id,
                     RoleName = role.Name
@@ -144,8 +136,50 @@ namespace ProjectTime.Areas.Admin.Controllers
                 }
 
                 model.Add(userRoles);
+
             }
             return View(model);
+
+        }
+
+        // Post async method to allow the adimn user add or delete roles for a selected user
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> userRoles,string userId)
+        {
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (! userRoles.Any(x => x.IsSelected == true))
+            {
+                ViewBag.ErrorTitle = $" User: {user.FullName}, has no role assigned ";
+                ViewBag.ErrorMessage = $"User must have at least 1 role assigned";
+                return View("Error");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var result = await _userManager.RemoveFromRolesAsync(user, roles);
+
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Cannot remove user existing roles");
+                return View(userRoles);
+            }
+            result = await _userManager.AddToRolesAsync(user, userRoles.Where(x => x.IsSelected).Select(y => y.RoleName));
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Cannot add selected roles to user");
+                return View(userRoles);
+            }
+            await _db.SaveChangesAsync();
+            TempData["edit"] = "User Role Updated Successfully!!";
+            return RedirectToAction("Index");
 
         }
 
@@ -170,21 +204,24 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             try
             {
-                var userSearch = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
+                var user = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
+                
 
-                if (userSearch == null)
+                if (user == null)
                 {
                     return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
                 }
 
-                await _userManager.DeleteAsync(userSearch);
+                await _userManager.DeleteAsync(user);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "User Account Deleted Successfully!!";
                 return RedirectToAction("Index");
             } 
-            catch (Exception)
+            catch (DbUpdateException)
             {
-                throw new InvalidOperationException();
+                ViewBag.ErrorTitle = $"User is linked to projects";
+                ViewBag.ErrorMessage = $"User cannot be deleted as they are linked to project";
+                return View("Error");
             }
         }
 

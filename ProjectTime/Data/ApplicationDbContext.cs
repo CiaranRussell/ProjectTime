@@ -18,6 +18,19 @@ namespace ProjectTime.Data
 
         public DbSet<ApplicationUser> applicationUsers { get; set; }
 
-        
+
+        // On model creation method to loop through all tables with FK relationships & restrict cascade deletion of child records
+        // when deleting parent value
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+        }
     }
 }

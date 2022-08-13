@@ -20,15 +20,10 @@
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-        @*<div class="mb-3">
-            <label asp-for="Role"></label>
-            <input asp-for="Role" class="form-control" />
-            <span asp-validation-for="Role" class="text-danger"></span>
-        </div>*@
         <div class="mb-3">
-            <label asp-for="Department.Name"></label>
-            <select asp-for = "Department.Name" asp-items = "ViewBag.departmentId" class="form-control" ></select>
-            <span asp-validation-for="Department.Name" class="text-danger"></span>
+            <label asp-for="DepartmentId"></label>
+            <select asp-for = "DepartmentId" asp-items = "ViewBag.departmentId" class="form-control" ></select>
+            <span asp-validation-for="DepartmentId" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
         <a asp-controller="Account" asp-action="ManageUserRoles" asp-route-userid="@Model.Id" class="btn btn-primary" style="width:150px">Manage Roles</a>

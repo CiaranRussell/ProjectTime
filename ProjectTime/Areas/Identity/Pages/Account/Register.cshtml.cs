@@ -171,7 +171,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FullName = Input.FullName;
                 user.DepartmentId = Input.DepartmentId;
-                //user.Role = Input.Role;
+                
 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

@@ -9,9 +9,9 @@ $(document).ready(function () {
 function loadDataTable() {
 
     dataTable = $('#tblDataUsers').DataTable({
-        "ajax": {
-            "url": "/Admin/Account/IndexAPI", "type": "GET", "datatype": "json"
-        },
+
+        "ajax": { "url": "/Admin/Account/IndexAPI", "type": "GET", "datatype": "json" },
+
         "columns": [
 
             { "data": "fullName", "width": "20%" },

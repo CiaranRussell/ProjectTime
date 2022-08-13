@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
 
@@ -120,12 +121,15 @@ namespace ProjectTime.Controllers
                 return View(projectSearch);
         }
 
-        // Post method to delete Project
+        // Post async method to delete Project by user Id with custom exception handling if the user tries to delete a project
+        // with related members 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirm(int? id, Project project)
         {
-            var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
+            try
+            {
+                var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
 
                 if (projectSearch == null)
                 {
@@ -136,6 +140,16 @@ namespace ProjectTime.Controllers
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "Project Deleted Successfully!!";
                 return RedirectToAction("Index");
+
+            }
+            catch (DbUpdateException)
+            {
+                ViewBag.ErrorTitle = $"{project.Name} Project is in use";
+                ViewBag.ErrorMessage = $"{project.Name} Project cannot be deleted as there are related users " +
+                $"in the Project";
+                return View("Error");
+
+            }
 
         }
 

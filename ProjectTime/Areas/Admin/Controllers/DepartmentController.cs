@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
 
@@ -32,7 +33,7 @@ namespace ProjectTime.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Department obj)
-        {
+        {       
                 var searchDepartment = _db.departments.FirstOrDefault(x => x.Name == obj.Name);
                 if (searchDepartment != null)
                 {
@@ -55,14 +56,14 @@ namespace ProjectTime.Controllers
         {
                 if (id == null)
                 {
-                    return NotFound();
+                    return NotFound($"Unable to find Department");
                 }
 
                 var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
 
                 if (departmentSearch == null)
                 {
-                    return NotFound();
+                    return NotFound($"Unable to find Department");
                 }
                 return View(departmentSearch);
         }
@@ -96,35 +97,47 @@ namespace ProjectTime.Controllers
         {
                 if (id == null)
                 {
-                    return NotFound();
+                    return NotFound($"Unable to find Department");
                 }
 
                 var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
 
                 if (departmentSearch == null)
                 {
-                    return NotFound();
+                    return NotFound($"Unable to find Department");
                 }
                 return View(departmentSearch);
         }
 
-        // Post async method to delete departments by department Id
+        // Post async method to delete departments by department Id with custom exception handling if the user tries to delete a department
+        // with related members 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteConfirm(int? id, Department department)
         {
-            var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
+            try
+            {
+                var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
 
                 if (departmentSearch == null)
                 {
-                    return NotFound();
+                    return NotFound($"Unable to find Department");
                 }
 
                 _db.departments.Remove(departmentSearch);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "Department Deleted Successfully!!";
                 return RedirectToAction("Index");
-            
+            }
+            catch (DbUpdateException)
+            {
+                ViewBag.ErrorTitle = $"{department.Name} Department is in use";
+                ViewBag.ErrorMessage = $"{department.Name} Department cannot be deleted as there are linked users " +
+                $"in the department";
+                return View("Error");
+                
+            }
+              
         }
 
         // Get method to return Department data in API call for Data Tables 
@@ -133,8 +146,8 @@ namespace ProjectTime.Controllers
 
         public IActionResult IndexAPI()
         {
-                IEnumerable<Department> objDepartmentList = _db.departments;
-                return Json(new {data = objDepartmentList});
+            IEnumerable<Department> objDepartmentList = _db.departments;
+            return Json(new {data = objDepartmentList});
         }
         #endregion
     }
