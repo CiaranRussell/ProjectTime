@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S/UVpn1+E8L20v4rIPh2tf6zNOQEWeAgamgQnz4cE9Y=",
+  "Hash": "muKUZvG102RaQxgabfBngoEViaqKy/oQDbYON77Kfn8=",
   "Source": "ProjectTime",
   "BasePath": "_content/ProjectTime",
   "Mode": "Default",
@@ -100,6 +100,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\Images\\ProjectTime1.jpg",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "Images/ProjectTime1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ProjectTime1.jpg"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\Images\\ProjectTime2.jpg",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "Images/ProjectTime2.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ProjectTime2.jpg"
     },
     {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\department.js",

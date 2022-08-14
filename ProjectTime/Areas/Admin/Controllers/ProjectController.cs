@@ -62,7 +62,7 @@ namespace ProjectTime.Controllers
         {
                 if (id == null)
                 {
-                    return NotFound();
+                    return NotFound("Unable to find Project");
                 }
 
                 var departmentSearch = _db.projects.FirstOrDefault(x => x.Id == id);
@@ -109,14 +109,14 @@ namespace ProjectTime.Controllers
         {
                 if (id == null)
                 {
-                    return NotFound();
+                    return NotFound("Unable to find Project");
                 }
 
                 var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
 
                 if (projectSearch == null)
                 {
-                    return NotFound();
+                    return NotFound("Unable to find Project");
                 }
                 return View(projectSearch);
         }
@@ -127,13 +127,13 @@ namespace ProjectTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int? id, Project project)
         {
+            var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
+
             try
             {
-                var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
-
                 if (projectSearch == null)
                 {
-                    return NotFound();
+                    return NotFound("Unable to find Project");
                 }
 
                 _db.projects.Remove(projectSearch);
@@ -144,8 +144,8 @@ namespace ProjectTime.Controllers
             }
             catch (DbUpdateException)
             {
-                ViewBag.ErrorTitle = $"{project.Name} Project is in use";
-                ViewBag.ErrorMessage = $"{project.Name} Project cannot be deleted as there are related users " +
+                ViewBag.ErrorTitle = $"{projectSearch.Name} Project is in use";
+                ViewBag.ErrorMessage = $"{projectSearch.Name} Project cannot be deleted as there are system users assigned " +
                 $"in the Project";
                 return View("Error");
 

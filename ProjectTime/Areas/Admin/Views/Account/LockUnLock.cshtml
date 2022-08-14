@@ -1,0 +1,49 @@
+﻿@model ApplicationUser
+
+@{
+    var userId = ViewBag.userId;
+    var userName = ViewBag.UserName;
+    var lockOut = ViewBag.Lockout;
+}
+
+<form method="post" asp-action="LockUnlockUser">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Lock or Unlock User Account</h2>
+            @if(lockOut != null && lockOut > DateTime.Now)
+            {
+                <h5 class="text-danger">This Account is Locked</h5>
+            }
+            else
+            {
+                <h5 class="text-secondary">This Account is Unlocked</h5>
+            }
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="FullName"></label>
+            <input asp-for="FullName" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="LockoutEnd">Lockout End Date</label>
+            <input asp-for="LockoutEnd" disabled class="form-control" />
+        </div>
+        @if(lockOut != null && lockOut > DateTime.Now)
+        {
+            <button type="submit" onclick="if (!confirm('Are you sure you want to Unlock this user?')) { return false }" 
+            class="btn btn-danger" style="width:150px"><i class="bi bi-file-lock"></i>Unlock</button>      
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success" onclick="if (!confirm('Are you sure you want Lock this user?')) { return false }" 
+             style="width:150px"><i class="bi bi-file-lock"></i> Lock</button>
+            
+        }
+        <a asp-controller="Account" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+    </div>
+</form>

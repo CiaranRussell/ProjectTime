@@ -27,6 +27,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/EAD/ProjectTime/ProjectTime/Areas/Admin/Views/Account/LockUnLock.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxMb2NrVW5Mb2NrLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/EAD/ProjectTime/ProjectTime/Areas/Admin/Views/Account/ManageUserRoles.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWNjb3VudFxNYW5hZ2VVc2VyUm9sZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

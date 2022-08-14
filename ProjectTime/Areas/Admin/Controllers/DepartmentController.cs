@@ -115,10 +115,10 @@ namespace ProjectTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int? id, Department department)
         {
+            var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
+
             try
             {
-                var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
-
                 if (departmentSearch == null)
                 {
                     return NotFound($"Unable to find Department");
@@ -131,9 +131,10 @@ namespace ProjectTime.Controllers
             }
             catch (DbUpdateException)
             {
-                ViewBag.ErrorTitle = $"{department.Name} Department is in use";
-                ViewBag.ErrorMessage = $"{department.Name} Department cannot be deleted as there are linked users " +
-                $"in the department";
+
+                ViewBag.ErrorTitle = $"{departmentSearch.Name} Department is in use";
+                ViewBag.ErrorMessage = $"{departmentSearch.Name} Department cannot be deleted as there are system users assigned " +
+                $"to the department, please use the edit functionaility to change rates";
                 return View("Error");
                 
             }

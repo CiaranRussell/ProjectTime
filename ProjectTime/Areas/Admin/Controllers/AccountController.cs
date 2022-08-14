@@ -29,14 +29,14 @@ namespace ProjectTime.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objUsersList = _db.applicationUsers.Include(d => d.Department).ToList();
-            //var userRole = _db.UserRoles.ToList();
-            //var roles = _db.Roles.ToList();
+            var userRole = _db.UserRoles.ToList();
+            var roles = _db.Roles.ToList();
 
-            //foreach (var user in objUsersList)
-            //{
-            //    var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
-            //    user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-            //}
+            foreach (var user in objUsersList)
+            {
+                var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
+                user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+            }
             return View(objUsersList);
             
 
@@ -64,11 +64,9 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(ApplicationUser appUser)
         {
-            ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
 
             var dupCheckEmail = !_userManager.Users.Any(x => x.Id != appUser.Id && x.Email.ToLower().Trim() ==
                                                                                appUser.Email.ToLower().Trim());
-
             if (dupCheckEmail == false)
             {
                 ModelState.AddModelError("Email", "Eamil address already exists");
@@ -102,14 +100,16 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         }
 
+        
+
         // Get method to return user roles by user Id   
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.UserId = userId;
-            
 
             var user = await _userManager.FindByIdAsync(userId);
 
+            ViewBag.UserName = user.FullName;
 
             if (user == null)
             {
@@ -136,13 +136,14 @@ namespace ProjectTime.Areas.Admin.Controllers
                 }
 
                 model.Add(userRoles);
-
+                
             }
             return View(model);
 
         }
 
-        // Post async method to allow the adimn user add or delete roles for a selected user
+        // Post async method to allow the adimn user add or delete roles for a selected user with validation to prevent
+        // removing all roles
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> userRoles,string userId)
@@ -156,8 +157,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (! userRoles.Any(x => x.IsSelected == true))
             {
-                ViewBag.ErrorTitle = $" User: {user.FullName}, has no role assigned ";
-                ViewBag.ErrorMessage = $"User must have at least 1 role assigned";
+                ViewBag.ErrorTitle = $" User: {user.FullName}, has no Role Assigned ";
+                ViewBag.ErrorMessage = $"All system user's must have at least 1 role assigned";
                 return View("Error");
             }
 
@@ -188,7 +189,8 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
 
-            var user = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
+
+            var user = _userManager.Users.Include(d => d.Department).FirstOrDefault(x => x.Id == identityUser.Id);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -202,11 +204,10 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(IdentityUser identityUser)
         {
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
+
             try
             {
-                var user = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
-                
-
                 if (user == null)
                 {
                     return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -219,8 +220,8 @@ namespace ProjectTime.Areas.Admin.Controllers
             } 
             catch (DbUpdateException)
             {
-                ViewBag.ErrorTitle = $"User is linked to projects";
-                ViewBag.ErrorMessage = $"User cannot be deleted as they are linked to project";
+                ViewBag.ErrorTitle = $"{user.FullName} is Assigned to Projects or Departments";
+                ViewBag.ErrorMessage = $"{user.FullName} cannot be deleted as this user is assigned to projects or departments";
                 return View("Error");
             }
         }
@@ -228,7 +229,6 @@ namespace ProjectTime.Areas.Admin.Controllers
         //Get method to return Users data in API call for Data Tables
         #region API CALLS
         [HttpGet]
-
         public IActionResult IndexAPI()
         {
             var objUsersList = _db.applicationUsers.Include(d => d.Department).ToList();
@@ -244,6 +244,61 @@ namespace ProjectTime.Areas.Admin.Controllers
         }
         #endregion
 
+        // get method to return lock / unlock User page by identity userId
+        public async Task<IActionResult> LockUnlock(string userId)
+        {
+            ViewBag.UserId = userId;
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            ViewBag.UserName = user.FullName;
+            ViewBag.Lockout = user.LockoutEnd;
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            return View(user);
+
+        }
+
+        // post method to Lock / unlock user accounts
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult LockUnlockUser(string id)
+        {
+            
+            var user = _db.applicationUsers.FirstOrDefault(u => u.Id == id);
+
+            if(user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (user.LockoutEnd!= null && user.LockoutEnd > DateTime.Now)
+            {
+                user.LockoutEnd = DateTime.Now;
+                
+            }
+            else
+            {
+                user.LockoutEnd= DateTime.Now.AddYears(100);
+                
+            }
+            //ViewBag.Lockout = user.LockoutEnd;
+
+            _db.SaveChanges();
+            if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
+            {
+                TempData["delete"] = "User Account locked Successfully!!";  
+            }
+            else
+            {
+                TempData["edit"] = "User Account Unlocked Successfully!!";
+            }
+            return RedirectToAction("Index");
+        }
 
     }
 }
