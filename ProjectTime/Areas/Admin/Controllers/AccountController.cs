@@ -106,6 +106,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.UserId = userId;
+            
 
             var user = await _userManager.FindByIdAsync(userId);
 

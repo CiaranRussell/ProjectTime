@@ -1,0 +1,29 @@
+﻿@model ProjectUser
+
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Assign User to Project</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="Project.Name"></label>
+            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-control" ></select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ApplicationUser.FullName"></label>
+            <select asp-for = "UserId" asp-items = "ViewBag.UserId" class="form-control" ></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="IsActive"></label>
+            <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+            <span asp-validation-for="IsActive" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Assign</button>
+        <a asp-controller="ProjectUser" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+    </div>
+</form>

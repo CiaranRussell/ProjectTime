@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "muKUZvG102RaQxgabfBngoEViaqKy/oQDbYON77Kfn8=",
+  "Hash": "7vky1VoStw6kmt+sLn/lcnGO2j8idGyof86pmcd/x90=",
   "Source": "ProjectTime",
   "BasePath": "_content/ProjectTime",
   "Mode": "Default",
@@ -168,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\project.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectUser.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/projectUser.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\projectUser.js"
     },
     {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\site.js",

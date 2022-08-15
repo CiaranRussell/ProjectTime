@@ -150,6 +150,6 @@ namespace ProjectTime.Controllers
             IEnumerable<Department> objDepartmentList = _db.departments;
             return Json(new {data = objDepartmentList});
         }
-        #endregion
+        #endregion 
     }
 }
