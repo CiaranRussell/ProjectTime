@@ -25,7 +25,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             _roleManager = roleManager;
         }
 
-        // Get method to return list of users
+        // Get method to return list of users to include the department and roles 
         public IActionResult Index()
         {
             var objUsersList = _db.applicationUsers.Include(d => d.Department).ToList();

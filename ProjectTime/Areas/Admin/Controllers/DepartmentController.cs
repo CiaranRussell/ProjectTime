@@ -134,7 +134,7 @@ namespace ProjectTime.Controllers
 
                 ViewBag.ErrorTitle = $"{departmentSearch.Name} Department is in use";
                 ViewBag.ErrorMessage = $"{departmentSearch.Name} Department cannot be deleted as there are system users assigned " +
-                $"to the department, please use the edit functionaility to change rates";
+                $"to the department, please use the edit functionaility to change department name or update rates";
                 return View("Error");
                 
             }
