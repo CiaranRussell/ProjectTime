@@ -14,8 +14,8 @@ function loadDataTable() {
         },
         "columns": [
 
-            { "data": "projectCode", "width": "15%" },
-            { "data": "name", "width": "15%" },
+            { "data": "projectCode", "width": "25%" },
+            { "data": "name", "width": "25%" },
             {
                 "data": "id",
                 "render": function (data) {

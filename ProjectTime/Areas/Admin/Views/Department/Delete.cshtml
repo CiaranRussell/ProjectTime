@@ -15,7 +15,7 @@
             <label asp-for="Rate"></label>
             <input asp-for="Rate" disabled class="form-control" />
         </div>
-        <button type="submit" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to Delete this?')) { return false }" style="width:150px">Delete</button>
+        <button type="submit" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to Delete this?')) { return false }" style="width:150px"><i class="bi bi-trash-fill"></i>Delete</button>
         <a asp-controller="Department" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
     </div>
 </form>

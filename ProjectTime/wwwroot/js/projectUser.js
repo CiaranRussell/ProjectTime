@@ -14,9 +14,11 @@ function loadDataTable() {
 
         "columns": [
 
-            { "data": "project.name", "width": "20%" },
-            { "data": "applicationUser.fullName", "width": "20%" },
-            { "data": "isActive", "width": "20%" },
+            { "data": "project.projectCode", "width": "15%" },
+            { "data": "project.name", "width": "15%" },
+            { "data": "applicationUser.fullName", "width": "15%" },
+            { "data": "applicationUser.department.name", "width": "15%" },
+            { "data": "isActive", "width": "15%" },
             {
                 "data": "id",
                 "render": function (data) {

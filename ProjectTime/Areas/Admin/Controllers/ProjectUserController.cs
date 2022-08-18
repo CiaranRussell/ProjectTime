@@ -17,23 +17,31 @@ namespace ProjectTime.Areas.Admin.Controllers
             _db = db;
         }
 
-        // get method to return projectUser list view
+        // Get method to return projectUser list view to include Projects, users, department, and roles 
         public IActionResult Index()
         {
-            IEnumerable<ProjectUser> objProjectuserList = _db.projectUsers.Include(p => p.Project).Include(u => u.ApplicationUser).ToList();
-            return View(objProjectuserList);
+            IEnumerable<ProjectUser> objProjectUserList = _db.projectUsers.Include(p => p.Project).Include(u => u.ApplicationUser)
+                                                                                          .ThenInclude(d => d.Department).ToList();
+            var userRole = _db.UserRoles.ToList();
+            var roles = _db.Roles.ToList();
+
+            foreach (var user in objProjectUserList)
+            {
+                var roleId = userRole.FirstOrDefault(u => u.UserId == user.UserId).RoleId;
+                user.ApplicationUser.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+            }
+            return View(objProjectUserList);
         }
 
         // Get method to return create view using viewdata to retrieve project and user names in a list
-
         public IActionResult Create()
         {
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
-            ViewData["UserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
+            ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
+            
 
             return View();
         }
-
 
         // Post asyn method to created project user assignment with validation to prevent duplication of users been assigned to projects 
         [HttpPost]
@@ -47,7 +55,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             {
                 if (dupCheck == false)
                 {
-                    ModelState.AddModelError("FullName", "is already assigned to this project");
+                    ModelState.AddModelError("", "User is already assigned to this project");
                 }
 
                 if (ModelState.IsValid)
@@ -65,18 +73,142 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
         }
 
+        // Get method to return Edit view page by user Id to include Projects & Application Users
+        public IActionResult Edit(ProjectUser projectuser)
+        {
+            ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
+            ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
+
+            if (projectuser == null)
+            {
+                return NotFound($"Unable to find Project User");
+            }
+
+            var user = _db.projectUsers.Include(p => p.Project).Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectuser.Id);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to find Project User");
+            }
+            return View(user);
+        }
+
+        // Post async method to update Project users with validation to prevent duplication of users added to projects
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProject(ProjectUser obj)
+        {
+            var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
+
+            try
+            {
+                if (dupCheck == false)
+                {
+                    ModelState.AddModelError("", "User is already assigned to this project");
+                    return View(obj);
+                }
+
+                var projectUser = await _db.projectUsers.FindAsync(obj.Id);
+
+                if (projectUser == null)
+                {
+                    return NotFound("Unable to find Project User");
+                }
+                else
+                {
+                    projectUser.Id = obj.Id;
+                    projectUser.ProjectId = obj.ProjectId;
+                    projectUser.UserId = obj.UserId;
+                    projectUser.IsActive = obj.IsActive;
+                }
+
+                if (ModelState.IsValid)
+                {
+                    _db.projectUsers.Update(projectUser);
+                    await _db.SaveChangesAsync();
+                    TempData["save"] = "Project User updated successfully!!";
+                    return RedirectToAction("Index");
+                }
+                return View(projectUser);
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+
+        }
+
+        // Get method to return Delete project User page by Id
+        public IActionResult Delete(int? id)
+        {
+            ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
+            ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
+
+            if (id == null)
+            {
+                return NotFound($"Unable to find Project User");
+            }
+
+            var projectUser = _db.projectUsers.FirstOrDefault(x => x.Id == id);
+
+            if (projectUser == null)
+            {
+                return NotFound($"Unable to find Project User");
+            }
+            return View(projectUser);
+            
+            
+        }
+
+        // Post async method to delete Project user by Id with custom error handling to notify the user if they try to delete
+        // an active project user
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
+        {
+            var user = _db.projectUsers.FirstOrDefault(x => x.Id == projectUser.Id);
+
+            try
+            {
+                if (user == null)
+                {
+                    return NotFound($"Unable to load Porject User with ID");
+                }
+
+                _db.projectUsers.Remove(user);
+                await _db.SaveChangesAsync();
+                TempData["delete"] = "Project User Deleted Successfully!!";
+                return RedirectToAction("Index");
+            }
+            catch (DbUpdateException)
+            {
+                ViewBag.ErrorTitle = $"{user.ApplicationUser.FullName} is Assigned to Projects";
+                ViewBag.ErrorMessage = $"{user.ApplicationUser.FullName} cannot be deleted as this user is assigned to projects";
+                return View("Error");
+            }
+        }
 
 
-        // get method to return projectUser data in API for Datatabels
+
+
+
+        // Get method to return projectUser data in API Call for Data tabels to include Projects, users, department, and roles  
         #region API CALLS
         [HttpGet]
 
         public IActionResult IndexAPI()
         {
-            IEnumerable<ProjectUser> objProjectuserList = _db.projectUsers.Include(p => p.Project)
-                                                          .Include(u => u.ApplicationUser).ToList();
+            IEnumerable<ProjectUser> objProjectUserList = _db.projectUsers.Include(p => p.Project).Include(u => u.ApplicationUser)
+                                                                                          .ThenInclude(d => d.Department).ToList();
+            var userRole = _db.UserRoles.ToList();
+            var roles = _db.Roles.ToList();
 
-            return Json(new {Data = objProjectuserList});
+            foreach (var user in objProjectUserList)
+            {
+                var roleId = userRole.FirstOrDefault(u => u.UserId == user.UserId).RoleId;
+                user.ApplicationUser.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+            }
+            return Json(new {Data = objProjectUserList});
         }
         #endregion
 

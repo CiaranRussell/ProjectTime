@@ -35,8 +35,8 @@ namespace ProjectTime.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _db;
+        private readonly RoleManager<IdentityRole> _roleManager; //  added role manager property
+        private readonly ApplicationDbContext _db; // Added db context property 
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,

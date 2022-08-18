@@ -9,7 +9,7 @@ namespace ProjectTime.Models
         public string RoleId { get; set; }
         public string RoleName { get; set; }
 
-        [CheckBoxRequired(ErrorMessage = "User Must have a role")]
+        //[CheckBoxRequired(ErrorMessage = "User must have a role")]
         public bool IsSelected { get; set; }
 
     }

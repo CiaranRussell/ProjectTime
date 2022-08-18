@@ -69,7 +69,7 @@ namespace ProjectTime.Areas.Admin.Controllers
                                                                                appUser.Email.ToLower().Trim());
             if (dupCheckEmail == false)
             {
-                ModelState.AddModelError("Email", "Eamil address already exists");
+                ModelState.AddModelError("Email", "Email address already exists");
                 return View(appUser);
             }
 
@@ -158,9 +158,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (! userRoles.Any(x => x.IsSelected == true))
             {
-                ViewBag.ErrorTitle = $" User: {user.FullName}, has no Role Assigned ";
-                ViewBag.ErrorMessage = $"All system user's must have at least 1 role assigned";
-                return View("Error");
+                ModelState.AddModelError("", "No Role Assigned!!");
+                return View(userRoles);
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -227,7 +226,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
         }
 
-        //Get method to return Users data in API call for Data Tables
+        //Get method to return Users data in API call for Data Tables to include the department and roles 
         #region API CALLS
         [HttpGet]
         public IActionResult IndexAPI()
@@ -245,7 +244,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         }
         #endregion
 
-        // get method to return lock / unlock User page by identity userId
+        // Get method to return lock / unlock User page by identity userId
         public async Task<IActionResult> LockUnlock(string userId)
         {
             ViewBag.UserId = userId;
@@ -284,10 +283,8 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
             else
             {
-                user.LockoutEnd= DateTime.Now.AddYears(100);
-                
+                user.LockoutEnd= DateTime.Now.AddYears(100); 
             }
-            //ViewBag.Lockout = user.LockoutEnd;
 
             _db.SaveChanges();
             if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
