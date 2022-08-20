@@ -125,7 +125,7 @@ namespace ProjectTime.Controllers
         // with related members 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id, Project project)
+        public async Task<IActionResult> DeleteConfirm(int? id)
         {
             var projectSearch = _db.projects.FirstOrDefault(x => x.Id == id);
 

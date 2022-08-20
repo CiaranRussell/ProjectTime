@@ -74,17 +74,17 @@ namespace ProjectTime.Areas.Admin.Controllers
         }
 
         // Get method to return Edit view page by user Id to include Projects & Application Users
-        public IActionResult Edit(ProjectUser projectuser)
+        public IActionResult Edit(int? id)
         {
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
             ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
 
-            if (projectuser == null)
+            if (id == null)
             {
                 return NotFound($"Unable to find Project User");
             }
 
-            var user = _db.projectUsers.Include(p => p.Project).Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectuser.Id);
+            var user = _db.projectUsers.Include(p => p.Project).Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == id);
 
             if (user == null)
             {

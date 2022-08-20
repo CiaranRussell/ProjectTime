@@ -140,8 +140,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         }
 
-        
-        [TearDown]
+        [OneTimeTearDown]
 
         public void CeanUp()
         {
