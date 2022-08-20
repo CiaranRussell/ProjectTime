@@ -26,8 +26,8 @@
             <span asp-validation-for="DepartmentId" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px"><i class="bi bi-pencil-square"></i>Update</button>
-        <a asp-controller="Account" asp-action="ManageUserRoles" asp-route-userid="@Model.Id" class="btn btn-primary" style="width:150px">Manage Roles</a>
-        <a asp-controller="Account" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+        <a asp-controller="Account" asp-action="ManageUserRoles" asp-route-userid="@Model.Id" class="btn btn-success" style="width:150px"><i class="bi bi-pencil-square"></i>Manage Roles</a>
+        <a asp-controller="Account" asp-action="Index" class="btn btn-secondary" style="width:150px"><i class="bi bi-skip-backward"></i>Back to List</a>
     </div>
 </form>
 

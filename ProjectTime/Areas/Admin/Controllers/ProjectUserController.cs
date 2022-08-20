@@ -166,24 +166,24 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
         {
-            var user = _db.projectUsers.FirstOrDefault(x => x.Id == projectUser.Id);
+            var projectusers = _db.projectUsers.FirstOrDefault(x => x.Id == projectUser.Id);
 
             try
             {
-                if (user == null)
+                if (projectusers == null)
                 {
                     return NotFound($"Unable to load Porject User with ID");
                 }
 
-                _db.projectUsers.Remove(user);
+                _db.projectUsers.Remove(projectusers);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "Project User Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException)
             {
-                ViewBag.ErrorTitle = $"{user.ApplicationUser.FullName} is Assigned to Projects";
-                ViewBag.ErrorMessage = $"{user.ApplicationUser.FullName} cannot be deleted as this user is assigned to projects";
+                ViewBag.ErrorTitle = $"{projectusers.ApplicationUser.FullName} is Assigned to Projects";
+                ViewBag.ErrorMessage = $"{projectusers.ApplicationUser.FullName} cannot be deleted as this user is assigned to projects";
                 return View("Error");
             }
         }
