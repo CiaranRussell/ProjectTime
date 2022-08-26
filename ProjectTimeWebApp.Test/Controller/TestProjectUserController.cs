@@ -142,8 +142,6 @@ namespace ProjectTimeWebApp.Test.Controller
             // Assert
             Assert.IsNotNull(result);
 
-
-
         }
 
         [OneTimeTearDown]

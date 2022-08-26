@@ -29,9 +29,16 @@
     </td>
 </tr>
 }
-      </div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("User") || User.IsInRole("Project Manager"))
+{
+    <div class="w-45 btn-group" role="group">
+      <a asp-controller="@Model" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Log ProjectTime</a>
+    </div>
+}
+    </div>
         <div class="col-6 py-4 mobile-img">
-            <img  src="~/images/ProjectTime2.jpg"  class="img-fluid" alt="mobile screen">
+            <img src="~/images/ProjectTime2.jpg" class="img-fluid" alt="mobile screen">
         </div>
     </div>
   </div>
