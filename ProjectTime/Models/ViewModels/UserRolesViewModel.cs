@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using static ProjectTime.Models.CustomValidation;
+using static ProjectTime.Utility.CustomValidation;
 
 namespace ProjectTime.Models
 {

@@ -1,0 +1,35 @@
+﻿@model TimeLogViewModel
+
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Add ProjectTime Log</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="ProjectId">Project Name</label>
+            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-select">
+            <option disabled selected>-Select Project-</option></select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Date"></label>
+            <input asp-for="Date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Duration"></label>
+            <input asp-for="Duration" class="form-control" />
+            <span asp-validation-for="Duration" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px"><i class="bi bi-plus-circle"></i>Log Time</button>
+        <a asp-controller="TimeLog" asp-action="Index" class="btn btn-secondary" style="width:150px"><i class="bi bi-skip-backward"></i>Back to List</a>
+    </div>
+</form>
+

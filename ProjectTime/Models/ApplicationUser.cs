@@ -21,6 +21,7 @@ namespace ProjectTime.Models
         public Department Department { get; set; }
 
         [NotMapped]
+        [ValidateNever]
         public string Role { get; set; }
 
         

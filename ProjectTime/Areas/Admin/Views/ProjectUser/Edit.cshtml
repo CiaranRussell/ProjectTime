@@ -17,7 +17,7 @@
         <div class="mb-3">
             <label asp-for="ApplicationUser.UserName">Employee Name</label>
             <select asp-for = "UserId" asp-items = "ViewBag.appuserId" class="form-control" ></select>
-            @*<span asp-validation-for="UserId" class="text-danger"></span>*@
+            <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="IsActive" ></label>

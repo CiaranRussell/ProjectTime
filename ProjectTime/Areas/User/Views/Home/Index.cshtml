@@ -32,7 +32,7 @@
 @if (User.Identity.IsAuthenticated && User.IsInRole("User") || User.IsInRole("Project Manager"))
 {
     <div class="w-45 btn-group" role="group">
-      <a asp-controller="@Model" asp-action="Create" class="btn btn-primary">
+      <a asp-area="User" asp-controller="TimeLog" asp-action="Create" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Log ProjectTime</a>
     </div>
 }

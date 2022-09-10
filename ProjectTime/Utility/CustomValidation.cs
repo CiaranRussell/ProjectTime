@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ProjectTime.Models;
 
-namespace ProjectTime.Models
+namespace ProjectTime.Utility
 {
     public class CustomValidation
     {

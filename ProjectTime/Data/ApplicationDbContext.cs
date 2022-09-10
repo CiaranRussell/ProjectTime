@@ -20,6 +20,8 @@ namespace ProjectTime.Data
 
         public DbSet<ProjectUser> projectUsers { get; set; }
 
+        public DbSet<TimeLog> timeLog { get; set; }
+
 
         // On model creation method to loop through all tables with FK relationships & restrict cascade deletion of child records
         // when deleting parent value

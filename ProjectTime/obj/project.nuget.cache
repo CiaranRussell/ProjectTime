@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xBbcq3RNUWEp7jyAz2V82/y3uuJrnYydNsT2zjyTBQ9sHpUvwTj4Gzezo9ObX3iyuh3gEn40tMVsanhT1suURg==",
+  "dgSpecHash": "UBlKJT7behxY4f4Vh5mKYxTXPWrPBpap2Z0nMgFKfLVDxb5Umza8/ftLB0EiKCFTs46x0su6SGKBh57X2oV7xA==",
   "success": true,
   "projectFilePath": "C:\\EAD\\ProjectTime\\ProjectTime\\ProjectTime.csproj",
   "expectedPackageFiles": [
@@ -177,6 +177,7 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.runtime.interopservices.runtimeinformation\\4.3.0\\system.runtime.interopservices.runtimeinformation.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.runtime.numerics\\4.3.0\\system.runtime.numerics.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.accesscontrol\\6.0.0\\system.security.accesscontrol.6.0.0.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.claims\\4.3.0\\system.security.claims.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.cryptography.algorithms\\4.3.0\\system.security.cryptography.algorithms.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.cryptography.cng\\5.0.0\\system.security.cryptography.cng.5.0.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.cryptography.csp\\4.3.0\\system.security.cryptography.csp.4.3.0.nupkg.sha512",
@@ -187,6 +188,7 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.cryptography.protecteddata\\6.0.0\\system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.3.0\\system.security.cryptography.x509certificates.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.principal\\4.3.0\\system.security.principal.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",

@@ -229,7 +229,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private ApplicationUser CreateUser()
+        public ApplicationUser CreateUser()
         {
             try
             {

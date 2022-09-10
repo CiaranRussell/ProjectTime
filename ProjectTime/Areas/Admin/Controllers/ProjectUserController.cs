@@ -166,7 +166,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
         {
-            var projectusers = _db.projectUsers.FirstOrDefault(x => x.Id == projectUser.Id);
+            var projectusers = _db.projectUsers.Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectUser.Id);
 
             try
             {
@@ -182,8 +182,8 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
             catch (DbUpdateException)
             {
-                ViewBag.ErrorTitle = $"{projectusers.ApplicationUser.FullName} is Assigned to Projects";
-                ViewBag.ErrorMessage = $"{projectusers.ApplicationUser.FullName} cannot be deleted as this user is assigned to projects";
+                ViewBag.ErrorTitle = $"Error {projectusers.ApplicationUser.FullName} has logged time aganist this Project";
+                ViewBag.ErrorMessage = $"The Project User cannot be deleted as the user has logged time against this project";
                 return View("Error");
             }
         }

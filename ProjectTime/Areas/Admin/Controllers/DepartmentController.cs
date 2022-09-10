@@ -19,7 +19,7 @@ namespace ProjectTime.Controllers
         // Get method to return department list
         public IActionResult Index()
         {
-                IEnumerable<Department> objDepartmentList = _db.departments;
+            IEnumerable<Department> objDepartmentList = _db.departments;
                 return View(objDepartmentList);
         }
 

@@ -22,6 +22,8 @@ builder.Services.AddSingleton<IEmailSender, EmailSender>();
 // add Razor pages to builder serivce 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+// add ISessionHelper to services
+builder.Services.AddScoped<ISessionHelper, SessionHelper>();
 
 var app = builder.Build();
 

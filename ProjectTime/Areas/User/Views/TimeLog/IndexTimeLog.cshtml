@@ -1,25 +1,28 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<ApplicationUser>
-
+﻿@model IEnumerable<TimeLog>
 @{
-    ViewData["Title"] = "List of all users";
+    ViewData["Title"] = "IndexTimeLog";
 }
 
 <div class="container p-3">
     <div class="row pt-4">
-        <div class="col-4">
-            <h2 class="text-primary">User List</h2>
+        <div class="col-6">
+            <h2 class="text-primary">My ProjectTime Log's</h2>
         </div>
-    </div>
-    <br />
-<table id="tblDataUsers" class="table table-bordered table-striped" style`="width 100%">
+        <div class="col-6 text-end">
+           <a asp-controller="TimeLog" asp-action="Create" class="btn btn-primary">
+               <i class="bi bi-plus-circle"></i> &nbsp; Log ProjectTime
+           </a>
+        </div>
+   </div>
+   <br />
+
+   <table id="tblDatatimelog" class="table table-bordered table-striped" style`="width 100%">  
     <thead> 
         <tr>
-            <th>Employee Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Email Confirmed</th>
-            <th>Role</th>
+            <th>Project</th>
+            <th>Log Date</th>
+            <th>Duration Hours</th>
+            <th>Description</th>
             <th></th>
         </tr>
     </thead>
@@ -27,7 +30,7 @@
 </div>
 
 @section scripts{
-    <script src="~/js/users.js"></script>
+    <script src="~/js/timelog.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
     <script type="text/javascript">
         $(function(){
@@ -46,3 +49,4 @@
         })
     </script>
 }
+
