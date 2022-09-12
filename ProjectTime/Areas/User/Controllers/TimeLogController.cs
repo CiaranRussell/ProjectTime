@@ -33,6 +33,12 @@ namespace ProjectTime.Areas.User.Controllers
         {
             var userId = _sessionHelper.GetUserId();
             var userRole = _sessionHelper.GetUserRole();
+
+
+            var wholeList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                              .ThenInclude(p => p.Project)
+                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
@@ -43,16 +49,21 @@ namespace ProjectTime.Areas.User.Controllers
 
             foreach (var project in objTimeLog)
             {
+                var durationSum = wholeList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
 
-                ViewBag.totalDuration = Math.Round(project.Duration++ / (decimal)7.5, 1);
+                if (project.ProjectId == project.ProjectUser.ProjectId)
+                {
+                    ViewBag.totalDuration = Math.Round(durationSum / (decimal)7.5, 1);
+                }
+                
 
                 if (project.Date < minDate)
                 {
-                    ViewBag.minDate = project.Date;
+                    ViewBag.minDate = project.Date.ToShortDateString();
                 }
                 if (project.Date > maxDate)
                 {
-                    ViewBag.maxDate = project.Date;
+                    ViewBag.maxDate = project.Date.ToShortDateString();
                 }
 
             }
@@ -85,7 +96,7 @@ namespace ProjectTime.Areas.User.Controllers
 
         // Post async method to created timelog with validation to prevent duplication of time logs being created for the same project
         // on the same date, with linq query to retrieve ProjectUserId
-        [HttpPost,ActionName("Create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TimeLogViewModel obj)
         {
@@ -115,7 +126,6 @@ namespace ProjectTime.Areas.User.Controllers
 
                 };
 
-                
                 if (ModelState.IsValid)
                 {
                     _db.timeLog.Add(timeLog);
@@ -133,21 +143,84 @@ namespace ProjectTime.Areas.User.Controllers
 
         }
 
+        // Get method to return Edit ProjectTime log with Linq query UserHelper utility to return Project Users Active Projects only
+        public IActionResult Edit(TimeLog obj)
+        {
+            var userId = _sessionHelper.GetUserId();
+
+            ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
+
+            var timeLogSearch = _db.timeLog.FirstOrDefault(x => x.Id == obj.Id);
+
+            ViewBag.timeLogDate = timeLogSearch.Date.ToLongDateString();
+
+            if (timeLogSearch == null)
+            {
+                return NotFound($"Unable to find Time Log");
+            }
+
+            return View(timeLogSearch);
+        }
+
+        // Post async method to edit timelog with validation to prevent duplication of time logs being created for the same project
+        // on the same date
+        [HttpPost,ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTimeLog(TimeLog obj)
+        {
+            var userId = _sessionHelper.GetUserId();
+            var dupCheck = !_db.timeLog.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId
+            && x.ProjectUser.UserId == userId && x.Date == obj.Date);
+
+            try
+            {
+                if (dupCheck == false)
+                {
+                    ModelState.AddModelError("", "Time has already been logged for this project on this date, Please edit to update");
+                    return View(obj);
+                }
+                var timeLog = await _db.timeLog.FindAsync(obj.Id);
+
+                if (timeLog == null)
+                {
+                    return NotFound($"Unable to find Time Log");
+                }
+                timeLog.Duration = obj.Duration;
+                timeLog.Description = obj.Description;
+                timeLog.ProjectId = obj.ProjectId;
+
+
+                if (ModelState.IsValid)
+                {
+                    _db.timeLog.Update(timeLog);
+                    await _db.SaveChangesAsync();
+                    TempData["edit"] = "ProjectTime log updated successfully!!";
+                    return RedirectToAction("Index");
+                }
+                return View(obj);
+
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+
+        }
+
         // Get method to return TimeLog view to include ProjectUsers and Projects with where condition   
         // to return ProjectTime logs by for user by Project Id or all logs for PMO Role
         #region API CALLS
         [HttpGet]
 
-        public IActionResult IndexAPI()
+        public IActionResult IndexAPI(string id)
         {
             var userId = _sessionHelper.GetUserId();
             var userRole = _sessionHelper.GetUserRole();
-            string id = Request.Path.Value.Split('/').LastOrDefault();
             int projectId = Int32.Parse(id);
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || u.ProjectId == projectId && userRole == "PMO");
 
             return Json(new { Data = objTimeLog });
         }

@@ -1,29 +1,35 @@
 ﻿var dataTable;
 
+function getProjectId() {
 
+    var url = window.location.href;
+    var parts = url.split("/");
+    var projectId = parts[parts.length - 1];
+    return projectId
+};
 
 $(document).ready(function () {
 
-    loadDataTable();
-
+    var projectId = getProjectId();
+    loadDataTable(projectId);
 });
 
-{
-    var url = window.location.href;
-    var parts = url.split("/");
-    var productId = parts[parts.length - 1];
-};
 
-function loadDataTable() {
+function loadDataTable(projectId) {
+    console.log(projectId)
 
     dataTable = $('#tblDatatimelog').DataTable({
 
-        "ajax": { "url": "/User/TimeLog/IndexAPI?ID=" + productId},
+        
+        "ajax": { "url": "/User/TimeLog/IndexAPI?id=" + projectId },
 
         "columns": [
 
             { "data": "project.name", "width": "15%" },
-            { "data": "date", "width": "15%" },
+            {
+                "data": "date", render: function (data) {
+                    return moment(data).format('DD/MM/YYYY');
+                }, "width": "15%" },
             { "data": "duration", "width": "15%" },
             { "data": "description", "width": "15%" },
             {
