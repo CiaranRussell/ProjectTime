@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "ProjectTimeWebApp.Test/1.0.0": {
         "dependencies": {
+          "AutoMoq": "2.0.0",
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.EntityFrameworkCore.InMemory": "6.0.8",
@@ -24,6 +25,18 @@
           "ProjectTimeWebApp.Test.dll": {}
         }
       },
+      "AutoMoq/2.0.0": {
+        "dependencies": {
+          "Moq": "4.18.2",
+          "Unity": "4.0.1"
+        },
+        "runtime": {
+          "lib/net45/AutoMoq.dll": {
+            "assemblyVersion": "1.8.1.0",
+            "fileVersion": "1.8.1.0"
+          }
+        }
+      },
       "Castle.Core/5.1.0": {
         "dependencies": {
           "System.Diagnostics.EventLog": "6.0.0"
@@ -32,6 +45,14 @@
           "lib/net6.0/Castle.Core.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.1.0.0"
+          }
+        }
+      },
+      "CommonServiceLocator/1.3.0": {
+        "runtime": {
+          "lib/portable-net4+sl5+netcore45+wpa81+wp8/Microsoft.Practices.ServiceLocation.dll": {
+            "assemblyVersion": "1.3.0.0",
+            "fileVersion": "1.3.0.0"
           }
         }
       },
@@ -2689,6 +2710,25 @@
           }
         }
       },
+      "Unity/4.0.1": {
+        "dependencies": {
+          "CommonServiceLocator": "1.3.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Practices.Unity.Configuration.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.1.0"
+          },
+          "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.1.0"
+          },
+          "lib/net45/Microsoft.Practices.Unity.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.1.0"
+          }
+        }
+      },
       "xunit.runner.visualstudio/2.4.5": {},
       "ProjectTime/1.0.0": {
         "dependencies": {
@@ -2716,12 +2756,26 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoMoq/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WqwKRIIt1B+3OyueBa8hZtMO9u3E4ptTzbkHJb/TVDeLDbw55FjYEAopgxCx4cuvZJvq2IXsYyvRoQAAslOzGQ==",
+      "path": "automoq/2.0.0",
+      "hashPath": "automoq.2.0.0.nupkg.sha512"
+    },
     "Castle.Core/5.1.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-31UJpTHOiWq95CDOHazE3Ub/hE/PydNWsJMwnEVTqFFP4WhAugwpaVGxzOxKgNeSUUeqS2W6lxV+q7u1pAOfXg==",
       "path": "castle.core/5.1.0",
       "hashPath": "castle.core.5.1.0.nupkg.sha512"
+    },
+    "CommonServiceLocator/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fbjO0SNwbOFPdwVfyqv+B7gIJ2CVBOFPKqn1mDDECK7KER8jFaOdcvroFYoAHa0ktPbxi5s+15qOLnA96f8GSA==",
+      "path": "commonservicelocator/1.3.0",
+      "hashPath": "commonservicelocator.1.3.0.nupkg.sha512"
     },
     "coverlet.collector/3.1.0": {
       "type": "package",
@@ -4122,6 +4176,13 @@
       "sha512": "sha512-A/uxsWi/Ifzkmd4ArTLISMbfFs6XpRPsXZonrIqyTY70xi8t+mDtvSM5Os0RqyRDobjMBwIDHDL4NOIbkDwf7A==",
       "path": "system.xml.xpath.xmldocument/4.3.0",
       "hashPath": "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
+    },
+    "Unity/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FQxLlryE47Y5xY7wJfToUrwtyLsgNJK0jK6sPfNC3YUsjzSX7ILXLA4EX8zVxFPOaIMTJBXRIKrnQ/lsECLufg==",
+      "path": "unity/4.0.1",
+      "hashPath": "unity.4.0.1.nupkg.sha512"
     },
     "xunit.runner.visualstudio/2.4.5": {
       "type": "package",

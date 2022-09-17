@@ -1,4 +1,5 @@
-﻿using ProjectTime.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ProjectTime.Data;
 using ProjectTime.Models;
 
 namespace ProjectTime.Utility
@@ -26,8 +27,6 @@ namespace ProjectTime.Utility
                                  where u.Id == user && p.Id == projectId
                                  select pu).First<ProjectUser>().Id;
     
-                                
-            
             return projectUserId;
 
         }

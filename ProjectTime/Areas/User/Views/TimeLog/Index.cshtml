@@ -1,9 +1,6 @@
 ﻿@model IEnumerable<TimeLog>
 @{
     ViewData["Title"] = "Index";
-    var totalDuration = ViewBag.totalDuration;
-    var minDate = ViewBag.minDate;
-    var maxdate = ViewBag.maxdate;
 
 }
 <div class="container p-3">
@@ -18,7 +15,6 @@
         </div>
    </div>
    <br />
-
 <table class="table table-bordered table-striped" style`="width 100%">  
     <thead> 
         <tr>
@@ -36,9 +32,9 @@
             <tr>
                 <td width="20%">@obj.ProjectUser.Project.ProjectCode</td>
                 <td width="20%">@obj.ProjectUser.Project.Name</td>
-                <td width="20%">@minDate</td>
-                <td width="20%">@maxdate</td>
-                <td width="20%">@totalDuration</td>
+                <td width="20%">@obj.MinDate</td>
+                <td width="20%">@obj.MaxDate</td>
+                <td width="20%">@obj.Duration</td>
                 <td>
                     <div class="w-45 btn-group" role="group">
                         <a asp-controller="TimeLog" asp-action="IndexTimeLog" asp-route-id="@obj.ProjectId" 

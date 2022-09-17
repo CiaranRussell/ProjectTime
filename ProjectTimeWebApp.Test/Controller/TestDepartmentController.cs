@@ -142,7 +142,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [OneTimeTearDown]
 
-        public void CeanUp()
+        public void CleanUp()
         {
             dbContext.Database.EnsureDeleted();
         }

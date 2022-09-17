@@ -63,7 +63,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(ApplicationUser appUser)
         {
-
+            ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
             var dupCheckEmail = !_userManager.Users.Any(x => x.Id != appUser.Id && x.Email.ToLower().Trim() ==
                                                                                appUser.Email.ToLower().Trim());
             if (dupCheckEmail == false)
@@ -150,6 +150,8 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
 
             var user = await _userManager.FindByIdAsync(userId);
+            ViewBag.UserName = user.FullName;
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

@@ -138,14 +138,12 @@ namespace ProjectTimeWebApp.Test.Controller
 
             // Assert
             Assert.IsNotNull(result);
-            
-
 
         }
 
         [OneTimeTearDown]
 
-        public void CeanUp()
+        public void CleanUp()
         {
             dbContext.Database.EnsureDeleted();
         }

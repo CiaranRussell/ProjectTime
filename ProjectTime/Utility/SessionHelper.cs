@@ -27,5 +27,6 @@ namespace ProjectTime.Utility
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.Role);
         }
 
+    
     }
 }

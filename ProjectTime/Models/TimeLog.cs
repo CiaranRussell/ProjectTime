@@ -11,8 +11,7 @@ namespace ProjectTime.Models
         [Key]
         public int Id { get; set; }
 
-        
-        public string? Description { get; set; }
+        public string? Description { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Duration is requied")]
         [Range(0,24,ErrorMessage ="Hours must be between 0 & 24")]
@@ -24,6 +23,14 @@ namespace ProjectTime.Models
         [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}", ApplyFormatInEditMode = true)]
         [DisplayName("Log Date")]
         public DateTime Date { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string MinDate { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string MaxDate { get; set; }
 
         public int ProjectUserId { get; set; }
         [ForeignKey("ProjectUserId")]

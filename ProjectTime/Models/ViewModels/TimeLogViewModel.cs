@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,9 +7,9 @@ namespace ProjectTime.Models.ViewModels
 {
     public class TimeLogViewModel
     {
-        public int Id { get; set; }
 
-        [StringLength(250, MinimumLength = 0, ErrorMessage = "Maximum 250 characters")]
+        [StringLength(250, ErrorMessage = "Maximum 250 characters")]
+        [ValidateNever]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Duration is requied")]
@@ -23,7 +24,6 @@ namespace ProjectTime.Models.ViewModels
         public DateTime Date { get; set; }
 
         public int ProjectId { get; set; }
-
 
     }
 }

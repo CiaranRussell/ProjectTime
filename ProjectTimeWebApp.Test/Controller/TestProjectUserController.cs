@@ -67,7 +67,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [Test, Order(3)]
 
-        public void Test_ProjectController_Index_ReturnsSuccess()
+        public void Test_ProjectUserController_Index_ReturnsSuccess()
         {
             // Arrange
             ProjectUserController projectUser = new ProjectUserController(dbContext);
@@ -84,7 +84,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [Test, Order(4)]
 
-        public void Test_DeleteProjectGet_WithResponse()
+        public void Test_DeleteProjectUserGet_WithResponse()
         {
 
             // Act
@@ -97,7 +97,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [Test, Order(5)]
 
-        public void Test_DeleteProjectPost_WithResponse()
+        public void Test_DeleteProjectUserPost_WithResponse()
         {
             // Arrange
             ProjectUser projectUser = new ProjectUser() { Id = 6, ProjectId = 6, UserId = "UsertestId6", IsActive = true, CreateDateTime = new System.DateTime() };
@@ -112,7 +112,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [Test, Order(6)]
 
-        public void Test_EditProjectuserPost_WithResponse()
+        public void Test_EditProjectUserPost_WithResponse()
         {
             // Arrange
             ProjectUser projectUser = new ProjectUser() { Id = 3, ProjectId = 7, UserId = "UsertestId7", IsActive = true, CreateDateTime = new System.DateTime() };
@@ -146,7 +146,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [OneTimeTearDown]
 
-        public void CeanUp()
+        public void CleanUp()
         {
             dbContext.Database.EnsureDeleted();
         }

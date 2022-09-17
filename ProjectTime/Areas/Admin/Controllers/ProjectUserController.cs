@@ -49,6 +49,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create(ProjectUser obj)
         {
+            ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
+            ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
             var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
 
             try
@@ -98,6 +100,8 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProject(ProjectUser obj)
         {
+            ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
+            ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
             var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
 
             try
@@ -166,6 +170,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
         {
+ 
             var projectusers = _db.projectUsers.Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectUser.Id);
 
             try

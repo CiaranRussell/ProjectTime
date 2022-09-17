@@ -32,7 +32,7 @@ namespace ProjectTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project obj)
         {
-            var searchDepartmentName = _db.projects.FirstOrDefault(x => x.Name == obj.Name);
+            var searchDepartmentName = _db.projects.FirstOrDefault(x => x.Name == obj.Name );
 
             var searchDepartmentProjectCode = _db.projects.FirstOrDefault(x => x.ProjectCode == obj.ProjectCode);
 

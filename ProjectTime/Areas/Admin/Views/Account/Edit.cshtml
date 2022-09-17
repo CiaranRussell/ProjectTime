@@ -11,7 +11,7 @@
         </div>
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
-            <label asp-for="FullName"></label>
+            <label asp-for="FullName">Employee Name</label>
             <input asp-for="FullName" class="form-control" />
             <span asp-validation-for="FullName" class="text-danger"></span>
         </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="Department.Name"></label>
-            <select asp-for = "DepartmentId" asp-items = "ViewBag.departmentId" class="form-control" ></select>
+            <select asp-for = "DepartmentId" asp-items = "ViewBag.departmentId" class="form-select" ></select>
             <span asp-validation-for="DepartmentId" class="text-danger"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px"><i class="bi bi-pencil-square"></i>Update</button>

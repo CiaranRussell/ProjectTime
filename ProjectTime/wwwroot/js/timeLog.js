@@ -28,7 +28,7 @@ function loadDataTable(projectId) {
             { "data": "project.name", "width": "15%" },
             {
                 "data": "date", render: function (data) {
-                    return moment(data).format('DD/MM/YYYY');
+                return moment(data).format('DD/MM/YYYY');
                 }, "width": "15%" },
             { "data": "duration", "width": "15%" },
             { "data": "description", "width": "15%" },
