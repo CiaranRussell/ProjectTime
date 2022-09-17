@@ -115,6 +115,76 @@ namespace ProjectTimeWebApp.Test.Controller
 
         }
 
+        [Test, Order(5)]
+
+        public void Test_EditTimeLogPost_WithResponse()
+        {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserRole()).Returns("UserRole");
+            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            TimeLog timeLog = new TimeLog() { Id = 4, ProjectId = 4, Date = DateTime.Now, Duration = (decimal)6.5, Description = "TestEdit", ProjectUserId = 4 };
+
+            // Act
+            var result = timeLogController.EditTimeLog(timeLog);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(timeLog.Duration, 6.5M);
+            Assert.AreEqual(timeLog.Description, "TestEdit");
+
+        }
+
+        [Test, Order(6)]
+
+        public void Test_EditTimeLogtGet_WithResponse()
+        {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserRole()).Returns("UserRole");
+            var timeLogController = new TimeLogController(dbContext, mock.Object);
+
+            // Act
+            var result = timeLogController.Edit(1) as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test, Order(7)]
+
+        public void Test_DeleteTimeLogtGet_WithResponse()
+        {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            var timeLogController = new TimeLogController(dbContext, mock.Object);
+
+            // Act
+            var result = timeLogController.Delete(2) as ViewResult;
+
+            //Arrange
+            Assert.IsNotNull(result);
+
+        }
+
+        [Test,Order(8)]
+
+        public void Test_DeleteTimeLogPost_WithResponse()
+        {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            var timeLogController = new TimeLogController(dbContext, mock.Object);
+
+            // Act
+            var result = timeLogController.DeleteTimeLog(2);
+
+            // Arrange
+            Assert.IsNotNull(result);
+
+        }
+
         [OneTimeTearDown]
 
         public void CleanUp()

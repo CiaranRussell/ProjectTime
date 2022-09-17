@@ -138,13 +138,13 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Get method to return Edit ProjectTime log with Linq query UserHelper utility to return Project Users Active Projects only
-        public IActionResult Edit(TimeLog obj)
+        public IActionResult Edit(int id)
         {
             var userId = _sessionHelper.GetUserId();
 
             ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
 
-            var timeLogSearch = _db.timeLog.FirstOrDefault(x => x.Id == obj.Id);
+            var timeLogSearch = _db.timeLog.FirstOrDefault(x => x.Id == id);
 
             ViewBag.timeLogDate = timeLogSearch.Date.ToLongDateString();
 
