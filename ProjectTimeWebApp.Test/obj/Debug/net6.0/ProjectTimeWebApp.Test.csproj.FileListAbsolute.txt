@@ -28,7 +28,6 @@ C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.AspNetCore.
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Build.Locator.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.CodeAnalysis.AnalyzerUtilities.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.CodeAnalysis.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -381,3 +380,7 @@ C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Practices.S
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Practices.Unity.Configuration.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Practices.Unity.RegistrationByConvention.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Practices.Unity.dll
+C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.AspNet.Identity.Core.dll
+C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Build.dll
+C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.Build.Framework.dll
+C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\Microsoft.NET.StringTools.dll

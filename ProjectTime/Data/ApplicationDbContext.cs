@@ -22,8 +22,10 @@ namespace ProjectTime.Data
 
         public DbSet<TimeLog> timeLog { get; set; }
 
+        public DbSet<NonWorkingDays> nonWorkingDays { get; set; }
 
-        // On model creation method to loop through all tables with FK relationships & restrict cascade deletion of child records
+
+        // On model creation method to loop through all tables with FK relationships & prevent cascade deletion of record
         // when deleting parent value
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

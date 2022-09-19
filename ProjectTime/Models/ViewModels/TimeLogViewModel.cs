@@ -7,6 +7,7 @@ namespace ProjectTime.Models.ViewModels
 {
     public class TimeLogViewModel
     {
+        public int Id { get; set; }
 
         [StringLength(250, ErrorMessage = "Maximum 250 characters")]
         [ValidateNever]

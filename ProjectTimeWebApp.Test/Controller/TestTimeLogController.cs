@@ -1,21 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectTime.Data;
-using ProjectTime.Controllers;
 using NUnit.Framework;
 using ProjectTime.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
-using ProjectTime.Areas.Admin.Controllers;
-using Microsoft.VisualStudio.Services.Common;
 using ProjectTime.Areas.User.Controllers;
 using ProjectTime.Utility;
 using System.Linq;
 using System;
 using Moq;
-using AutoMoq;
-using System.Threading.Tasks;
 using ProjectTime.Models.ViewModels;
 
 namespace ProjectTimeWebApp.Test.Controller
@@ -72,7 +67,7 @@ namespace ProjectTimeWebApp.Test.Controller
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.IsTrue(string.IsNullOrEmpty(result.ViewName) || result.ViewName == "Index");
+            Assert.IsTrue(string.IsNullOrEmpty(result.ViewName) || result.ViewName == "IndexTimeLog");
 
         }
 
@@ -94,7 +89,7 @@ namespace ProjectTimeWebApp.Test.Controller
         }
 
 
-        [Test,Order(4)]
+        [Test, Order(4)]
 
         public void Test_CreateControllerPost_WithResponseAsync()
         {
@@ -102,8 +97,8 @@ namespace ProjectTimeWebApp.Test.Controller
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
             var timeLogController = new TimeLogController(dbContext, mock.Object);
-            TimeLog timeLog = new TimeLog() { Id =4, ProjectId = 4, Date = DateTime.Now, Duration = (decimal)8.5, Description = "", ProjectUserId = 4 };
-            
+            TimeLogViewModel timeLog = new TimeLogViewModel() { Id = 4, ProjectId = 4, Date = DateTime.Now, Duration = (decimal)8.5, Description = "",};
+
             // Act
             var result = timeLogController.Create(timeLog);
 
@@ -215,7 +210,7 @@ namespace ProjectTimeWebApp.Test.Controller
                         ProjectId = 2,
                         Date = new System.DateTime(),
                         Duration = (decimal)10.5,
-                        Description = "",
+                        Description = "Test",
                         ProjectUserId = 2,
                         CreateDateTime = new System.DateTime(),
                     },

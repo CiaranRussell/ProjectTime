@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oImp4MvmPzpMfcLB2k2c8zH75QbKv6HgB5wFoGpNvyzCikB4f2odoUNZs2kLfRzJlrelSaU1YF6db0G6pXgwkQ==",
+  "dgSpecHash": "RXXfV2qTvJY1Q6SO7ZOSto0RWOW4lp5+9eyYoE8NRkQBUZxUOusrrJ4w38OOnULo9yq4MH2iA7mSlOvjGBw3FA==",
   "success": true,
   "projectFilePath": "C:\\EAD\\ProjectTime\\ProjectTimeWebApp.Test\\ProjectTimeWebApp.Test.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.aspnet.identity.core\\2.2.3\\microsoft.aspnet.identity.core.2.2.3.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.7\\microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.7\\microsoft.aspnetcore.cryptography.internal.6.0.7.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.7\\microsoft.aspnetcore.cryptography.keyderivation.6.0.7.nupkg.sha512",
@@ -23,7 +24,6 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.build\\17.0.0\\microsoft.build.17.0.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.build.framework\\17.0.0\\microsoft.build.framework.17.0.0.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.build.locator\\1.4.1\\microsoft.build.locator.1.4.1.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.2\\microsoft.codeanalysis.analyzers.3.3.2.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.codeanalysis.analyzerutilities\\3.3.0\\microsoft.codeanalysis.analyzerutilities.3.3.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.codeanalysis.common\\4.0.0\\microsoft.codeanalysis.common.4.0.0.nupkg.sha512",
@@ -44,7 +44,7 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.diasymreader\\1.3.0\\microsoft.diasymreader.1.3.0.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.dotnet.scaffolding.shared\\6.0.8\\microsoft.dotnet.scaffolding.shared.6.0.8.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.dotnet.scaffolding.shared\\6.0.9\\microsoft.dotnet.scaffolding.shared.6.0.9.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.8\\microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.8\\microsoft.entityframeworkcore.abstractions.6.0.8.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.8\\microsoft.entityframeworkcore.analyzers.6.0.8.nupkg.sha512",
@@ -80,13 +80,13 @@
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.testplatform.testhost\\16.11.0\\microsoft.testplatform.testhost.16.11.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.debugger.contracts\\17.2.0\\microsoft.visualstudio.debugger.contracts.17.2.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.services.client\\16.170.0\\microsoft.visualstudio.services.client.16.170.0.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\6.0.8\\microsoft.visualstudio.web.codegeneration.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\6.0.8\\microsoft.visualstudio.web.codegeneration.core.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.design\\6.0.8\\microsoft.visualstudio.web.codegeneration.design.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.entityframeworkcore\\6.0.8\\microsoft.visualstudio.web.codegeneration.entityframeworkcore.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.templating\\6.0.8\\microsoft.visualstudio.web.codegeneration.templating.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.utils\\6.0.8\\microsoft.visualstudio.web.codegeneration.utils.6.0.8.nupkg.sha512",
-    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\6.0.8\\microsoft.visualstudio.web.codegenerators.mvc.6.0.8.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\6.0.9\\microsoft.visualstudio.web.codegeneration.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\6.0.9\\microsoft.visualstudio.web.codegeneration.core.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.design\\6.0.9\\microsoft.visualstudio.web.codegeneration.design.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.entityframeworkcore\\6.0.9\\microsoft.visualstudio.web.codegeneration.entityframeworkcore.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.templating\\6.0.9\\microsoft.visualstudio.web.codegeneration.templating.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.utils\\6.0.9\\microsoft.visualstudio.web.codegeneration.utils.6.0.9.nupkg.sha512",
+    "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\6.0.9\\microsoft.visualstudio.web.codegenerators.mvc.6.0.9.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\Ciaran.Russell\\.nuget\\packages\\mimekit\\3.3.0\\mimekit.3.3.0.nupkg.sha512",
@@ -237,6 +237,16 @@
       "warningLevel": 1,
       "message": "Package 'CommonServiceLocator 1.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "CommonServiceLocator",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNet.Identity.Core 2.2.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.Identity.Core",
       "targetGraphs": [
         "net6.0"
       ]

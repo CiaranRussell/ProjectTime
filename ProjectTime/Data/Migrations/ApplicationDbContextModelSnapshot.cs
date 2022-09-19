@@ -249,6 +249,33 @@ namespace ProjectTime.Data.Migrations
                     b.ToTable("departments");
                 });
 
+            modelBuilder.Entity("ProjectTime.Models.NonWorkingDays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("AllowTimeLog")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("nonWorkingDays");
+                });
+
             modelBuilder.Entity("ProjectTime.Models.Project", b =>
                 {
                     b.Property<int>("Id")

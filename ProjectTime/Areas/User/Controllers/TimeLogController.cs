@@ -19,11 +19,13 @@ namespace ProjectTime.Areas.User.Controllers
 
         private readonly ISessionHelper _sessionHelper;
         private readonly ApplicationDbContext _db;
-        
+        private readonly IEnumerable<NonWorkingDays> nonWorkingDays = new List<NonWorkingDays>();
+
         public TimeLogController(ApplicationDbContext db, ISessionHelper sessionHelper)
         {
             _db = db;
             _sessionHelper = sessionHelper;
+            nonWorkingDays = _db.nonWorkingDays.ToList();
         }
 
         // Get method to return TimeLog Projects view to include ProjectUsers and Projects with where condition   
@@ -85,7 +87,7 @@ namespace ProjectTime.Areas.User.Controllers
         // on the same date & validation to prevent time logs being created in the future, with linq query to retrieve ProjectUserId
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TimeLog obj)
+        public async Task<IActionResult> Create(TimeLogViewModel obj)
         {
             var userId = _sessionHelper.GetUserId();
             ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
@@ -95,9 +97,17 @@ namespace ProjectTime.Areas.User.Controllers
 
             try
             {
+                foreach (var item in nonWorkingDays)
+                {
+                    if (obj.Date == item.Date && item.AllowTimeLog == false)
+                    {
+                        ModelState.AddModelError("", "The log date is listed as a Non-Working day, Please contact the PMO's office for assistance");
+                        return View(obj);
+                    }
+                }
                 if (dupCheck == false)
                 {
-                    ModelState.AddModelError("", "Time has already been logged for this project on this date, Please edit to update");
+                    ModelState.AddModelError("", "Time has already been logged for this project on this date");
                     return View(obj);
                 }
                 if (dateValidation == true)
@@ -219,7 +229,8 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (id == null)
             {
-                return NotFound($"Unable to find Time Log");
+                //return NotFound($"Unable to find Time Log");
+                return View("Error");
             }
 
             var timeLog = _db.timeLog.FirstOrDefault(x => x.Id == id);

@@ -9,11 +9,11 @@
         </div>
         <div class="mb-3">
             <label asp-for="Project.Name"></label>
-            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-control" disabled></select>
+            <select asp-for="ProjectId" asp-items = "ViewBag.projectId" class="form-control" disabled></select>
         </div>
         <div class="mb-3">
             <label asp-for="ApplicationUser.UserName">Employee Name</label>
-            <select asp-for = "UserId" asp-items = "ViewBag.appuserId" class="form-control" disabled></select>
+            <select asp-for="UserId" asp-items = "ViewBag.appuserId" class="form-control" disabled></select>
         </div>
         <button type="submit" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to Delete this?')) { return false }" style="width:150px"><i class="bi bi-trash-fill"></i>Delete</button>
         <a asp-controller="ProjectUser" asp-action="Index" class="btn btn-secondary" style="width:150px"><i class="bi bi-skip-backward"></i>Back to List</a>

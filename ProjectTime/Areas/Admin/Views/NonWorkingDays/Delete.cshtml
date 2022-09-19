@@ -1,0 +1,22 @@
+﻿@model NonWorkingDays
+
+<form method="post" asp-action="Delete">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Non-Working Day</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Date"></label>
+            <input asp-for="Date" class="form-control" disabled />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" disabled />
+        </div>
+        <button type="submit" class="btn btn-danger" onclick="if (!confirm('Are you sure you want to Delete this?')) { return false }" style="width:150px"><i class="bi bi-trash-fill"></i>Delete</button>
+        <a asp-controller="NonWorkingdays" asp-action="Index" class="btn btn-secondary" style="width:150px"><i class="bi bi-skip-backward"></i>Back to List</a>
+    </div>
+</form>
+
