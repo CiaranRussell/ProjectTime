@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
+using ProjectTime.Utility;
 
 namespace ProjectTime.Areas.Admin.Controllers
 {
@@ -13,15 +14,19 @@ namespace ProjectTime.Areas.Admin.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _db;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<AccountController> _logger;
+        private readonly ISessionHelper _sessionHelper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager, 
-            ApplicationDbContext db, RoleManager<IdentityRole> roleManager)
+            ApplicationDbContext db, RoleManager<IdentityRole> roleManager, ILogger<AccountController> logger, ISessionHelper sessionHelper)
 
         {
             _userManager = userManager;
             _db = db;
             _roleManager = roleManager;
+            _logger = logger;
+            _sessionHelper = sessionHelper;
         }
 
         // Get method to return list of users to include the department and roles 
@@ -51,7 +56,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on edit get User, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             return View(user);
@@ -76,7 +82,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on edit post User, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             else
             {
@@ -113,7 +120,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles get, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             var model = new List<UserRolesViewModel>();
@@ -154,7 +162,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles post, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             if (! userRoles.Any(x => x.IsSelected == true))
@@ -194,7 +203,8 @@ namespace ProjectTime.Areas.Admin.Controllers
             var user = _userManager.Users.Include(d => d.Department).FirstOrDefault(x => x.Id == identityUser.Id);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on delete get User, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             return View(user);
             
@@ -205,22 +215,26 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(IdentityUser identityUser)
         {
+            var userId = _sessionHelper.GetUserId();
             var user = _userManager.Users.FirstOrDefault(x => x.Id == identityUser.Id);
 
             try
             {
                 if (user == null)
                 {
-                    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                    _logger.LogError((EventId)101, "Invalid operation on delete post User, null object Id {0}:", DateTime.Now);
+                    return View("Error");
                 }
 
                 await _userManager.DeleteAsync(user);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "User Account Deleted Successfully!!";
+                _logger.LogWarning((EventId)102, "UserId {0} deleted User object Id {1} on {2}", userId, identityUser.Id, DateTime.Now);
                 return RedirectToAction("Index");
             } 
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on {1} User object, database exception error {2}: " + ex.InnerException, userId, user.FullName, DateTime.Now);
                 ViewBag.ErrorTitle = $"{user.FullName} is Assigned to Projects or Departments";
                 ViewBag.ErrorMessage = $"{user.FullName} cannot be deleted as this user is assigned to projects or departments";
                 return View("Error");
@@ -274,7 +288,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if(user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on LockUnlockUser post, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             if (user.LockoutEnd!= null && user.LockoutEnd > DateTime.Now)

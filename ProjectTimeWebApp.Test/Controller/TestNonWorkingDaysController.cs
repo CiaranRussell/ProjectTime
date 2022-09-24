@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
 using ProjectTime.Areas.Admin.Controllers;
+using Microsoft.Extensions.Logging;
+using ProjectTime.Utility;
+using Moq;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -18,6 +21,8 @@ namespace ProjectTimeWebApp.Test.Controller
 
         ApplicationDbContext dbContext;
         NonWorkingDaysController nonWorkingDays;
+        ILogger<NonWorkingDaysController> logger;
+
 
         [OneTimeSetUp]
 
@@ -28,7 +33,10 @@ namespace ProjectTimeWebApp.Test.Controller
 
             SeedDatabase();
 
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
         }
 
         [TestCase, Order(1)]
@@ -36,7 +44,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_Index_ReturnsSuccess()
         {
             // Arrange
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             // Act
             var result = nonWorkingDays.Index() as ViewResult;
@@ -53,7 +63,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerGet_ReturnsSuccess()
         {
             // Arrange
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             //Act
             var result = nonWorkingDays.Create() as ViewResult;
@@ -68,7 +80,15 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerPost_WithResponse()
         {
             // Arrange
-            NonWorkingDays NWD = new NonWorkingDays() { Id = 5, Date = new System.DateTime(), Description = "BankHoliday5", AllowTimeLog = false, CreateDateTime = new System.DateTime() };
+            NonWorkingDays NWD = new NonWorkingDays() 
+            { 
+                Id = 5, 
+                Date = new System.DateTime(), 
+                Description = "BankHoliday5", 
+                AllowTimeLog = false, 
+                CreateDateTime = new System.DateTime(), 
+                CreatedByUserId = "UserId" 
+            };
 
             // Act
             var result = nonWorkingDays.Create(NWD);
@@ -86,7 +106,15 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditNWDsPost_WithResponse()
         {
             // Arrange
-            NonWorkingDays NWD = new NonWorkingDays() { Id = 5, Date = new System.DateTime(), Description = "BankHoliday5", AllowTimeLog = false, CreateDateTime = new System.DateTime() };
+            NonWorkingDays NWD = new NonWorkingDays() 
+            { 
+                Id = 5, 
+                Date = new System.DateTime(), 
+                Description = "BankHoliday5", 
+                AllowTimeLog = false, 
+                CreateDateTime = new System.DateTime(), 
+                CreatedByUserId = "UserId" 
+            };
 
             // Act
             var result = nonWorkingDays.Edit(NWD);
@@ -103,7 +131,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditNWDsGet_WithResponse()
         {
             // Arrange
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             // Act
             var result = nonWorkingDays.Edit(1) as ViewResult;
@@ -117,7 +147,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteNWDsGet_WithResponse()
         {
             // Arrange
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             // Act
             var result = nonWorkingDays.Delete(2) as ViewResult;
@@ -132,7 +164,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteNWDsPost_WithResponse()
         {
             // Arrange
-            nonWorkingDays = new NonWorkingDaysController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             // Act
             var result = nonWorkingDays.DeleteConfirm(2);
@@ -153,10 +187,42 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var nonWorkingDays = new List<NonWorkingDays>
             {
-                new NonWorkingDays() { Id = 1, Date = new System.DateTime(), Description = "BankHoliday1", AllowTimeLog = false, CreateDateTime = new System.DateTime() },
-                new NonWorkingDays() { Id = 2, Date = new System.DateTime(), Description = "BankHoliday2", AllowTimeLog = false, CreateDateTime = new System.DateTime() },
-                new NonWorkingDays() { Id = 3, Date = new System.DateTime(), Description = "BankHoliday3", AllowTimeLog = false, CreateDateTime = new System.DateTime() },
-                new NonWorkingDays() { Id = 4, Date = new System.DateTime(), Description = "BankHoliday4", AllowTimeLog = false, CreateDateTime = new System.DateTime() },
+                new NonWorkingDays() 
+                { 
+                    Id = 1, 
+                    Date = new System.DateTime(), 
+                    Description = "BankHoliday1", 
+                    AllowTimeLog = false, 
+                    CreateDateTime = new System.DateTime(), 
+                    CreatedByUserId = "UserId" 
+                },
+                new NonWorkingDays() 
+                { 
+                    Id = 2, 
+                    Date = new System.DateTime(), 
+                    Description = "BankHoliday2", 
+                    AllowTimeLog = false, 
+                    CreateDateTime = new System.DateTime(), 
+                    CreatedByUserId = "UserId" 
+                },
+                new NonWorkingDays() 
+                { 
+                    Id = 3, 
+                    Date = new System.DateTime(), 
+                    Description = "BankHoliday3", 
+                    AllowTimeLog = false, 
+                    CreateDateTime = new System.DateTime(), 
+                    CreatedByUserId = "UserId" 
+                },
+                new NonWorkingDays()
+                { 
+                    Id = 4, 
+                    Date = new System.DateTime(), 
+                    Description = "BankHoliday4", 
+                    AllowTimeLog = false, 
+                    CreateDateTime = new System.DateTime(), 
+                    CreatedByUserId = "UserId" 
+                },
 
             };
             dbContext.nonWorkingDays.AddRange(nonWorkingDays);

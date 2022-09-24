@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace ProjectTime.Models
 {
     public class Department
     {
+        
         [Key]
         public int Id { get; set; }
 
@@ -17,6 +20,14 @@ namespace ProjectTime.Models
         [Range(1,1000,ErrorMessage = "Rate/Hr Amount must be between €1 & €1000")]
         public decimal Rate { get; set; }
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
+
+        [ValidateNever]
+        public string? CreatedByUserId { get; set; }
+
+        [ValidateNever]
+        public string? ModifiedByUserId { get; set; }
+
+        public DateTime ModifyDateTime { get; set; }
 
     }
 }

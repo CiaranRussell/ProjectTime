@@ -7,6 +7,10 @@ using ProjectTime.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
+using ProjectTime.Utility;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -17,6 +21,7 @@ namespace ProjectTimeWebApp.Test.Controller
             .UseInMemoryDatabase(databaseName: "DepartmentControllerTest").Options;
 
         ApplicationDbContext dbContext;
+        ILogger<DepartmentController> logger;
         DepartmentController departmentController;
 
         [OneTimeSetUp]
@@ -28,7 +33,10 @@ namespace ProjectTimeWebApp.Test.Controller
 
             SeedDatabase();
 
-            departmentController = new DepartmentController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+
+            departmentController = new DepartmentController(dbContext, logger, mock.Object);
         }
 
         [Test, Order(1)]
@@ -36,7 +44,13 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateDepartmentPost_WithResponse()
         {
             // Arrange
-            Department department = new Department() { Id = 6, Name = "TestDepartment6", Rate = 23.75M, CreateDateTime = new System.DateTime() };
+            Department department = new Department() 
+            { 
+                Id = 6, Name = "TestDepartment6", 
+                Rate = 23.75M, 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = departmentController.Create(department);
@@ -52,7 +66,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerGet_ReturnsSuccess()
         {
             // Arrange
-            DepartmentController department = new DepartmentController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            DepartmentController department = new DepartmentController(dbContext, logger,mock.Object);
 
             // Act
             var result = department.Create() as ViewResult;
@@ -67,7 +83,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DepartmentController_Index_ReturnsSuccess()
         {
             // Arrange
-            DepartmentController department = new DepartmentController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            DepartmentController department = new DepartmentController(dbContext,logger, mock.Object);
 
             // Act
             var result = department.Index() as ViewResult;
@@ -97,7 +115,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteDepartmentPost_WithResponse()
         {
             // Arrange
-            Department department = new Department() { Id = 7, Name = "TestDepartment10", Rate = 23.75M, CreateDateTime = new System.DateTime() };
+            Department department = new Department() 
+            { 
+                Id = 7, 
+                Name = "TestDepartment10", 
+                Rate = 23.75M, 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = departmentController.DeleteConfirm(7);
@@ -112,7 +137,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditDepartmentPost_WithResponse()
         {
             // Arrange
-            Department department = new Department() { Id = 6, Name = "TestDepartment7", Rate = 23.75M, CreateDateTime = new System.DateTime() };
+            Department department = new Department() 
+            { 
+                Id = 6, 
+                Name = "TestDepartment7", 
+                Rate = 23.75M, 
+                ModifyDateTime = new System.DateTime(),
+                ModifiedByUserId = "UserId"
+            };
 
             // Act
             var result = departmentController.Edit(department);
@@ -129,7 +161,13 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditDepartmentGet_WithResponse()
         {
             // Arrange
-            Department department = new Department() { Id = 6, Name = "TestDepartment7", Rate = 23.75M, CreateDateTime = new System.DateTime() };
+            Department department = new Department() 
+            { 
+                Id = 6, Name = "TestDepartment7", 
+                Rate = 23.75M, 
+                ModifyDateTime = new System.DateTime(),
+                ModifiedByUserId = "UserId"
+            };
 
             // Act
             var result = departmentController.Edit(6);
@@ -151,11 +189,11 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var department = new List<Department>
             {
-                new Department() { Id = 1, Name ="TestDepartment1", Rate = 25.50M, CreateDateTime = new System.DateTime() },
-                new Department() { Id = 2, Name ="TestDepartment2", Rate = 33.98M, CreateDateTime = new System.DateTime() },
-                new Department() { Id = 3, Name ="TestDepartment3", Rate = 28.50M, CreateDateTime = new System.DateTime() },
-                new Department() { Id = 4, Name ="TestDepartment4", Rate = 39.98M, CreateDateTime = new System.DateTime() },
-                new Department() { Id = 5, Name ="TestDepartment5", Rate = 56.98M, CreateDateTime = new System.DateTime() }
+                new Department() { Id = 1, Name ="TestDepartment1", Rate = 25.50M, CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId" },
+                new Department() { Id = 2, Name ="TestDepartment2", Rate = 33.98M, CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId" },
+                new Department() { Id = 3, Name ="TestDepartment3", Rate = 28.50M, CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId" },
+                new Department() { Id = 4, Name ="TestDepartment4", Rate = 39.98M, CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId" },
+                new Department() { Id = 5, Name ="TestDepartment5", Rate = 56.98M, CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId" }
 
             };
             dbContext.departments.AddRange(department);

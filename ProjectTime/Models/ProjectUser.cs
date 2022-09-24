@@ -29,6 +29,14 @@ namespace ProjectTime.Models
 
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
+        [ValidateNever]
+        public string CreatedByUserId { get; set; }
+
+        [ValidateNever]
+        public string? ModifiedByUserId { get; set; }
+
+        public DateTime ModifyDateTime { get; set; }
+
 
     }
 }

@@ -7,6 +7,9 @@ using ProjectTime.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
+using Microsoft.Extensions.Logging;
+using ProjectTime.Utility;
+using Moq;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -18,6 +21,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         ApplicationDbContext dbContext;
         ProjectController projectController;
+        ILogger<ProjectController> logger;
 
         [OneTimeSetUp]
 
@@ -28,7 +32,9 @@ namespace ProjectTimeWebApp.Test.Controller
 
             SeedDatabase();
 
-            projectController = new ProjectController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
         }
 
         [Test, Order(1)]
@@ -36,7 +42,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateConrollerPost_WithResponse()
         {
             // Arrange
-            Project project = new Project() { Id = 5, Name = "TestProject5", ProjectCode = "UTM005", CreateDateTime = new System.DateTime() };
+            Project project = new Project()
+            { 
+                Id = 5, 
+                Name = "TestProject5", 
+                ProjectCode = "UTM005", 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = projectController.Create(project);
@@ -52,7 +65,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerGet_ReturnsSuccess()
         {
             // Arrange
-            ProjectController project = new ProjectController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectController.Create() as ViewResult;
@@ -67,7 +82,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_ProjectController_Index_ReturnsSuccess()
         {
             // Arrange
-            ProjectController project = new ProjectController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectController.Index() as ViewResult;
@@ -83,13 +100,16 @@ namespace ProjectTimeWebApp.Test.Controller
 
         public void Test_DeleteProjectGet_WithResponse()
         {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectController.Delete(3);
 
             // Assert
             Assert.IsNotNull(result);
-
         }
 
         [Test, Order(5)]
@@ -97,7 +117,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteProjectPost_WithResponse()
         {
             // Arrange
-            Project project = new Project() { Id = 6, Name = "TestProject6", ProjectCode = "UTM006", CreateDateTime = new System.DateTime() };
+            Project project = new Project()
+            { 
+                Id = 6, 
+                Name = "TestProject6", 
+                ProjectCode = "UTM006", 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = projectController.DeleteConfirm(6);
@@ -112,7 +139,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditProjectPost_WithResponse()
         {
             // Arrange
-            Project project = new Project() { Id = 1, Name = "TestProject7", ProjectCode = "UTM007", CreateDateTime = new System.DateTime() };
+            Project project = new Project()
+            { 
+                Id = 1, 
+                Name = "TestProject7", 
+                ProjectCode = "UTM007", 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = projectController.Edit(project);
@@ -130,7 +164,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditProjectGet_WithResponse()
         {
             // Arrange
-            
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectController.Edit(3);
@@ -152,10 +188,10 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var project = new List<Project>
             {
-                new Project() { Id = 1, Name ="TestProject1", ProjectCode = "UTM001", CreateDateTime = new System.DateTime() },
-                new Project() { Id = 2, Name ="TestProject2", ProjectCode = "UTM002", CreateDateTime = new System.DateTime() },
-                new Project() { Id = 3, Name ="TestProject3", ProjectCode = "UTM003", CreateDateTime = new System.DateTime() },
-                new Project() { Id = 4, Name ="TestProject4", ProjectCode = "UTM004", CreateDateTime = new System.DateTime() },
+                new Project() { Id = 1, Name ="TestProject1", ProjectCode = "UTM001", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
+                new Project() { Id = 2, Name ="TestProject2", ProjectCode = "UTM002", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
+                new Project() { Id = 3, Name ="TestProject3", ProjectCode = "UTM003", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
+                new Project() { Id = 4, Name ="TestProject4", ProjectCode = "UTM004", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
 
 
             };

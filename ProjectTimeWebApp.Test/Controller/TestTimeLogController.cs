@@ -12,6 +12,7 @@ using System.Linq;
 using System;
 using Moq;
 using ProjectTime.Models.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -22,6 +23,7 @@ namespace ProjectTimeWebApp.Test.Controller
             .UseInMemoryDatabase(databaseName: "TimeLogControllerTest").Options;
 
         ApplicationDbContext dbContext;
+        ILogger<TimeLogController> logger;
 
         [OneTimeSetUp]
 
@@ -40,7 +42,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext,mock.Object ,logger);
 
             // Act
             var result = timeLogController.Index() as ViewResult;
@@ -59,7 +61,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             // Act
             var result = timeLogController.IndexTimeLog("1") as ViewResult;
@@ -78,7 +80,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             //Act
             var result = timeLogController.Create() as ViewResult;
@@ -96,8 +98,16 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
-            TimeLogViewModel timeLog = new TimeLogViewModel() { Id = 4, ProjectId = 4, Date = DateTime.Now, Duration = (decimal)8.5, Description = "",};
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
+            TimeLogViewModel timeLog = new TimeLogViewModel()
+            { 
+                Id = 4, 
+                ProjectId = 4, 
+                Date = DateTime.Now, 
+                Duration = (decimal)8.5, 
+                Description = "",
+                
+            };
 
             // Act
             var result = timeLogController.Create(timeLog);
@@ -117,8 +127,18 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
-            TimeLog timeLog = new TimeLog() { Id = 4, ProjectId = 4, Date = DateTime.Now, Duration = (decimal)6.5, Description = "TestEdit", ProjectUserId = 4 };
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
+            TimeLog timeLog = new TimeLog() 
+            { 
+                Id = 4, 
+                ProjectId = 4, 
+                Date = DateTime.Now, 
+                Duration = (decimal)6.5, 
+                Description = "TestEdit", 
+                ProjectUserId = 4,
+                ModifyDateTime = new System.DateTime()
+                
+            };
 
             // Act
             var result = timeLogController.EditTimeLog(timeLog);
@@ -137,7 +157,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             // Act
             var result = timeLogController.Edit(1) as ViewResult;
@@ -153,7 +173,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             // Act
             var result = timeLogController.Delete(2) as ViewResult;
@@ -170,7 +190,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Arrange
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var timeLogController = new TimeLogController(dbContext, mock.Object);
+            var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             // Act
             var result = timeLogController.DeleteTimeLog(2);

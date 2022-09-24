@@ -11,7 +11,7 @@ namespace ProjectTime.Models
         [Key]
         public int Id { get; set; }
 
-        public string? Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "Duration is requied")]
         [Range(0,24,ErrorMessage ="Hours must be between 0 & 24")]
@@ -20,7 +20,7 @@ namespace ProjectTime.Models
 
         [Required(ErrorMessage ="Date is requied")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}", ApplyFormatInEditMode = false)]
         [DisplayName("Log Date")]
         public DateTime Date { get; set; }
 
@@ -45,6 +45,8 @@ namespace ProjectTime.Models
         public Project Project { get; set; }
 
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
+
+        public DateTime ModifyDateTime { get; set; }
 
 
     }

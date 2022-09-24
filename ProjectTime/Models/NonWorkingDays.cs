@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectTime.Models
@@ -22,6 +23,14 @@ namespace ProjectTime.Models
         public bool AllowTimeLog { get; set; }
 
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
+
+        [ValidateNever]
+        public string CreatedByUserId { get; set; }
+
+        [ValidateNever]
+        public string? ModifiedByUserId { get; set; }
+
+        public DateTime ModifyDateTime { get; set; }
 
     }
 }

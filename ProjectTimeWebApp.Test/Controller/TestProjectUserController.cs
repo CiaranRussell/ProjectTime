@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
 using ProjectTime.Areas.Admin.Controllers;
 using Microsoft.VisualStudio.Services.Common;
+using Microsoft.Extensions.Logging;
+using ProjectTime.Utility;
+using Moq;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -20,6 +23,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         ApplicationDbContext dbContext;
         ProjectUserController projectUserController;
+        ILogger<ProjectUserController> logger;
 
         [OneTimeSetUp]
 
@@ -30,7 +34,9 @@ namespace ProjectTimeWebApp.Test.Controller
 
             SeedDatabase();
 
-            projectUserController = new ProjectUserController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
         }
 
         [Test, Order(1)]
@@ -38,7 +44,15 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateConrollerPost_WithResponse()
         {
             // Arrange
-            ProjectUser projectUser = new ProjectUser() { Id = 5, ProjectId = 5, UserId = "UsertestId5", IsActive = true, CreateDateTime = new System.DateTime() };
+            ProjectUser projectUser = new ProjectUser()
+            { 
+                Id = 5, 
+                ProjectId = 5, 
+                UserId = "UsertestId5", 
+                IsActive = true, 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
+            };
 
             // Act
             var result = projectUserController.Create(projectUser);
@@ -55,7 +69,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerGet_ReturnsSuccess()
         {
             // Arrange
-            ProjectUserController projectUser = new ProjectUserController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectUserController.Create() as ViewResult;
@@ -70,7 +86,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_ProjectUserController_Index_ReturnsSuccess()
         {
             // Arrange
-            ProjectUserController projectUser = new ProjectUserController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectUserController.Index() as ViewResult;
@@ -86,6 +104,10 @@ namespace ProjectTimeWebApp.Test.Controller
 
         public void Test_DeleteProjectUserGet_WithResponse()
         {
+            // Arrange
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectUserController.Delete(3);
@@ -100,7 +122,17 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteProjectUserPost_WithResponse()
         {
             // Arrange
-            ProjectUser projectUser = new ProjectUser() { Id = 6, ProjectId = 6, UserId = "UsertestId6", IsActive = true, CreateDateTime = new System.DateTime() };
+            ProjectUser projectUser = new ProjectUser()
+            { 
+                Id = 6, 
+                ProjectId = 6, 
+                UserId = "UsertestId6", 
+                IsActive = true, 
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId",
+                ModifiedByUserId = "UserId",
+                ModifyDateTime = new System.DateTime(),
+            };
 
             // Act
             var result = projectUserController.DeleteProjectUser(projectUser);
@@ -115,11 +147,18 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditProjectUserPost_WithResponse()
         {
             // Arrange
-            ProjectUser projectUser = new ProjectUser() { Id = 3, ProjectId = 7, UserId = "UsertestId7", IsActive = true, CreateDateTime = new System.DateTime() };
+            ProjectUser projectUser = new ProjectUser()
+            { 
+                Id = 3, 
+                ProjectId = 7, 
+                UserId = "UsertestId7", 
+                IsActive = true, 
+                ModifyDateTime = new System.DateTime(),
+                ModifiedByUserId = "UserId"
+            };
 
             // Act
             var result = projectUserController.EditProject(projectUser);
-
 
             // Assert
             Assert.IsNotNull(result);
@@ -133,11 +172,12 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditProjectUserGet_WithResponse()
         {
             // Arrange
-            
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
 
             // Act
             var result = projectUserController.Edit(3);
-
 
             // Assert
             Assert.IsNotNull(result);
@@ -155,12 +195,50 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var projectUser = new List<ProjectUser>
             {
-                new ProjectUser() { Id = 1, ProjectId = 1, UserId ="UsertestId1", IsActive = true, CreateDateTime = new System.DateTime() },
-                new ProjectUser() { Id = 2, ProjectId = 2, UserId ="UsertestId2", IsActive = false, CreateDateTime = new System.DateTime() },
-                new ProjectUser() { Id = 3, ProjectId = 3, UserId ="UsertestId3", IsActive = false, CreateDateTime = new System.DateTime() },
-                new ProjectUser() { Id = 4, ProjectId = 4, UserId ="UsertestId4", IsActive = true, CreateDateTime = new System.DateTime() }
-
-
+                new ProjectUser()
+                { 
+                    Id = 1, 
+                    ProjectId = 1, 
+                    UserId ="UsertestId1", 
+                    IsActive = true, 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId",
+                    ModifiedByUserId="UserId",
+                    ModifyDateTime = new System.DateTime(),
+                },
+                new ProjectUser()
+                { 
+                    Id = 2, 
+                    ProjectId = 2, 
+                    UserId ="UsertestId2", 
+                    IsActive = false, 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId",
+                    ModifiedByUserId="UserId",
+                    ModifyDateTime = new System.DateTime()
+                },
+                new ProjectUser() 
+                { 
+                    Id = 3,
+                    ProjectId = 3, 
+                    UserId ="UsertestId3", 
+                    IsActive = false, 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId",
+                    ModifiedByUserId="UserId",
+                    ModifyDateTime = new System.DateTime()
+                },
+                new ProjectUser()
+                { 
+                    Id = 4, 
+                    ProjectId = 4, 
+                    UserId ="UsertestId4", 
+                    IsActive = true, 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId",
+                    ModifiedByUserId="UserId",
+                    ModifyDateTime = new System.DateTime()
+                }
             };
             dbContext.projectUsers.AddRange(projectUser);
             dbContext.SaveChanges();

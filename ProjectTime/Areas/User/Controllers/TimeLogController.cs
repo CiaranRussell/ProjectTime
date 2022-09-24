@@ -20,12 +20,14 @@ namespace ProjectTime.Areas.User.Controllers
         private readonly ISessionHelper _sessionHelper;
         private readonly ApplicationDbContext _db;
         private readonly IEnumerable<NonWorkingDays> nonWorkingDays = new List<NonWorkingDays>();
+        private readonly ILogger<TimeLogController> _logger;
 
-        public TimeLogController(ApplicationDbContext db, ISessionHelper sessionHelper)
+        public TimeLogController(ApplicationDbContext db, ISessionHelper sessionHelper, ILogger<TimeLogController> logger)
         {
             _db = db;
             _sessionHelper = sessionHelper;
             nonWorkingDays = _db.nonWorkingDays.ToList();
+            _logger = logger;
         }
 
         // Get method to return TimeLog Projects view to include ProjectUsers and Projects with where condition   
@@ -60,7 +62,7 @@ namespace ProjectTime.Areas.User.Controllers
             return View(myProjects);
         }
 
-        // Get method to return My Projects view page 
+        // Get method to return a list of timelogs by projectId for the logged in user or the all timelogs for the PMO user role view page 
         public IActionResult IndexTimeLog(string id)
         {
             var userId = _sessionHelper.GetUserId();
@@ -69,7 +71,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || u.ProjectId == projectId && userRole == "PMO");
             return View(objTimeLog);
         }
 
@@ -84,7 +86,8 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Post async method to created timelog with validation to prevent duplication of time logs being created for the same project
-        // on the same date & validation to prevent time logs being created in the future, with linq query to retrieve ProjectUserId
+        // on the same date & validation to prevent time logs being created in the future and on Non-Working days, with linq query
+        // to retrieve ProjectUserId
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TimeLogViewModel obj)
@@ -140,8 +143,9 @@ namespace ProjectTime.Areas.User.Controllers
                 return View(obj);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog create object on {1}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
 
@@ -160,7 +164,8 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (timeLogSearch == null)
             {
-                return NotFound($"Unable to find Time Log");
+                _logger.LogError((EventId)101, "Invalid operation on edit get TimeLog, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             return View(timeLogSearch);
@@ -196,11 +201,13 @@ namespace ProjectTime.Areas.User.Controllers
 
                 if (timeLog == null)
                 {
-                    return NotFound($"Unable to find Time Log");
+                    _logger.LogError((EventId)101, "Invalid operation on edit post TimeLog, null object Id {0}:", DateTime.Now);
+                    return View("Error");
                 }
                 timeLog.Duration = obj.Duration;
                 timeLog.Description = obj.Description;
                 timeLog.ProjectId = obj.ProjectId;
+                timeLog.ModifyDateTime = DateTime.Now;
 
 
                 if (ModelState.IsValid)
@@ -213,8 +220,9 @@ namespace ProjectTime.Areas.User.Controllers
                 return View(obj);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog edit object on {1}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
 
@@ -229,7 +237,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (id == null)
             {
-                //return NotFound($"Unable to find Time Log");
+                _logger.LogError((EventId)101, "Invalid operation on delete get TimeLog, null object Id {0}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -267,16 +275,19 @@ namespace ProjectTime.Areas.User.Controllers
 
                 if (timeLog == null)
                 {
-                    return NotFound($"Unable to load Time Log with ID");
+                    _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {0}:", DateTime.Now);
+                    return View("Error");
                 }
 
                 _db.timeLog.Remove(timeLog);
                 await _db.SaveChangesAsync();
+                _logger.LogWarning((EventId)102, "UserId {0} deleted TimeLog object Id {1} on {2}", userId, timeLog.Id, DateTime.Now);
                 TempData["delete"] = "Time Log Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog object, database exception error {1}: " + ex.InnerException, userId, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {timeLog.ProjectUser.ApplicationUser.FullName} has logged time aganist this Project";
                 ViewBag.ErrorMessage = $"The Time Log cannot be deleted as the user has logged time";
                 return View("Error");
@@ -284,7 +295,7 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Get method to return API TimeLog data for datatables to include ProjectUsers and Projects with where condition   
-        // to return ProjectTime logs by for user by Project Id or all logs for PMO Role
+        // to return ProjectTime logs for user by Project Id or all logs for PMO Role
         #region API CALLS
         [HttpGet]
 

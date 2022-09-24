@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
+using ProjectTime.Utility;
 using System.Collections.Generic;
 
 namespace ProjectTime.Areas.Admin.Controllers
@@ -11,10 +12,14 @@ namespace ProjectTime.Areas.Admin.Controllers
     public class ProjectUserController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<ProjectUserController> _logger;
+        private readonly ISessionHelper _sessionHelper;
 
-        public ProjectUserController(ApplicationDbContext db)
+        public ProjectUserController(ApplicationDbContext db, ISessionHelper sessionHelper, ILogger<ProjectUserController> logger)
         {
             _db = db;
+            _sessionHelper = sessionHelper;
+            _logger = logger;
         }
 
         // Get method to return projectUser list view to include Projects, users, department, and roles 
@@ -49,6 +54,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create(ProjectUser obj)
         {
+            var userId = _sessionHelper.GetUserId();
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
             ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
             var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
@@ -60,6 +66,8 @@ namespace ProjectTime.Areas.Admin.Controllers
                     ModelState.AddModelError("", "User is already assigned to this project");
                 }
 
+                obj.CreatedByUserId = userId;
+
                 if (ModelState.IsValid)
                 {
                     _db.projectUsers.Add(obj);
@@ -69,8 +77,9 @@ namespace ProjectTime.Areas.Admin.Controllers
                 }
                 return View(obj);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on ProjectUser create object on {1}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
         }
@@ -83,14 +92,16 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (id == null)
             {
-                return NotFound($"Unable to find Project User");
+                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             var user = _db.projectUsers.Include(p => p.Project).Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == id);
 
             if (user == null)
             {
-                return NotFound($"Unable to find Project User");
+                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             return View(user);
         }
@@ -100,6 +111,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProject(ProjectUser obj)
         {
+            var userId = _sessionHelper.GetUserId();
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
             ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
             var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
@@ -116,16 +128,17 @@ namespace ProjectTime.Areas.Admin.Controllers
 
                 if (projectUser == null)
                 {
-                    return NotFound("Unable to find Project User");
-                }
-                else
-                {
-                    projectUser.Id = obj.Id;
-                    projectUser.ProjectId = obj.ProjectId;
-                    projectUser.UserId = obj.UserId;
-                    projectUser.IsActive = obj.IsActive;
+                    _logger.LogError((EventId)101, "Invalid operation on edit post ProjectUser, null object Id {0}:", DateTime.Now);
+                    return View("Error");
                 }
 
+                projectUser.Id = obj.Id;
+                projectUser.ProjectId = obj.ProjectId;
+                projectUser.UserId = obj.UserId;
+                projectUser.IsActive = obj.IsActive;
+                projectUser.ModifiedByUserId = userId;
+                projectUser.ModifyDateTime = DateTime.Now;
+                
                 if (ModelState.IsValid)
                 {
                     _db.projectUsers.Update(projectUser);
@@ -135,8 +148,9 @@ namespace ProjectTime.Areas.Admin.Controllers
                 }
                 return View(projectUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on ProjectUser edit object on {1}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
 
@@ -150,17 +164,18 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (id == null)
             {
-                return NotFound($"Unable to find Project User");
+                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             var projectUser = _db.projectUsers.FirstOrDefault(x => x.Id == id);
 
             if (projectUser == null)
             {
-                return NotFound($"Unable to find Project User");
+                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             return View(projectUser);
-            
             
         }
 
@@ -170,31 +185,31 @@ namespace ProjectTime.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
         {
- 
+            var userId = _sessionHelper.GetUserId();
             var projectusers = _db.projectUsers.Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectUser.Id);
 
             try
             {
                 if (projectusers == null)
                 {
-                    return NotFound($"Unable to load Porject User with ID");
+                    _logger.LogError((EventId)101, "Invalid operation on delete post ProjectUser, null object Id {0}:", DateTime.Now);
+                    return View("Error");
                 }
 
                 _db.projectUsers.Remove(projectusers);
                 await _db.SaveChangesAsync();
+                _logger.LogWarning((EventId)102, "UserId {0} deleted ProjectUser object: {1} on {2}", userId, projectusers.Id, DateTime.Now);
                 TempData["delete"] = "Project User Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on Id {1} projectUser object, database exception error {2}: " + ex.InnerException, userId, projectusers.Id, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {projectusers.ApplicationUser.FullName} has logged time aganist this Project";
                 ViewBag.ErrorMessage = $"The Project User cannot be deleted as the user has logged time against this project";
                 return View("Error");
             }
         }
-
-
-
 
 
         // Get method to return projectUser data in API Call for Data tabels to include Projects, users, department, and roles  

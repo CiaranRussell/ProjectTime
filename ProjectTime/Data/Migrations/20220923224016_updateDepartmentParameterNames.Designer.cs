@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectTime.Data;
 
@@ -11,9 +12,10 @@ using ProjectTime.Data;
 namespace ProjectTime.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923224016_updateDepartmentParameterNames")]
+    partial class updateDepartmentParameterNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,10 +274,6 @@ namespace ProjectTime.Data.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -283,12 +281,6 @@ namespace ProjectTime.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ModifiedByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifyDateTime")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -304,16 +296,6 @@ namespace ProjectTime.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreateDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModifiedByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifyDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -340,18 +322,8 @@ namespace ProjectTime.Data.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedByUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifyDateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -388,9 +360,6 @@ namespace ProjectTime.Data.Migrations
 
                     b.Property<decimal>("Duration")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("ModifyDateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");

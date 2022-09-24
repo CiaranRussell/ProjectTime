@@ -10,8 +10,10 @@
             <h1 class="text-danger text-center">Error</h1>
             <h4 class="text-primary text-center">An error occurred while processing your request.</h4>
             <h4 class="text-primary text-center">Please contact IT support if the problem persists.</h4>
+            <a asp-area="User" asp-controller="Home" asp-action="Index">Home</a>
         </div>
-    </div> 
+    </div>
+    
 }
 else
 {   // custom error page 
@@ -19,6 +21,7 @@ else
         <div class="row pb-2">
             <h1 class="text-danger text-center">@ViewBag.ErrorTitle</h1>
             <h4 class="text-primary text-center">@ViewBag.ErrorMessage</h4>
+            <a asp-area="User" asp-controller="Home" asp-action="Index">Home</a>
         </div>
     </div>
 }

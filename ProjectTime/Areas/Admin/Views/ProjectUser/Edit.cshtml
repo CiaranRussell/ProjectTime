@@ -11,12 +11,12 @@
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
             <label asp-for="Project.Name"></label>
-            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-control" ></select>
+            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-select" ></select>
             <span asp-validation-for="ProjectId" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="ApplicationUser.UserName">Employee Name</label>
-            <select asp-for = "UserId" asp-items = "ViewBag.appuserId" class="form-control" ></select>
+            <select asp-for = "UserId" asp-items = "ViewBag.appuserId" class="form-select" ></select>
             <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
         <div class="mb-3">
