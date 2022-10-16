@@ -64,11 +64,10 @@ namespace ProjectTimeWebApp.Test.Controller
             var timeLogController = new TimeLogController(dbContext, mock.Object, logger);
 
             // Act
-            var result = timeLogController.IndexTimeLog("1") as ViewResult;
+            var result = timeLogController.IndexTimeLog() as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Model);
             Assert.IsTrue(string.IsNullOrEmpty(result.ViewName) || result.ViewName == "IndexTimeLog");
 
         }
@@ -107,6 +106,7 @@ namespace ProjectTimeWebApp.Test.Controller
                 Duration = (decimal)8.5, 
                 Description = "",
                 
+                
             };
 
             // Act
@@ -135,8 +135,6 @@ namespace ProjectTimeWebApp.Test.Controller
                 Date = DateTime.Now, 
                 Duration = (decimal)6.5, 
                 Description = "TestEdit", 
-                ProjectUserId = 4,
-                ModifyDateTime = new System.DateTime()
                 
             };
 

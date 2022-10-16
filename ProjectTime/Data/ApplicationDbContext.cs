@@ -24,6 +24,8 @@ namespace ProjectTime.Data
 
         public DbSet<NonWorkingDays> nonWorkingDays { get; set; }
 
+        public DbSet<ProjectEstimate> projectEstimates { get; set; }
+
 
         // On model creation method to loop through all tables with FK relationships & prevent cascade deletion of record
         // when deleting parent value

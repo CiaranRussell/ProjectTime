@@ -1,0 +1,46 @@
+﻿@model ProjectEstimateViewModel
+
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Add Project Estimate</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="ProjectId">Project Name</label>
+            <select asp-for = "ProjectId" asp-items = "ViewBag.projectId" class="form-select">
+            <option disabled selected>-Select Project-</option></select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DepartmentId">Department</label>
+            <select asp-for = "DepartmentId" asp-items = "ViewBag.departmentId" class="form-select" >
+            <option disabled selected>-Select Department-</option></select>
+            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DateFrom"></label>
+            <input asp-for="DateFrom" class="form-control" />
+            <span asp-validation-for="DateFrom" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DateTo"></label>
+            <input asp-for="DateTo" class="form-control" />
+            <span asp-validation-for="DateTo" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DurationDays"></label>
+            <input asp-for="DurationDays" class="form-control" />
+            <span asp-validation-for="DurationDays" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:200px"><i class="bi bi-plus-circle"></i> Add Project Estimate</button>
+        <a asp-controller="ProjectEstimate" asp-action="Index" class="btn btn-secondary" style="width:200px"><i class="bi bi-skip-backward"></i>Project Estimate</a>
+    </div>
+</form>
+

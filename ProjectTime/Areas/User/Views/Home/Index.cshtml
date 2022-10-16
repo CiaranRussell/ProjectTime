@@ -10,12 +10,13 @@
 <body class="welcome">
   
   <div class="container">
-    <div class="row text-left text-black">
+    <div class="row text-left text-primary">
       <div class="col-6 my-auto">
         <h1 class="font-tertiary">Welcome  </h1>
         <h1> To ProjectTime </h1>
 
-  <p>Input company statement here.</p>
+  <p>Your all-in-one suite to manage people, projects,</p>
+  <p>and everything in between.....</p>
 @if (!SignInManager.IsSignedIn(User))
 {
  <tr>
@@ -36,17 +37,17 @@
         <i class="bi bi-plus-circle"></i> Log ProjectTime</a>
     </div>
 }
+@if (User.Identity.IsAuthenticated && User.IsInRole("Project Manager"))
+{
+    <div class="w-45 btn-group" role="group">
+      <a asp-area="SuperUser" asp-controller="ProjectEstimate" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Project Estimate</a>
     </div>
-        <div class="col-6 py-4 mobile-img">
-            <img src="~/images/ProjectTime2.jpg" class="img-fluid" alt="mobile screen">
+}
+    </div>
+        <div class="col-6 py-0 mobile-img">
+            <img src="~/images/ProjectTime_Image_Jpg_V5.jpg" class="img-fluid" alt="mobile screen">
         </div>
     </div>
   </div>
 </body>
-
-
-
-@*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@

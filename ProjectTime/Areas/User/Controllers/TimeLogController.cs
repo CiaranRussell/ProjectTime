@@ -45,9 +45,9 @@ namespace ProjectTime.Areas.User.Controllers
             var myProjects = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
-                                                              .GroupBy(p => p.Project.ProjectCode)
+                                                              .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
-            
+
             foreach (var project in myProjects)
             {
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
@@ -63,16 +63,10 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Get method to return a list of timelogs by projectId for the logged in user or the all timelogs for the PMO user role view page 
-        public IActionResult IndexTimeLog(string id)
+        public IActionResult IndexTimeLog()
         {
-            var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
-            int projectId = Int32.Parse(id);
-
-            var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
-                                                              .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || u.ProjectId == projectId && userRole == "PMO");
-            return View(objTimeLog);
+                                       
+            return View();
         }
 
         // Get method to return create ProjectTime log with Linq query UserHelper utility to return Project Users Active Projects only
@@ -110,7 +104,7 @@ namespace ProjectTime.Areas.User.Controllers
                 }
                 if (dupCheck == false)
                 {
-                    ModelState.AddModelError("", "Time has already been logged for this project on this date");
+                    ModelState.AddModelError("", "Time has already been logged for this project on the log date");
                     return View(obj);
                 }
                 if (dateValidation == true)
@@ -247,7 +241,8 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (timeLog == null)
             {
-                return NotFound($"Unable to find Time Log");
+                _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             return View(timeLog);
 
@@ -294,7 +289,7 @@ namespace ProjectTime.Areas.User.Controllers
             }
         }
 
-        // Get method to return API TimeLog data for datatables to include ProjectUsers and Projects with where condition   
+        // Get method to return API TimeLog data for datatables with where condition   
         // to return ProjectTime logs for user by Project Id or all logs for PMO Role
         #region API CALLS
         [HttpGet]
@@ -307,7 +302,8 @@ namespace ProjectTime.Areas.User.Controllers
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId || u.ProjectId == projectId && userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId 
+                                                                                   || u.ProjectId == projectId && userRole == "PMO");
 
             return Json(new { Data = objTimeLog });
         }

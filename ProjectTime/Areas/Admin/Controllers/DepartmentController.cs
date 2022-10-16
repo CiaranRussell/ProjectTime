@@ -139,7 +139,7 @@ namespace ProjectTime.Controllers
         // with related members 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteDepartment(int? id)
         {
             var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
             var userId = _sessionHelper.GetUserId();

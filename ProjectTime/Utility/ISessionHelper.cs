@@ -5,5 +5,7 @@
         string GetUserId();
 
         string GetUserRole();
+
+        
     }
 }

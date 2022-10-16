@@ -8,8 +8,10 @@ function getProjectId() {
     return projectId
 };
 
+
 $(document).ready(function () {
 
+    
     var projectId = getProjectId();
     loadDataTable(projectId);
 });
@@ -20,7 +22,6 @@ function loadDataTable(projectId) {
 
     dataTable = $('#tblDatatimelog').DataTable({
 
-        
         "ajax": { "url": "/User/TimeLog/IndexAPI?id=" + projectId },
 
         "columns": [

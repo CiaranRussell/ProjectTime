@@ -5,19 +5,34 @@ namespace ProjectTime.Utility
 {
     public static class UserHelper
     {
+        
+
         // User helper method using Linq query to return the logged in users List of assigned active project to log ProjectTime aganist 
         public static List<Project> GetUserProjects(ApplicationDbContext _db, string user)
         {
+           
+                var projects = (from p in _db.projects
+                                join pu in _db.projectUsers on p.Id equals pu.ProjectId
+                                where pu.UserId == user && pu.IsActive == true
+                                select p).OrderBy(p => p.Name).ToList();
+       
+                return projects;
+        }
+
+        // User helper method using Linq query to return the logged in users List of assigned active project to log Projectestimates aganist 
+        public static List<Project> GetSuperUserProjects(ApplicationDbContext _db, string user)
+        {
+
             var projects = (from p in _db.projects
                             join pu in _db.projectUsers on p.Id equals pu.ProjectId
-                            where pu.UserId == user && pu.IsActive == true
+                            where pu.UserId == user
                             select p).OrderBy(p => p.Name).ToList();
-            return projects; 
-            
+
+            return projects;
         }
 
         // User helper method using Linq query to return the logged in users ProjectUser Id for the selected project they are creating
-        // a time log against
+        // a time log Project estimate against
         public static int GetProjectUserId(ApplicationDbContext _db, string user, int projectId)
         {
             var projectUserId = (from pu in _db.projectUsers

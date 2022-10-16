@@ -122,20 +122,12 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteProjectUserPost_WithResponse()
         {
             // Arrange
-            ProjectUser projectUser = new ProjectUser()
-            { 
-                Id = 6, 
-                ProjectId = 6, 
-                UserId = "UsertestId6", 
-                IsActive = true, 
-                CreateDateTime = new System.DateTime(),
-                CreatedByUserId = "UserId",
-                ModifiedByUserId = "UserId",
-                ModifyDateTime = new System.DateTime(),
-            };
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectUserController = new ProjectUserController(dbContext, mock.Object, logger);
 
             // Act
-            var result = projectUserController.DeleteProjectUser(projectUser);
+            var result = projectUserController.DeleteProjectUser(1);
 
             // Assert
             Assert.IsNotNull(result);

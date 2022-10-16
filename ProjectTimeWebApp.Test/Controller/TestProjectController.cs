@@ -117,17 +117,12 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_DeleteProjectPost_WithResponse()
         {
             // Arrange
-            Project project = new Project()
-            { 
-                Id = 6, 
-                Name = "TestProject6", 
-                ProjectCode = "UTM006", 
-                CreateDateTime = new System.DateTime(),
-                CreatedByUserId = "UserId"
-            };
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            projectController = new ProjectController(dbContext, mock.Object, logger);
 
             // Act
-            var result = projectController.DeleteConfirm(6);
+            var result = projectController.DeleteProject(1);
 
             // Assert
             Assert.IsNotNull(result);
@@ -144,8 +139,8 @@ namespace ProjectTimeWebApp.Test.Controller
                 Id = 1, 
                 Name = "TestProject7", 
                 ProjectCode = "UTM007", 
-                CreateDateTime = new System.DateTime(),
-                CreatedByUserId = "UserId"
+                ModifyDateTime = new System.DateTime(),
+                ModifiedByUserId = "UserId"
             };
 
             // Act
@@ -188,10 +183,38 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var project = new List<Project>
             {
-                new Project() { Id = 1, Name ="TestProject1", ProjectCode = "UTM001", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
-                new Project() { Id = 2, Name ="TestProject2", ProjectCode = "UTM002", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
-                new Project() { Id = 3, Name ="TestProject3", ProjectCode = "UTM003", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
-                new Project() { Id = 4, Name ="TestProject4", ProjectCode = "UTM004", CreateDateTime = new System.DateTime(),CreatedByUserId = "UserId"},
+                new Project()
+                { 
+                    Id = 1, 
+                    Name ="TestProject1", 
+                    ProjectCode = "UTM001", 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
+                new Project()
+                { 
+                    Id = 2, 
+                    Name ="TestProject2", 
+                    ProjectCode = "UTM002", 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
+                new Project()
+                { 
+                    Id = 3, 
+                    Name ="TestProject3", 
+                    ProjectCode = "UTM003", 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
+                new Project()
+                { 
+                    Id = 4, 
+                    Name ="TestProject4", 
+                    ProjectCode = "UTM004", 
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
 
 
             };

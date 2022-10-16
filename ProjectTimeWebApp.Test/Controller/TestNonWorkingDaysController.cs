@@ -110,10 +110,10 @@ namespace ProjectTimeWebApp.Test.Controller
             { 
                 Id = 5, 
                 Date = new System.DateTime(), 
-                Description = "BankHoliday5", 
-                AllowTimeLog = false, 
-                CreateDateTime = new System.DateTime(), 
-                CreatedByUserId = "UserId" 
+                Description = "BankHolidayTestEdit", 
+                AllowTimeLog = true, 
+                ModifyDateTime = new System.DateTime(), 
+                ModifiedByUserId = "UserId" 
             };
 
             // Act
@@ -122,7 +122,7 @@ namespace ProjectTimeWebApp.Test.Controller
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(NWD.Date, new System.DateTime());
-            Assert.AreEqual(NWD.Description, "BankHoliday5");
+            Assert.AreEqual(NWD.Description, "BankHolidayTestEdit");
 
         }
 

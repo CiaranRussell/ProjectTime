@@ -329,6 +329,52 @@ namespace ProjectTime.Data.Migrations
                     b.ToTable("projects");
                 });
 
+            modelBuilder.Entity("ProjectTime.Models.ProjectEstimate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DurationDays")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ModifyDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectUserId");
+
+                    b.ToTable("projectEstimates");
+                });
+
             modelBuilder.Entity("ProjectTime.Models.ProjectUser", b =>
                 {
                     b.Property<int>("Id")
@@ -472,6 +518,33 @@ namespace ProjectTime.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectTime.Models.ProjectEstimate", b =>
+                {
+                    b.HasOne("ProjectTime.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProjectTime.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProjectTime.Models.ProjectUser", "ProjectUser")
+                        .WithMany()
+                        .HasForeignKey("ProjectUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("ProjectUser");
                 });
 
             modelBuilder.Entity("ProjectTime.Models.ProjectUser", b =>

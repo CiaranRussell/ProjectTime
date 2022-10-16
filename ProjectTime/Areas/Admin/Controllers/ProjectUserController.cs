@@ -84,7 +84,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
         }
 
-        // Get method to return Edit view page by user Id to include Projects & Application Users
+        // Get method to return Edit view page by user Id with logging to catch null Id error's
         public IActionResult Edit(int? id)
         {
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
@@ -92,21 +92,22 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101,"Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
                 return View("Error");
             }
 
-            var user = _db.projectUsers.Include(p => p.Project).Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == id);
+            var user = _db.projectUsers.FirstOrDefault(x => x.Id == id);
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101,"Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
                 return View("Error");
             }
             return View(user);
         }
 
-        // Post async method to update Project users with validation to prevent duplication of users added to projects
+        // Post async method to update Project users with validation to prevent duplication of Projectusers & logcheck validation to prevent
+        // editing on ProjectUser that have created Time log's with logging to catch null Id error's
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProject(ProjectUser obj)
@@ -115,12 +116,18 @@ namespace ProjectTime.Areas.Admin.Controllers
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
             ViewData["appuserId"] = new SelectList(_db.applicationUsers.ToList(), "Id", "FullName");
             var dupCheck = !_db.projectUsers.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId && x.UserId == obj.UserId);
+            var logCheck = _db.timeLog.Any(x => x.ProjectUserId == obj.Id);
 
             try
             {
                 if (dupCheck == false)
                 {
                     ModelState.AddModelError("", "User is already assigned to this project");
+                    return View(obj);
+                }
+                if (logCheck == true)
+                {
+                    ModelState.AddModelError("", "Unable to edit, The Project User has created time logs");
                     return View(obj);
                 }
 
@@ -132,7 +139,6 @@ namespace ProjectTime.Areas.Admin.Controllers
                     return View("Error");
                 }
 
-                projectUser.Id = obj.Id;
                 projectUser.ProjectId = obj.ProjectId;
                 projectUser.UserId = obj.UserId;
                 projectUser.IsActive = obj.IsActive;
@@ -156,7 +162,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         }
 
-        // Get method to return Delete project User page by Id
+        // Get method to return Delete project User view by Id with logging to catch null Id error's
         public IActionResult Delete(int? id)
         {
             ViewData["projectId"] = new SelectList(_db.projects.ToList(), "Id", "Name");
@@ -180,13 +186,13 @@ namespace ProjectTime.Areas.Admin.Controllers
         }
 
         // Post async method to delete Project user by Id with custom error handling to notify the user if they try to delete
-        // an active project user
+        // an active project user 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProjectUser(ProjectUser projectUser)
+        public async Task<IActionResult> DeleteProjectUser(int? id)
         {
             var userId = _sessionHelper.GetUserId();
-            var projectusers = _db.projectUsers.Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == projectUser.Id);
+            var projectusers = _db.projectUsers.Include(a => a.ApplicationUser).FirstOrDefault(x => x.Id == id);
 
             try
             {

@@ -271,7 +271,8 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                _logger.LogError((EventId)101, "Invalid operation on LockUnLock get User, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
             return View(user);
 
@@ -303,6 +304,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             }
 
             _db.SaveChanges();
+
             if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
             {
                 TempData["delete"] = "User Account locked Successfully!!";  
