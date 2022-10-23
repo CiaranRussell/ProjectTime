@@ -32,7 +32,7 @@ namespace ProjectTime.Utility
         }
 
         // User helper method using Linq query to return the logged in users ProjectUser Id for the selected project they are creating
-        // a time log Project estimate against
+        // a time log or Project estimate against
         public static int GetProjectUserId(ApplicationDbContext _db, string user, int projectId)
         {
             var projectUserId = (from pu in _db.projectUsers

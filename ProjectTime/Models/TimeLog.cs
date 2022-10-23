@@ -32,6 +32,10 @@ namespace ProjectTime.Models
         [ValidateNever]
         public string MaxDate { get; set; }
 
+        [NotMapped]
+        [ValidateNever]
+        public decimal TotalCost { get; set; }
+
         public int ProjectUserId { get; set; }
         [ForeignKey("ProjectUserId")]
         [ValidateNever]
@@ -47,6 +51,24 @@ namespace ProjectTime.Models
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
         public DateTime ModifyDateTime { get; set; }
+        
+        // Estiamte Properties 
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal EstimateDurationDays { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string EstimateMinDate { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string EstimateMaxDate { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal EstimateTotalCost { get; set; }
 
 
     }

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProjectEstimate>
+@{
+    ViewData["Title"] = "IndexProjectTracker";
+
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">ProjectTime Tracker Log's</h2>
+    </div>
+   <br />
+<table id="tblDataindexprojecttracker" class="table table-bordered table-striped" style`="width 100%">  
+    <thead> 
+        <tr>
+            <th>Project</th>
+            <th>Department</th>
+            <th>Estimated Start Date</th>
+            <th>Estimated End Date</th>
+            <th>Estimated Duration Days</th>
+            <th>Estimated Cost €</th>
+            <th>Actual Start Date</th>
+            <th>Actual End Date</th>
+            <th>Actual Duration Days</th>
+            <th>Actual Cost €</th>
+            <th></th>
+        </tr>
+    </thead>
+ </table>
+</div> 
+@section scripts{
+    
+    <script src="~/js/indexProjectTracker.js"></script>
+}

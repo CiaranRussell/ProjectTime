@@ -289,16 +289,52 @@ namespace ProjectTime.Areas.User.Controllers
             }
         }
 
+        // Get method to return TimeLog Projects view to include ProjectUsers and Projects with where condition   
+        // to return distinct projects by User Id or all projects for PMO Role
+        #region API CALLS
+        [HttpGet]
+        public IActionResult IndexTimeLogAPI()
+        {
+            var userId = _sessionHelper.GetUserId();
+            var userRole = _sessionHelper.GetUserRole();
+
+
+            var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                               .Include(p => p.Project)
+                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+
+            var myProjects = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                              .Include(p => p.Project)
+                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
+                                                              .GroupBy(p => p.ProjectId)
+                                                              .Select(y => y.First());
+
+            foreach (var project in myProjects)
+            {
+                var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
+                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
+                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
+                project.Duration = Math.Round(durationSum / (decimal)7.5, 1);
+                project.MinDate = minDate;
+                project.MaxDate = maxDate;
+
+            }
+
+            return Json(new { Data = myProjects });
+        }
+        #endregion
+
         // Get method to return API TimeLog data for datatables with where condition   
         // to return ProjectTime logs for user by Project Id or all logs for PMO Role
         #region API CALLS
         [HttpGet]
 
-        public IActionResult IndexAPI(string id)
+        public IActionResult IndexAPI(int id)
         {
             var userId = _sessionHelper.GetUserId();
             var userRole = _sessionHelper.GetUserRole();
-            int projectId = Int32.Parse(id);
+            //int projectId = Int32.Parse(id);
+            var projectId = id;
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)

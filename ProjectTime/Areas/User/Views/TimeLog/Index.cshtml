@@ -15,7 +15,7 @@
         </div>
    </div>
    <br />
-<table class="table table-bordered table-striped" style`="width 100%">  
+<table id="tblDataindextimelog" class="table table-bordered table-striped" style`="width 100%">  
     <thead> 
         <tr>
             <th>Project Code</th>
@@ -26,27 +26,10 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach(var obj in Model)
-        {
-            <tr>
-                <td width="20%">@obj.ProjectUser.Project.ProjectCode</td>
-                <td width="20%">@obj.ProjectUser.Project.Name</td>
-                <td width="20%">@obj.MinDate</td>
-                <td width="20%">@obj.MaxDate</td>
-                <td width="20%">@obj.Duration</td>
-                <td>
-                    <div class="w-45 btn-group" role="group">
-                        <a asp-controller="TimeLog" asp-action="IndexTimeLog" asp-route-id="@obj.ProjectId" 
-                        class="btn btn-primary"><i class="bi bi-clipboard-data" ></i>TimeLogs</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>
 </div> 
 @section scripts{
+    <script src="~/js/indextimelog.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
     <script type="text/javascript">
         $(function(){

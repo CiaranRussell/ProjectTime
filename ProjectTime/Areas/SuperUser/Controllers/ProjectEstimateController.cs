@@ -39,7 +39,7 @@ namespace ProjectTime.Areas.SuperUser
             int projectId = Int32.Parse(id);
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
-                                                              .ThenInclude(p => p.Project)
+                                                              .Include(p => p.Project)
                                                               .Include(d => d.Department)
                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
 
@@ -169,7 +169,7 @@ namespace ProjectTime.Areas.SuperUser
             var userId = _sessionHelper.GetUserId();
             var dupCheck = !_db.projectEstimates.Any(x => x.Id != obj.Id && x.ProjectId == obj.ProjectId
             && x.ProjectUser.UserId == userId && x.DepartmentId == obj.DepartmentId);
-            ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
+            ViewData["projectId"] = new SelectList(UserHelper.GetSuperUserProjects(_db, userId).ToList(), "Id", "Name");
             ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
             var totalDays = (obj.DateTo - obj.DateFrom).TotalDays;
             var days = Convert.ToDecimal(totalDays);
@@ -227,12 +227,13 @@ namespace ProjectTime.Areas.SuperUser
         {
             var userId = _sessionHelper.GetUserId();
 
-            ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
+            ViewData["projectId"] = new SelectList(UserHelper.GetSuperUserProjects(_db, userId).ToList(), "Id", "Name");
             ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
 
             if (id == null)
             {
-                
+                _logger.LogError((EventId)101, "Invalid operation on delete get Project Estimate, null object Id {0}:", DateTime.Now);
+                return View("Error");
             }
 
             var projectEstimate = _db.projectEstimates.FirstOrDefault(x => x.Id == id);
@@ -252,10 +253,11 @@ namespace ProjectTime.Areas.SuperUser
         // an active Project Estimate
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProjectEstimate(int? Id)
+        public async Task<IActionResult> DeleteProjectEstimate(ProjectEstimate projectEst)
         {
             var userId = _sessionHelper.GetUserId();
-            var projectEstimate = _db.projectEstimates.Include(a => a.ProjectUser.ApplicationUser).FirstOrDefault(x => x.Id == Id);
+            var projectEstimate = _db.projectEstimates.Include(a => a.ProjectUser.ApplicationUser).FirstOrDefault(x => x.Id == projectEst.Id);
+            
 
             try
             {
@@ -301,15 +303,14 @@ namespace ProjectTime.Areas.SuperUser
                                                               .Include(d => d.Department)
                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
                                                               .GroupBy(p => p.ProjectId)
-                                                              .Select(y => y.Single());
+                                                              .Select(y => y.First());
 
             decimal projectTotalCost = 0;
 
             foreach (var project in myProjectEstimate)
             {
                 var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.DurationDays);
-                var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId && x.DepartmentId == project.DepartmentId
-                                                                                               && x.DurationDays == project.DurationDays)
+                var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
                                                    .Sum(x => (x.DurationDays * (decimal)7.5) * x.Department.Rate);
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.DateFrom).ToShortDateString();
                 var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.DateTo).ToShortDateString();
@@ -338,7 +339,7 @@ namespace ProjectTime.Areas.SuperUser
             int projectId = Int32.Parse(id);
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
-                                                              .ThenInclude(p => p.Project)
+                                                              .Include(p => p.Project)
                                                               .Include(d => d.Department)
                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
 

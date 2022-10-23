@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tV8s7rms+dWGdjeM+ORD9yiuEBMOLWnUKc7DqVF8Hmg=",
+  "Hash": "ttriheRws6BxeDvQlII8qBKqdXy2bJk17nfgfvsffcA=",
   "Source": "ProjectTime",
   "BasePath": "_content/ProjectTime",
   "Mode": "Default",
@@ -119,6 +119,23 @@
       "OriginalItemSpec": "wwwroot\\Images\\ProjectTime_Image_Jpg_V5.jpg"
     },
     {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\actualveatimate.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/actualveatimate.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\actualveatimate.js"
+    },
+    {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\department.js",
       "SourceId": "ProjectTime",
       "SourceType": "Discovered",
@@ -151,6 +168,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\indexprojectestimate.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indexProjectTracker.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/indexProjectTracker.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\indexProjectTracker.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indextimelog.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/indextimelog.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\indextimelog.js"
     },
     {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\nonWorkingDays.js",

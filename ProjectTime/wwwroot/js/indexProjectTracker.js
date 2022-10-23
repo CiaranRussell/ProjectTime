@@ -20,27 +20,34 @@ $(document).ready(function () {
 function loadDataTable(projectId) {
     console.log(projectId)
 
-    dataTable = $('#tblDatatimelog').DataTable({
+    dataTable = $('#tblDataindexprojecttracker').DataTable({
 
-        "ajax": { "url": "/User/TimeLog/IndexAPI?id=" + projectId },
+        "ajax": { "url": "/SuperUser/ActualVEstimate/IndexProjectTrackerAPI?id=" + projectId },
 
         "columns": [
 
-            { "data": "project.name", "width": "20%" },
+            { "data": "project.name", "width": "10%" },
+            { "data": "department.name", "width": "10%" },
             {
-                "data": "date", render: function (data) {
+                "data": "dateFrom", render: function (data) {
                 return moment(data).format('DD/MM/YYYY');
-                }, "width": "15%" },
-            { "data": "duration", "width": "20%" },
-            { "data": "description", "width": "20%" },
+                }, "width": "15%"
+            },
+            {
+                "data": "dateTo", render: function (data) {
+                    return moment(data).format('DD/MM/YYYY');
+                }, "width": "15%"
+            },
+            { "data": "durationDays", "width": "20%" },
+            { "data": "totalCost", "width": "15%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="w-50 btn-group" role="group">
-                        <a href="/User/TimeLog/Edit?id=${data}"
+                        <a href="/SuperUser/ProjectEstimate/Edit?id=${data}"
                         class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                        <a href="/User/TimeLog/Delete?id=${data}"
+                        <a href="/SuperUser/ProjectEstimate/Delete?id=${data}"
                         class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
 					</div>
                         `

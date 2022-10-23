@@ -65,5 +65,23 @@ namespace ProjectTime.Models
         [NotMapped]
         [ValidateNever]
         public dynamic projectTotalCost { get; internal set; }
+
+        // Actual Properties 
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal ActualDurationDays { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string ActualMinDate { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string ActualMaxDate { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal ActualTotalCost { get; set; }
     }
 }
