@@ -26,11 +26,7 @@ function loadDataTable() {
             { "data": "estimateMaxDate", "width": "10%" },
             { "data": "estimateDurationDays", "width": "10%" },
             { "data": "estimateTotalCost", "width": "10%" },
-            {
-                "data": "minDate", render: function (data) {
-                return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
-            },
+            { "data": "minDate", "width": "10%" },
             {
                 "data": "maxDate", render: function (data) {
                     return moment(data).format('DD/MM/YYYY');

@@ -31,31 +31,23 @@ function loadDataTable(projectId) {
             {
                 "data": "dateFrom", render: function (data) {
                 return moment(data).format('DD/MM/YYYY');
-                }, "width": "15%"
+                }, "width": "10%"
             },
             {
                 "data": "dateTo", render: function (data) {
                     return moment(data).format('DD/MM/YYYY');
                 }, "width": "15%"
             },
-            { "data": "durationDays", "width": "20%" },
+            { "data": "durationDays", "width": "15%" },
             { "data": "totalCost", "width": "15%" },
+            { "data": "actualMinDate", "width": "15%" },
             {
-                "data": "id",
-                "render": function (data) {
-                    return `
-                        <div class="w-50 btn-group" role="group">
-                        <a href="/SuperUser/ProjectEstimate/Edit?id=${data}"
-                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                        <a href="/SuperUser/ProjectEstimate/Delete?id=${data}"
-                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-					</div>
-                        `
-                },
-                "width": "15%"
-
-            }
-        ]
+                "data": "actualMaxDate", render: function (data) {
+                    return moment(data).format('DD/MM/YYYY');
+                }, "width": "15%"
+            },
+            { "data": "actualDurationDays", "width": "25%" },
+            { "data": "actualTotalCost", "width": "15%" }]
 
     });
 }

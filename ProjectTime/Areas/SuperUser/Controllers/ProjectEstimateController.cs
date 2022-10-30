@@ -309,17 +309,22 @@ namespace ProjectTime.Areas.SuperUser
 
             foreach (var project in myProjectEstimate)
             {
-                var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.DurationDays);
+                var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.DurationDays);
+
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                   .Sum(x => (x.DurationDays * (decimal)7.5) * x.Department.Rate);
-                var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.DateFrom).ToShortDateString();
-                var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.DateTo).ToShortDateString();
+                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+
+                var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
+                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
+
+                var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
+                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
                 
 
-                project.DurationDays = Math.Round(durationSum, 1);
+                project.DurationDays = Math.Round((decimal)durationSum, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
-                projectTotalCost += project.TotalCost = Math.Round(totalCost, 2);
+                projectTotalCost += project.TotalCost = Math.Round((decimal)totalCost, 2);
 
             }
 
@@ -352,8 +357,9 @@ namespace ProjectTime.Areas.SuperUser
             {
                 var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId 
                                                           && x.DurationDays == projectEstimate.DurationDays)
-                                                   .Sum(x => (x.DurationDays * (decimal)7.5) * x.Department.Rate);
-                projectEstimate.TotalCost = Math.Round(totalCost, 2);
+                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+
+                projectEstimate.TotalCost = Math.Round((decimal)totalCost, 2);
             }
 
             return Json(new { data = objProjectEstimate });
