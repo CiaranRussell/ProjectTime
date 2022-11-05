@@ -30,12 +30,12 @@
           <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Content Management</a>
           <div class="dropdown-menu">
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Department" asp-action="Index"><i class="bi bi-clipboard-data"></i>Department</a>
+            <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="NonWorkingDays" asp-action="Index"><i class="bi bi-clipboard-data"></i>Non-Working Days</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Project" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="ProjectUser" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project User</a>
-            <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="NonWorkingDays" asp-action="Index"><i class="bi bi-clipboard-data"></i>Non-Working Days</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-dark" asp-area="Identity" asp-page="/Account/Register"><i class = "bi bi-person-plus" ></i>Register User (with Role)</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Account" asp-action="Index"><i class = "bi bi-person-plus" ></i>Manage Users</a>
+            <a class="dropdown-item text-dark" asp-area="Identity" asp-page="/Account/Register"><i class = "bi bi-person-plus" ></i>Register User (with Role)</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -51,8 +51,11 @@
           <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
           <div class="dropdown-menu">
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="TimeLogReport"><i class="bi bi-folder2-open"></i>All Time Log's</a>
-            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="ProjectEstimate" asp-action="Index"><i class="bi bi-folder2-open"></i>Project Estimate</a>
-            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="ActualVEstimate" asp-action="Index"><i class="bi bi-folder2-open"></i>Project Tracking</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ProjectEstimateReport"><i class="bi bi-folder2-open"></i>Project Estimate's</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ProjectEstimateSummaryReport"><i class="bi bi-folder2-open"></i>Project Estimate Summary</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateEffortReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Effort</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateSummaryReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Summary</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateVarianceReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Variance</a>
           </div>
         </li>
       </ul>

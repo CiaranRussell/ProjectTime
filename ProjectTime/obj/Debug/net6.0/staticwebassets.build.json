@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "La7V6HbVnKkq3zur6P/xSgGsKpWN3I9qOMk+6muiB2Q=",
+  "Hash": "k9yw2q1D5ziygncORumGaBRxVn471HtJfCU8nb6gmME=",
   "Source": "ProjectTime",
   "BasePath": "_content/ProjectTime",
   "Mode": "Default",
@@ -270,6 +270,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\projectestimate.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectestimatereport.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/projectestimatereport.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\projectestimatereport.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectestimatesummaryreport.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/projectestimatesummaryreport.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\projectestimatesummaryreport.js"
     },
     {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectUser.js",

@@ -1,47 +1,38 @@
 ﻿var dataTable;
 
-function getProjectId() {
-
-    var url = window.location.href;
-    var parts = url.split("=");
-    var projectId = parts[parts.length - 1];
-    return projectId
-};
-
 
 $(document).ready(function () {
 
-    
-    var projectId = getProjectId();
-    loadDataTable(projectId);
+    loadDataTable();
 });
 
 
-function loadDataTable(projectId) {
-    console.log(projectId)
+function loadDataTable() {
 
-    dataTable = $('#tblDataindexprojecttracker').DataTable({
 
-        "ajax": { "url": "/SuperUser/ActualVEstimate/IndexProjectTrackerAPI?id=" + projectId },
+    dataTable = $('#tblDataprojectestimatereport').DataTable({
+
+        "ajax": { "url": "/SuperUser/Report/ProjectEstimateReportAPI", "type": "GET", "datatype": "json" },
 
         "columns": [
 
-            { "data": "department.name", "width": "15%" },
+            { "data": "project.name", "width": "12%" },
+            { "data": "department.name", "width": "10%" },
             {
                 "data": "dateFrom", render: function (data) {
-                return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
+                    return moment(data).format('DD/MM/YYYY');
+                }, "width": "15%"
             },
             {
                 "data": "dateTo", render: function (data) {
                     return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
+                }, "width": "15%"
             },
             { "data": "durationDays", "width": "15%" },
-            { "data": "actualMinDate", "width": "10%" },
-            { "data": "actualMaxDate", "width": "10%" },
-            { "data": "actualDurationDays", "width": "15%" },
-            { "data": "durationDaysVariance", "width": "15%" }
+            { "data": "totalCost", "width": "12%" },
+            { "data": "description", "width": "30%" }
+
+
         ],
 
         dom: 'lBfrtip',
@@ -74,5 +65,6 @@ function loadDataTable(projectId) {
         ]
 
     });
+
     dataTable.buttons().container().appendTo($('#printbar'));
 }
