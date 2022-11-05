@@ -275,6 +275,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJVc2VyXFZpZXdzXEFjdHVhbFZFc3RpbWF0ZVxJbmRleFByb2plY3RUcmFja2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/EAD/ProjectTime/ProjectTime/Areas/SuperUser/Views/ActualVEstimate/IndexProjectTrackerCost.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJVc2VyXFZpZXdzXEFjdHVhbFZFc3RpbWF0ZVxJbmRleFByb2plY3RUcmFja2VyQ29zdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/EAD/ProjectTime/ProjectTime/Areas/SuperUser/Views/ProjectEstimate/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJVc2VyXFZpZXdzXFByb2plY3RFc3RpbWF0ZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -293,6 +297,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/EAD/ProjectTime/ProjectTime/Areas/SuperUser/Views/ProjectEstimate/IndexProjectEstimate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJVc2VyXFZpZXdzXFByb2plY3RFc3RpbWF0ZVxJbmRleFByb2plY3RFc3RpbWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/EAD/ProjectTime/ProjectTime/Areas/SuperUser/Views/Report/TimeLogReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJVc2VyXFZpZXdzXFJlcG9ydFxUaW1lTG9nUmVwb3J0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/EAD/ProjectTime/ProjectTime/Areas/SuperUser/Views/_ViewImports.cshtml]

@@ -28,5 +28,7 @@ namespace ProjectTime.Models
         public string? ModifiedByUserId { get; set; }
 
         public DateTime ModifyDateTime { get; set; }
+
+        public string? Description { get; set; }
     }
 }

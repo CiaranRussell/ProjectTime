@@ -16,6 +16,7 @@ function loadDataTable() {
 
             { "data": "projectCode", "width": "25%" },
             { "data": "name", "width": "25%" },
+            { "data": "description", "width": "25%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -28,7 +29,7 @@ function loadDataTable() {
 					</div>
                         `
                 },
-                "width": "15%"
+                "width": "25%"
             }
         ]
 

@@ -112,6 +112,7 @@ namespace ProjectTime.Controllers
 
             project.Name = obj.Name;
             project.ProjectCode = obj.ProjectCode;
+            project.Description = obj.Description;
             project.ModifyDateTime = DateTime.Now;
             project.ModifiedByUserId = userId;
 

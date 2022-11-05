@@ -50,6 +50,8 @@ namespace ProjectTime.Models
 
         public DateTime ModifyDateTime { get; set; }
 
+        // Estiamte properties to store field values in memory
+
         [NotMapped]
         [ValidateNever]
         public string MinDate { get; set; }
@@ -66,7 +68,7 @@ namespace ProjectTime.Models
         [ValidateNever]
         public dynamic projectTotalCost { get; internal set; }
 
-        // Actual Properties 
+        // Actual properties to store field values in memory
 
         [NotMapped]
         [ValidateNever]
@@ -83,5 +85,21 @@ namespace ProjectTime.Models
         [NotMapped]
         [ValidateNever]
         public decimal ActualTotalCost { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal TotalCostVariance { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal DurationDaysVariance { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string UnderOverBudget { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string UnderOverDuration { get; set; }
     }
 }

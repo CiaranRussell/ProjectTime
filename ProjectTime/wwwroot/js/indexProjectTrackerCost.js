@@ -20,36 +20,25 @@ $(document).ready(function () {
 function loadDataTable(projectId) {
     console.log(projectId)
 
-    dataTable = $('#tblDataindexprojecttracker').DataTable({
+    dataTable = $('#tblDataindexprojecttrackercost').DataTable({
 
         "ajax": { "url": "/SuperUser/ActualVEstimate/IndexProjectTrackerAPI?id=" + projectId },
 
         "columns": [
 
             { "data": "department.name", "width": "15%" },
-            {
-                "data": "dateFrom", render: function (data) {
-                return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
-            },
-            {
-                "data": "dateTo", render: function (data) {
-                    return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
-            },
-            { "data": "durationDays", "width": "15%" },
-            { "data": "actualMinDate", "width": "10%" },
-            {
-                "data": "actualMaxDate", render: function (data) {
-                    return moment(data).format('DD/MM/YYYY');
-                }, "width": "10%"
-            },
-            { "data": "actualDurationDays", "width": "15%" },
-            { "data": "durationDaysVariance", "width": "15%" }
+            { "data": "durationDays", "width": "11%" },
+            { "data": "actualDurationDays", "width": "11%" },
+            { "data": "durationDaysVariance", "width": "11%" },
+            { "data": "underOverDuration", "width": "11%" },
+            { "data": "totalCost", "width": "11%" },
+            { "data": "actualTotalCost", "width": "8%" },
+            { "data": "totalCostVariance", "width": "11%" },
+            { "data": "underOverBudget", "width": "12%" },
         ],
 
         dom: 'lBfrtip',
-        buttons: [
+            buttons: [
             {
                 extend: 'copyHtml5',
                 text: '<i class="bi bi-files"></i> Copy',

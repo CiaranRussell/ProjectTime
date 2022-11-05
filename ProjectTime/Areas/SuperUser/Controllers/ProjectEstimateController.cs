@@ -5,7 +5,6 @@ using ProjectTime.Models.ViewModels;
 using ProjectTime.Utility;
 using ProjectTime.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace ProjectTime.Areas.SuperUser
 {
@@ -22,8 +21,7 @@ namespace ProjectTime.Areas.SuperUser
             _db = db;
             _logger = logger;
         }
-        // Get method to return Project Estimates view to include ProjectUsers and Projects with where condition   
-        // to return distinct projects by User Id or all projects for PMO Role  
+        // Get method to return Project Estimates 
         public IActionResult Index()
         {
             

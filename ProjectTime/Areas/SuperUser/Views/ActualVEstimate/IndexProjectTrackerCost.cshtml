@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ProjectEstimate>
 @{
-    ViewData["Title"] = "IndexProjectTracker";
+    ViewData["Title"] = "IndexProjectTrackerCost";
     var projectName = ViewBag.projectName;
 }
 <div class="container p-3">
@@ -15,22 +15,23 @@
         </div>
     </div>
     <div id="printbar" style="float:right"></div>
-<table id="tblDataindexprojecttracker" class="table table-bordered table-striped" style`="width 200%">
+<table id="tblDataindexprojecttrackercost" class="table table-bordered table-striped" style`="width 200%">
     <thead> 
         <tr>
             <th>Business Department</th>
-            <th>Estimated Start Date</th>
-            <th>Estimated End Date</th>
-            <th>Estimated Duration Days</th>
-            <th>Actual Start Date</th>
-            <th>Actual End Date</th>
-            <th>Actual Duration Days</th>
+            <th>Estimated Duration</th>
+            <th>Actual Duration</th>
             <th>Duration Days Variance</th>
+            <th>Duration Variance</th>
+            <th>Estimated Cost €</th>
+            <th>Actual Cost €</th>
+            <th>Cost Variance €</th>
+            <th>Budget Variance </th>
         </tr>
     </thead>
   </table>
 </div> 
 @section scripts{
     
-    <script src="~/js/indexProjectTracker.js"></script>
+    <script src="~/js/indexProjectTrackerCost.js"></script>
 }

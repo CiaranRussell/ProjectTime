@@ -17,7 +17,7 @@ function loadDataTable() {
 
         "columns": [
 
-            { "data": "project.projectCode", "width": "15%" },
+            { "data": "project.projectCode", "width": "12%" },
             { "data": "project.name", "width": "10%" },
             {
                 "data": "minDate", render: function (data) {
@@ -37,7 +37,7 @@ function loadDataTable() {
 					</div>
                           `
                 },
-                "width": "20%"
+                "width": "23%"
 
             }
         ]
