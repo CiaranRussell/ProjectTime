@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "ProjectEstimateSummaryReport";
+    ViewData["Title"] = "RescourcingReport";
 
 }
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h3 class="text-primary">My ProjectTime Estimate's Summary Report</h3>
+            <h3 class="text-primary">ProjectTime Rescourcing Report</h3>
             <h5 class="text-primary">Use the Search bar to filter report</h5>
         </div>
         <div class="col-6 text-end">
@@ -14,21 +14,21 @@
            </a>
         </div>
    </div>
-   <div id="printbar" style="float:right"></div>
-<table id="tblDataprojectestimatesummaryreport" class="table table-bordered table-striped" style`="width 100%">  
+ <div id="printbar" style="float:right"></div>
+<table id="tblDatarescourcingreport" class="table table-bordered table-striped" style`="width 100%">  
     <thead> 
         <tr>
-            <th>Project Code</th>
             <th>Project</th>
-            <th>Est. Start Date</th>
-            <th>Est. End Date</th>
-            <th>Est. Duration Days</th>
-            <th>Est. Cost €</th>
+            <th>Department</th>
+            <th>Est.Start Date</th>
+            <th>Est.End Date</th>
+            <th>Est.Duration Days</th>
             <th>Description</th>
         </tr>
     </thead>
 </table>
 </div> 
 @section scripts{
-    <script src="~/js/projectestimatesummaryreport.js"></script>
+
+    <script src="~/js/rescourcingreport.js"></script>
 }

@@ -70,6 +70,22 @@ namespace ProjectTime.Models
         [ValidateNever]
         public decimal EstimateTotalCost { get; set; }
 
+        // Variance Properties
+        [NotMapped]
+        [ValidateNever]
+        public decimal TotalCostVariance { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public decimal DurationDaysVariance { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string UnderOverBudget { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public string UnderOverDuration { get; set; }
 
     }
 }

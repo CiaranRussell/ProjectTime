@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "ActualVEstimateVarianceReport";
+    
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h3 class="text-primary">ProjectTime Actual V Estimate Variance Report (All)</h3>
+            <h5 class="text-primary">Use the Search bar to filter report</h5>
+        </div>
+        <div class="col-6 text-end">
+           <a asp-area="User" asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+               <i class="bi bi-skip-backward"></i> &nbsp; Home Page
+           </a>
+        </div>
+   </div>
+    <div id="printbar" style="float:right"></div>
+<table id="tblDataactualvestimatevariancereport" class="table table-bordered table-striped" style`="width 200%">
+    <thead> 
+        <tr>
+            <th>Project Name</th>
+            <th>Department Name</th>
+            <th>Estimated Duration</th>
+            <th>Actual Duration</th>
+            <th>Duration Days Variance</th>
+            <th>Duration Variance</th>
+            <th>Estimated Cost €</th>
+            <th>Actual Cost €</th>
+            <th>Cost Variance €</th>
+            <th>Budget Variance </th>
+        </tr>
+    </thead>
+  </table>
+</div> 
+@section scripts{
+    
+    <script src="~/js/actualvestimatevariancereport.js"></script>
+}

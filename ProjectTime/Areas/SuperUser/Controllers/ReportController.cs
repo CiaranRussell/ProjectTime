@@ -9,15 +9,13 @@ namespace ProjectTime.Areas.SuperUser.Controllers
     [Area("SuperUser")]
     public class ReportController : Controller
     {
-        private readonly ISessionHelper _sessionHelper;
+        
         private readonly ApplicationDbContext _db;
-        private readonly ILogger<ProjectEstimateController> _logger;
+        
 
-        public ReportController(ISessionHelper sessionHelper, ApplicationDbContext db, ILogger<ProjectEstimateController> logger)
+        public ReportController( ApplicationDbContext db)
         {
-            _sessionHelper = sessionHelper;
-            _db = db;
-            _logger = logger;
+            _db = db; 
         }
         // get method to return Time Log Report view
         public IActionResult TimeLogReport()
@@ -116,6 +114,207 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             }
 
 
+
+            return Json(new { data = projectEstimateList });
+        }
+        #endregion
+
+        // Get method to return Actual V Estimate Effort Report view
+        public IActionResult ActualVEstimateEffortReport()
+        {
+            return View();
+        }
+
+        // Get method to return Actual V Estimate Variance Report view
+        public IActionResult ActualVEstimateVarianceReport()
+        {
+            return View();
+        }
+
+        // Get method to return API Project Tracking data for datatables report with where conditions   
+        // to return Project Tracking and Loop to calculate and display Actual timelogs V project estimate and return project aggregated
+        // summary values by Department 
+        #region API CALLS
+        [HttpGet]
+        public IActionResult ActualVEstimateReportAPI()
+        {
+            var timeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                .ThenInclude(a => a.ApplicationUser)
+                                                .ThenInclude(d => d.Department)
+                                                .Include(p => p.Project);
+
+
+            var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
+                                                                                        .Include(p => p.Project)
+                                                                                        .Include(d => d.Department);
+                                                                                        
+
+            foreach (var project in projectEstimateList)
+            {
+
+                var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId && x.DepartmentId == project.DepartmentId
+                                                    && x.DurationDays == project.DurationDays)
+                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+
+                var actualDurationSum = timeLogs.Where(x => x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId
+                                                 && x.ProjectId == project.ProjectId)
+                                                .Sum(x => x?.Duration);
+
+                var actualMinDate = timeLogs.Where(x => x.ProjectId == project.ProjectId
+                                             && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
+                                            .Select(x => x.Date).DefaultIfEmpty().Min().ToShortDateString();
+
+                var actualMaxDate = timeLogs.Where(x => x.ProjectId == project.ProjectId
+                                             && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
+                                            .Select(x => x.Date).DefaultIfEmpty().Max().ToShortDateString();
+
+                var actualTotalCost = timeLogs.Where(x => x.ProjectId == project.ProjectId
+                                               && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
+                                              .Sum(x => x?.Duration * project.Department.Rate);
+
+                project.TotalCost = Math.Round((decimal)totalCost, 2);
+                project.ActualDurationDays = Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.ActualMinDate = actualMinDate;
+                project.ActualMaxDate = actualMaxDate;
+                project.ActualTotalCost = Math.Round((decimal)actualTotalCost, 2);
+                project.DurationDaysVariance = Math.Round(project.DurationDays, 1) - Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.TotalCostVariance = Math.Round((decimal)totalCost, 2) - Math.Round((decimal)actualTotalCost, 2);
+
+                if (project.TotalCostVariance >= 0)
+                {
+                    project.UnderOverBudget = SD.On_Budget;
+                }
+                else
+                {
+                    project.UnderOverBudget = SD.Over_Budget;
+                }
+
+                if (project.DurationDaysVariance >= 0)
+                {
+                    project.UnderOverDuration = SD.Under_Duration;
+                }
+                else
+                {
+                    project.UnderOverDuration = SD.Over_Duration;
+                }
+
+
+            }
+
+            return Json(new { data = projectEstimateList });
+        }
+        #endregion
+
+        // Get method to return Actual V Estimate Summary Report view
+        public IActionResult ActualVEstimateSummaryReport()
+        {
+            return View();
+        }
+
+        // Get method to return API Project Tracking data for datatables Actual V Estiamte summary report with where conditions   
+        // to return Project Tracking and Loop to calculate and display Actual V estimate and return project aggregated
+        // summary values grouped by project Id
+        #region API CALLS
+        [HttpGet]
+
+        public IActionResult ActualVEstimateSummaryReportAPI()
+        {
+            var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
+                                                                                        .Include(p => p.Project)
+                                                                                        .Include(d => d.Department);
+
+
+            var timeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                            .ThenInclude(a => a.ApplicationUser)
+                                                            .ThenInclude(d => d.Department)
+                                                            .Include(p => p.Project);
+
+
+            var actualTimeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                                  .ThenInclude(a => a.ApplicationUser)
+                                                                  .ThenInclude(d => d.Department)
+                                                                  .Include(p => p.Project)
+                                                                  .GroupBy(p => p.ProjectId)
+                                                                  .Select(y => y.First());
+
+
+            foreach (var project in actualTimeLogs)
+            {
+
+                var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.DurationDays);
+
+                var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
+                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
+
+                var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
+                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
+
+                var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
+                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+
+                var actualDurationSum = timeLogs.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.Duration);
+
+                var actualMinDate = timeLogs.Where(x => x.ProjectId == project.ProjectId).Select(x => x.Date)
+                                            .DefaultIfEmpty().Min().ToShortDateString();
+
+                var actualMaxDate = timeLogs.Where(x => x.ProjectId == project.ProjectId).Select(x => x.Date)
+                                            .DefaultIfEmpty().Max().ToShortDateString();
+
+                var actualTotalCost = timeLogs.Where(x => x.ProjectId == project.ProjectId)
+                                              .Sum(x => x?.Duration * x.ProjectUser.ApplicationUser.Department.Rate);
+
+                project.EstimateDurationDays = Math.Round((decimal)durationSum, 1);
+                project.EstimateMinDate = minDate;
+                project.EstimateMaxDate = maxDate;
+                project.EstimateTotalCost = Math.Round((decimal)totalCost, 2);
+                project.Duration = Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.MinDate = actualMinDate;
+                project.MaxDate = actualMaxDate;
+                project.TotalCost = Math.Round((decimal)actualTotalCost, 2);
+                project.DurationDaysVariance = Math.Round(project.EstimateDurationDays, 1) - Math.Round(project.Duration, 1);
+                project.TotalCostVariance = Math.Round((decimal)totalCost, 2) - Math.Round((decimal)actualTotalCost, 2);
+
+                if (project.TotalCostVariance >= 0)
+                {
+                    project.UnderOverBudget = SD.On_Budget;
+                }
+                else
+                {
+                    project.UnderOverBudget = SD.Over_Budget;
+                }
+
+                if (project.DurationDaysVariance >= 0)
+                {
+                    project.UnderOverDuration = SD.Under_Duration;
+                }
+                else
+                {
+                    project.UnderOverDuration = SD.Over_Duration;
+                }
+
+            }
+
+            return Json(new { data = actualTimeLogs });
+        }
+        #endregion
+
+        // Get method to return rescourcing Report view
+        public IActionResult RescourcingReport()
+        {
+            return View();
+        }
+
+        // Get method to return API Project Estimate data for datatables rescourcing report with where conditions   
+        // to return future data department estiamntes 
+        #region API CALLS
+        [HttpGet]
+
+        public IActionResult RescourcingReportAPI()
+        {
+            var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
+                                                                                        .Include(p => p.Project)
+                                                                                        .Include(d => d.Department)
+                                                                                        .Where(x => x.DateTo > DateTime.Now);
 
             return Json(new { data = projectEstimateList });
         }
