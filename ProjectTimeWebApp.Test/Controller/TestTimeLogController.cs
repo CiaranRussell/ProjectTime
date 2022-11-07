@@ -134,8 +134,19 @@ namespace ProjectTimeWebApp.Test.Controller
                 ProjectId = 4, 
                 Date = DateTime.Now, 
                 Duration = (decimal)6.5, 
-                Description = "TestEdit", 
-                
+                Description = "TestEdit",
+                MinDate = "",
+                MaxDate = "",
+                TotalCost = (decimal)100,
+                EstimateDurationDays = (decimal)4,
+                EstimateMinDate = "01/01/2023",
+                EstimateMaxDate = "01/01/2023",
+                EstimateTotalCost = (decimal)100,
+                TotalCostVariance = (decimal)100,
+                DurationDaysVariance = (decimal)100,
+                UnderOverBudget = "",
+                UnderOverDuration = "",
+
             };
 
             // Act

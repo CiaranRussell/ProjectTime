@@ -64,9 +64,9 @@ namespace ProjectTime.Models
         [ValidateNever]
         public decimal TotalCost { get; set; }
 
-        [NotMapped]
-        [ValidateNever]
-        public dynamic projectTotalCost { get; internal set; }
+        //[NotMapped]
+        //[ValidateNever]
+        //public dynamic projectTotalCost { get; internal set; }
 
         // Actual properties to store field values in memory
 

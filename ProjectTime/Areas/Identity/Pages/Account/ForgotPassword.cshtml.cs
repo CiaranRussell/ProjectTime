@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using ProjectTime.Models;
 
 namespace ProjectTime.Areas.Identity.Pages.Account
 {
@@ -20,6 +21,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _emailSender;
+        
 
         public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
@@ -72,8 +74,10 @@ namespace ProjectTime.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "ProjectTime Reset Password",
+                    $"Hi {Input.Email} \n\n,  " +
+                    $"Please confirm your account by <a href=' {HtmlEncoder.Default.Encode(callbackUrl)} '>clicking here</a> \n\n." +
+                    $" Regards, ProjectTime");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

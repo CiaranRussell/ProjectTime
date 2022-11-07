@@ -251,12 +251,11 @@ namespace ProjectTime.Areas.SuperUser
         // an active Project Estimate
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProjectEstimate(ProjectEstimate projectEst)
+        public async Task<IActionResult> DeleteProjectEstimate(int? id)
         {
             var userId = _sessionHelper.GetUserId();
-            var projectEstimate = _db.projectEstimates.Include(a => a.ProjectUser.ApplicationUser).FirstOrDefault(x => x.Id == projectEst.Id);
-            
-
+            var projectEstimate = _db.projectEstimates.Include(a => a.ProjectUser.ApplicationUser).FirstOrDefault(x => x.Id == id);
+          
             try
             {
                 if (projectEstimate == null)
