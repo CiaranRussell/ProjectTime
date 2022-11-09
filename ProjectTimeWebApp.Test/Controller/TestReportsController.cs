@@ -11,20 +11,9 @@ namespace ProjectTimeWebApp.Test.Controller
     [TestClass]
     public class TestReportsController
     {
-        private static DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "ReportControllerTest").Options;
 
         ApplicationDbContext dbContext;
 
-
-        [OneTimeSetUp]
-
-        public void Setup()
-        {
-            dbContext = new ApplicationDbContext(dbContextOptions);
-            dbContext.Database.EnsureCreated();
-
-        }
 
         [TestCase, Order(1)]
 
@@ -134,10 +123,21 @@ namespace ProjectTimeWebApp.Test.Controller
 
         }
 
-        [OneTimeTearDown]
-        public void CleanUp()
+        [TestCase, Order(8)]
+
+        public void Test_Controller_TimeLogSummaryReport_ReturnsSuccess()
         {
-            dbContext.Database.EnsureDeleted();
+            // Arrange
+            var reportController = new ReportController(dbContext);
+
+            // Act
+            var result = reportController.TimeLogSummaryReport() as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(string.IsNullOrEmpty(result.ViewName) || result.ViewName == "TimeLogSummaryReport");
+
         }
+
     }
 }

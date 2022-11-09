@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
@@ -7,6 +8,7 @@ using ProjectTime.Utility;
 namespace ProjectTime.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProjectController : Controller
     {
         private readonly ApplicationDbContext _db;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectTime.Data;
 using ProjectTime.Models;
 using ProjectTime.Utility;
@@ -6,6 +7,7 @@ using ProjectTime.Utility;
 namespace ProjectTime.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class NonWorkingDaysController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -113,7 +115,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         }
 
-        // Get method to return Delete Non-Working day page by Department Id
+        // Get method to return Delete Non-Working day page by Id
         public IActionResult Delete(int? id)
         {
             if (id == null)

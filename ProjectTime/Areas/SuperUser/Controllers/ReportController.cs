@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
@@ -7,16 +8,17 @@ using ProjectTime.Utility;
 namespace ProjectTime.Areas.SuperUser.Controllers
 {
     [Area("SuperUser")]
+    [Authorize(Roles = SD.Role_SuperUser + "," + SD.Role_Admin)]
     public class ReportController : Controller
     {
         
         private readonly ApplicationDbContext _db;
         
-
         public ReportController( ApplicationDbContext db)
         {
             _db = db; 
         }
+
         // get method to return Time Log Report view
         public IActionResult TimeLogReport()
         {
@@ -32,9 +34,48 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                                .ThenInclude(a => a.ApplicationUser)
                                                                .ThenInclude(d => d.Department)
-                                                               .Include(p => p.Project);
+                                                               .Include(p => p.Project)
+                                                               .ToList();
 
             return Json(new { data = timeLogList });
+        }
+        #endregion
+
+        // get method to return Time Log Summary Report view
+        public IActionResult TimeLogSummaryReport()
+        {
+            return View();
+        }
+
+        // Get method API to return Time logs data for Time log Summary report to include ProjectUser, Projects, with loop to return 
+        // min, max & duration values
+        #region API CALLS
+        [HttpGet]
+        public IActionResult TimeLogSummaryReportAPI()
+        {
+
+            var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                               .Include(p => p.Project)
+                                                               .ToList();
+                                                               
+
+            var projectSummary = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
+                                                              .Include(p => p.Project)
+                                                              .GroupBy(p => p.ProjectId)
+                                                              .Select(y => y.First());
+
+            foreach (var project in projectSummary)
+            {
+                var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
+                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
+                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
+                project.Duration = Math.Round(durationSum / (decimal)7.5, 1);
+                project.MinDate = minDate;
+                project.MaxDate = maxDate;
+
+            }
+
+            return Json(new { Data = projectSummary });
         }
         #endregion
 
@@ -51,7 +92,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         {
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
-                                                              .Include(d => d.Department);
+                                                              .Include(d => d.Department)
+                                                              .ToList();
 
 
 
@@ -102,7 +144,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         {
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
-                                                              .Include(d => d.Department);
+                                                              .Include(d => d.Department)
+                                                              .ToList();
 
             foreach (var projectEstimate in projectEstimateList)
             {
@@ -141,13 +184,15 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             var timeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                 .ThenInclude(a => a.ApplicationUser)
                                                 .ThenInclude(d => d.Department)
-                                                .Include(p => p.Project);
+                                                .Include(p => p.Project)
+                                                .ToList();
 
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                                                         .Include(p => p.Project)
-                                                                                        .Include(d => d.Department);
-                                                                                        
+                                                                                        .Include(d => d.Department)
+                                                                                        .ToList();
+
 
             foreach (var project in projectEstimateList)
             {
@@ -221,13 +266,15 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         {
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                                                         .Include(p => p.Project)
-                                                                                        .Include(d => d.Department);
+                                                                                        .Include(d => d.Department)
+                                                                                        .ToList();
 
 
             var timeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                             .ThenInclude(a => a.ApplicationUser)
                                                             .ThenInclude(d => d.Department)
-                                                            .Include(p => p.Project);
+                                                            .Include(p => p.Project)
+                                                            .ToList();
 
 
             var actualTimeLogs = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
@@ -314,7 +361,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                                                         .Include(p => p.Project)
                                                                                         .Include(d => d.Department)
-                                                                                        .Where(x => x.DateTo > DateTime.Now);
+                                                                                        .Where(x => x.DateTo > DateTime.Now)
+                                                                                        .ToList();
 
             return Json(new { data = projectEstimateList });
         }

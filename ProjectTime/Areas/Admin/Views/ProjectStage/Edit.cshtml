@@ -1,0 +1,24 @@
+﻿@model ProjectStage
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Project Stage</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="Stage"></label>
+            <input asp-for="Stage" class="form-control" />
+            <span asp-validation-for="Stage" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px"><i class="bi bi-pencil-square"></i>Update</button>
+        <a asp-controller="ProjectStage" asp-action="Index" class="btn btn-secondary" style="width:150px"><i class="bi bi-skip-backward"></i>Back to List</a>
+    </div>
+</form>

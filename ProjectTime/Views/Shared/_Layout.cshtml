@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ProjectTime.Utility;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,44 +22,64 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
         </li>
+        @if (User.IsInRole(SD.Role_Admin))
+        {
         <li class="nav-item dropdown">
           <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Content Management</a>
           <div class="dropdown-menu">
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Department" asp-action="Index"><i class="bi bi-clipboard-data"></i>Department</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="NonWorkingDays" asp-action="Index"><i class="bi bi-clipboard-data"></i>Non-Working Days</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Project" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project</a>
+            <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="ProjectStage" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project Stage</a>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="ProjectUser" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project User</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Account" asp-action="Index"><i class = "bi bi-person-plus" ></i>Manage Users</a>
             <a class="dropdown-item text-dark" asp-area="Identity" asp-page="/Account/Register"><i class = "bi bi-person-plus" ></i>Register User (with Role)</a>
           </div>
         </li>
+        }
+		@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_User))
+		{
+        <li class="nav-item dropdown">
+          <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">My Time Logs</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item text-dark" asp-area="User" asp-controller="TimeLog" asp-action="Index"><i class="bi bi-clipboard-data"></i>Time Log Summary</a>
+		  </div>
+        </li>
+		}
+		@if (User.IsInRole(SD.Role_SuperUser))
+		{
         <li class="nav-item dropdown">
           <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">My Projects</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item text-dark" asp-area="User" asp-controller="TimeLog" asp-action="Index"><i class="bi bi-clipboard-data"></i>Time Log</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="ProjectEstimate" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project Estimate</a>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="ActualVEstimate" asp-action="Index"><i class="bi bi-clipboard-data"></i>Project Tracking</a>
           </div>
         </li>
+		}
+        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_SuperUser))
+        {
         <li class="nav-item dropdown">
           <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
           <div class="dropdown-menu">
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateEffortReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Effort</a>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateSummaryReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Summary</a>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ActualVEstimateVarianceReport"><i class="bi bi-folder2-open"></i>Actual V Estimate Variance</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="TimeLogReport"><i class="bi bi-folder2-open"></i>All Time Log's</a>
+            <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="TimeLogSummaryReport"><i class="bi bi-folder2-open"></i>All Time Log's Summary</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ProjectEstimateReport"><i class="bi bi-folder2-open"></i>Project Estimate's</a>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="ProjectEstimateSummaryReport"><i class="bi bi-folder2-open"></i>Project Estimate Summary</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item text-dark" asp-area="SuperUser" asp-controller="Report" asp-action="RescourcingReport"><i class="bi bi-folder2-open"></i>Rescourcing</a>
           </div>
         </li>
+        }
       </ul>
       <partial name="_LoginPartial" />
     </div>

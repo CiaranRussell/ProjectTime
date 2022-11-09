@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectTime.Models
 {
@@ -30,5 +31,13 @@ namespace ProjectTime.Models
         public DateTime ModifyDateTime { get; set; }
 
         public string? Description { get; set; }
+
+        [Required(ErrorMessage = "Project Stage is required")]
+        public int ProjectStageId { get; set; }
+        [ForeignKey("ProjectStageId")]
+        [ValidateNever]
+
+        public ProjectStage ProjectStage { get; set; }
+
     }
 }

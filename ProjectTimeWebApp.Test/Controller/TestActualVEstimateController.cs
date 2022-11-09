@@ -5,6 +5,8 @@ using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Assert = NUnit.Framework.Assert;
 using ProjectTime.Areas.SuperUser.Controllers;
+using Moq;
+using ProjectTime.Utility;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
@@ -31,7 +33,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_Index_ReturnsSuccess()
         {
             // Arrange
-            var actualVEstimateController = new ActualVEstimateController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
 
             // Act
             var result = actualVEstimateController.Index() as ViewResult;
@@ -47,7 +51,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_IndexProjectTracker_ReturnsSuccess()
         {
             // Arrange
-            var actualVEstimateController = new ActualVEstimateController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
 
             // Act
             var result = actualVEstimateController.IndexProjectTracker("1") as ViewResult;
@@ -64,7 +70,9 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_IndexProjectTrackerCost_ReturnsSuccess()
         {
             // Arrange
-            var actualVEstimateController = new ActualVEstimateController(dbContext);
+            var mock = new Mock<ISessionHelper>();
+            mock.Setup(p => p.GetUserId()).Returns("UserId");
+            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
 
             // Act
             var result = actualVEstimateController.IndexProjectTrackerCost("1") as ViewResult;

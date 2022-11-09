@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ProjectTime.Data;
@@ -8,6 +9,7 @@ using ProjectTime.Utility;
 namespace ProjectTime.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
 
     public class DepartmentController : Controller
     {

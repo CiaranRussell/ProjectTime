@@ -1,6 +1,7 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-@inject UserManager<ApplicationUser> usermanager 
+@inject UserManager<ApplicationUser> usermanager
+@using ProjectTime.Utility;
 
 
 @{
@@ -30,14 +31,14 @@
     </td>
 </tr>
 }
-@if (User.Identity.IsAuthenticated && User.IsInRole("User") || User.IsInRole("Project Manager"))
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
 {
     <div class="w-45 btn-group" role="group">
       <a asp-area="User" asp-controller="TimeLog" asp-action="Create" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Log ProjectTime</a>
     </div>
 }
-@if (User.Identity.IsAuthenticated && User.IsInRole("Project Manager"))
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser))
 {
     <div class="w-45 btn-group" role="group">
       <a asp-area="SuperUser" asp-controller="ProjectEstimate" asp-action="Create" class="btn btn-primary">

@@ -26,6 +26,8 @@ namespace ProjectTime.Data
 
         public DbSet<ProjectEstimate> projectEstimates { get; set; }
 
+        public DbSet<ProjectStage> projectStage { get; set; }
+
 
         // On model creation method to loop through all tables with FK relationships & prevent cascade deletion of record
         // when deleting parent value

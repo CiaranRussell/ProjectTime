@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Areas.User.Controllers;
 using ProjectTime.Data;
@@ -8,15 +9,17 @@ using ProjectTime.Utility;
 namespace ProjectTime.Areas.SuperUser.Controllers
 {   
     [Area("SuperUser")]
+    [Authorize(Roles = SD.Role_SuperUser)]
     public class ActualVEstimateController : Controller
     {
-        
+        private readonly ISessionHelper _sessionHelper;
         private readonly ApplicationDbContext _db;
         
 
-        public ActualVEstimateController(ApplicationDbContext db)
+        public ActualVEstimateController(ApplicationDbContext db, ISessionHelper sessionHelper)
         {
-            _db = db;   
+            _db = db;
+            _sessionHelper = sessionHelper;
         }
 
         // Get method to return Project Tracking view
@@ -28,9 +31,11 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         // Get method to return Project Tracking Effort view by project ID
         public IActionResult IndexProjectTracker(string id)
         {
+            var userId = _sessionHelper.GetUserId();
             int projectId = Int32.Parse(id);
 
             var projectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.Project)
+                                                                                    .Include(p => p.ProjectUser)
                                                                                     .Where(x => x.ProjectId == projectId);
 
             foreach (var project in projectEstimate)
@@ -44,12 +49,15 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         // Get method to return Project Tracking Cost view by project ID
         public IActionResult IndexProjectTrackerCost(string id)
         {
+            var userId = _sessionHelper.GetUserId();
             int projectId = Int32.Parse(id);
 
             var projectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.Project)
+                                                                                    .Where(x => x.ProjectId == projectId)
+                                                                                    .Include(p => p.ProjectUser)
                                                                                     .Where(x => x.ProjectId == projectId);
-                                                    
-            foreach(var project in projectEstimate)
+
+            foreach (var project in projectEstimate)
             {
                 ViewBag.projectName = project.Project.Name;
             }
@@ -65,6 +73,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
 
         public IActionResult IndexAPI()
         {
+            var userId = _sessionHelper.GetUserId();
+
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                                                         .Include(p => p.Project)
                                                                                         .Include(d => d.Department);
@@ -80,6 +90,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                                                   .ThenInclude(a => a.ApplicationUser)
                                                                   .ThenInclude(d => d.Department)
                                                                   .Include(p => p.Project)
+                                                                  .Where(u => u.ProjectUser.UserId == userId)
                                                                   .GroupBy(p => p.ProjectId)
                                                                   .Select(y => y.First());
 

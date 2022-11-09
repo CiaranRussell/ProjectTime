@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BjCLpMrG4uYdTGAC6hicnogkgmRncFGtTVNV7lOZ/eg=",
+  "Hash": "jXb4xecM6/x8vy68ZjYcb7ybhMK4GsypX1ar3DZcqiM=",
   "Source": "ProjectTime",
   "BasePath": "_content/ProjectTime",
   "Mode": "Default",
@@ -357,6 +357,23 @@
       "OriginalItemSpec": "wwwroot\\js\\projectestimatesummaryreport.js"
     },
     {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectstage.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/projectstage.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\projectstage.js"
+    },
+    {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectUser.js",
       "SourceId": "ProjectTime",
       "SourceType": "Discovered",
@@ -440,6 +457,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\timelogreport.js"
+    },
+    {
+      "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\timelogsummaryreport.js",
+      "SourceId": "ProjectTime",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\",
+      "BasePath": "_content/ProjectTime",
+      "RelativePath": "js/timelogsummaryreport.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\timelogsummaryreport.js"
     },
     {
       "Identity": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\users.js",

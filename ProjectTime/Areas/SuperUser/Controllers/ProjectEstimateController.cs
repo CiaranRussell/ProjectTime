@@ -5,10 +5,12 @@ using ProjectTime.Models.ViewModels;
 using ProjectTime.Utility;
 using ProjectTime.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectTime.Areas.SuperUser
 {
     [Area("SuperUser")]
+    [Authorize(Roles = SD.Role_SuperUser)]
     public class ProjectEstimateController : Controller
     {
         private readonly ISessionHelper _sessionHelper;
@@ -28,24 +30,23 @@ namespace ProjectTime.Areas.SuperUser
             return View();
         }
 
-        // Get method to return a list of Project Estimate logs by projectId for the logged in user or the all
-        // timelogs for the PMO user role view page 
+        // Get method to return a list of Project Estimate logs by projectId for the logged in user
         public IActionResult IndexProjectEstimate(string id)
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
             int projectId = Int32.Parse(id);
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
                                                               .Include(d => d.Department)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId)
+                                                              .ToList();
 
             var objProjectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(d => d.Department)
                                                               .Include(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId
-                                                                            || u.ProjectId == projectId && userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId)
+                                                              .ToList();
 
             decimal projectTotalCost = 0;
 
@@ -280,25 +281,24 @@ namespace ProjectTime.Areas.SuperUser
         }
 
         // Get method to return API Project Estimate summary data for datatables with where condition   
-        // to return Project estimates for user by Project Id or all logs for PMO Role
+        // to return Project estimates for user by Project Id
         #region API CALLS
         [HttpGet]
 
         public IActionResult IndexApi()
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
                                                               .Include(d => d.Department)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                              .ToList();
 
 
             var myProjectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
                                                               .Include(d => d.Department)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
+                                                              .Where(u => u.ProjectUser.UserId == userId)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
 
@@ -330,26 +330,27 @@ namespace ProjectTime.Areas.SuperUser
         #endregion
 
         // Get method to return API Project Estimate data for datatables with where condition   
-        // to return Project estimates for user by Project Id or all logs for PMO Role
+        // to return Project estimates for user by Project Id
         #region API CALLS
         [HttpGet]
 
         public IActionResult IndexProjectEstimateAPI(string id)
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
             int projectId = Int32.Parse(id);
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
                                                               .Include(d => d.Department)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId)
+                                                              .ToList();
 
             var objProjectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(d => d.Department)
                                                               .Include(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId
-                                                                                   || u.ProjectId == projectId && userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId)
+                                                              .ToList();
+
             foreach (var projectEstimate in objProjectEstimate)
             {
                 var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId 

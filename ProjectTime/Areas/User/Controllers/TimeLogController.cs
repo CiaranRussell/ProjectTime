@@ -35,16 +35,16 @@ namespace ProjectTime.Areas.User.Controllers
         public IActionResult Index()
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
 
 
             var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
-                                                              .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                               .ThenInclude(p => p.Project)
+                                                               .Where(u => u.ProjectUser.UserId == userId)
+                                                               .ToList();
 
             var myProjects = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
+                                                              .Where(u => u.ProjectUser.UserId == userId)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
 
@@ -296,16 +296,16 @@ namespace ProjectTime.Areas.User.Controllers
         public IActionResult IndexTimeLogAPI()
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
 
 
             var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                                .Include(p => p.Project)
-                                                               .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO");
+                                                               .Where(u => u.ProjectUser.UserId == userId)
+                                                               .ToList();
 
             var myProjects = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
-                                                              .Where(u => u.ProjectUser.UserId == userId || userRole == "PMO")
+                                                              .Where(u => u.ProjectUser.UserId == userId)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
 
@@ -332,14 +332,12 @@ namespace ProjectTime.Areas.User.Controllers
         public IActionResult IndexAPI(int id)
         {
             var userId = _sessionHelper.GetUserId();
-            var userRole = _sessionHelper.GetUserRole();
-            //int projectId = Int32.Parse(id);
             var projectId = id;
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId 
-                                                                                   || u.ProjectId == projectId && userRole == "PMO");
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId )
+                                                              .ToList();
 
             return Json(new { Data = objTimeLog });
         }
