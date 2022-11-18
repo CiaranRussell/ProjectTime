@@ -16,12 +16,12 @@ namespace ProjectTimeWebApp.Test.Controller
     [TestClass]
     public class TestProjectController
     {
-        private static DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+        private static readonly DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "ProjectControllerTest").Options;
 
         ApplicationDbContext dbContext;
         ProjectController projectController;
-        ILogger<ProjectController> logger;
+        readonly ILogger<ProjectController> logger;
 
         [OneTimeSetUp]
 
@@ -42,11 +42,13 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateConrollerPost_WithResponse()
         {
             // Arrange
-            Project project = new Project()
+            Project project = new()
             { 
                 Id = 5, 
                 Name = "TestProject5", 
-                ProjectCode = "UTM005", 
+                ProjectCode = "UTM005",
+                ProjectStageId = 1,
+                Description = "",
                 CreateDateTime = new System.DateTime(),
                 CreatedByUserId = "UserId"
             };
@@ -134,11 +136,13 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditProjectPost_WithResponse()
         {
             // Arrange
-            Project project = new Project()
+            Project project = new()
             { 
                 Id = 1, 
                 Name = "TestProject7", 
-                ProjectCode = "UTM007", 
+                ProjectCode = "UTM007",
+                ProjectStageId = 1,
+                Description = "",
                 ModifyDateTime = new System.DateTime(),
                 ModifiedByUserId = "UserId"
             };
@@ -187,7 +191,9 @@ namespace ProjectTimeWebApp.Test.Controller
                 { 
                     Id = 1, 
                     Name ="TestProject1", 
-                    ProjectCode = "UTM001", 
+                    ProjectCode = "UTM001",
+                    ProjectStageId = 1,
+                    Description = "",
                     CreateDateTime = new System.DateTime(),
                     CreatedByUserId = "UserId"
                 },
@@ -195,7 +201,9 @@ namespace ProjectTimeWebApp.Test.Controller
                 { 
                     Id = 2, 
                     Name ="TestProject2", 
-                    ProjectCode = "UTM002", 
+                    ProjectCode = "UTM002",
+                    ProjectStageId = 2,
+                    Description = "",
                     CreateDateTime = new System.DateTime(),
                     CreatedByUserId = "UserId"
                 },
@@ -203,7 +211,9 @@ namespace ProjectTimeWebApp.Test.Controller
                 { 
                     Id = 3, 
                     Name ="TestProject3", 
-                    ProjectCode = "UTM003", 
+                    ProjectCode = "UTM003",
+                    ProjectStageId = 3,
+                    Description = "",
                     CreateDateTime = new System.DateTime(),
                     CreatedByUserId = "UserId"
                 },
@@ -211,7 +221,9 @@ namespace ProjectTimeWebApp.Test.Controller
                 { 
                     Id = 4, 
                     Name ="TestProject4", 
-                    ProjectCode = "UTM004", 
+                    ProjectCode = "UTM004",
+                    ProjectStageId = 4,
+                    Description = "",
                     CreateDateTime = new System.DateTime(),
                     CreatedByUserId = "UserId"
                 },

@@ -12,10 +12,10 @@ namespace ProjectTime.Areas.Admin.Controllers
     public class ProjectStageController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly ILogger<NonWorkingDaysController> _logger;
+        private readonly ILogger<ProjectStageController> _logger;
         private readonly ISessionHelper _sessionHelper;
 
-        public ProjectStageController(ApplicationDbContext db, ISessionHelper sessionHelper, ILogger<NonWorkingDaysController> logger)
+        public ProjectStageController(ApplicationDbContext db, ISessionHelper sessionHelper, ILogger<ProjectStageController> logger)
         {
             _db = db;
             _sessionHelper = sessionHelper;
@@ -63,7 +63,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get Project Stage, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get Project Stage, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -71,7 +71,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (projectStageSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get Project Stage, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get Project Stage, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(projectStageSearch);
@@ -85,7 +85,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             var userId = _sessionHelper.GetUserId();
             var dupCheck = !_db.projectStage.Any(x => x.Id != obj.Id && x.Stage == obj.Stage);
 
-            if (dupCheck == false)
+            if (!dupCheck)
             {
                 ModelState.AddModelError("Stage", "Project Stage already exists");
             }
@@ -94,7 +94,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (projectStage == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit post Project Stage, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit post Project Stage, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -119,7 +119,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -127,7 +127,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (projectStageSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(projectStageSearch);
@@ -145,19 +145,19 @@ namespace ProjectTime.Areas.Admin.Controllers
             {
                 if (projectStageSearch == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on delete get Project Stage, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 _db.projectStage.Remove(projectStageSearch);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "Project Stage Deleted Successfully!!";
-                _logger.LogWarning((EventId)102, "UserId {0} deleted Project Stage object Id {1} on {2}", userId, projectStageSearch.Id, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {id} deleted Project Stage object Id {id} on {date}", userId, projectStageSearch.Id, DateTime.Now);
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on Id {1} Project Stage, database exception error {2}: " + ex.InnerException, userId, projectStageSearch.Id, DateTime.Now);
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on Id {id} Project Stage, database exception error {date}: " + ex.InnerException, userId, projectStageSearch.Id, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {projectStageSearch.Stage} is assigned to Projects";
                 ViewBag.ErrorMessage = $"The Project Stage cannot be deleted as it has been assigned to Projects";
                 return View("Error");

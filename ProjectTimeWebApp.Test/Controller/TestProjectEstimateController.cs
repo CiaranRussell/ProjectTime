@@ -20,11 +20,11 @@ namespace ProjectTimeWebApp.Test.Controller
     [TestClass]
     public class TestProjectEstimateController
     {
-        private static DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+        private static readonly DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "ProjectEstimateControllerTest").Options;
 
         ApplicationDbContext dbContext;
-        ILogger<ProjectEstimateController> logger;
+        readonly ILogger<ProjectEstimateController> logger;
 
         [OneTimeSetUp]
 
@@ -98,7 +98,7 @@ namespace ProjectTimeWebApp.Test.Controller
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
             var projectEstimateController = new ProjectEstimateController(mock.Object, dbContext, logger);
-            ProjectEstimateViewModel projectEstimate = new ProjectEstimateViewModel()
+            ProjectEstimateViewModel projectEstimate = new()
             {
                 Id = 4,
                 ProjectId = 4,
@@ -132,7 +132,7 @@ namespace ProjectTimeWebApp.Test.Controller
             var mock = new Mock<ISessionHelper>();
             mock.Setup(p => p.GetUserRole()).Returns("UserRole");
             var projectEstimateController = new ProjectEstimateController(mock.Object, dbContext, logger);
-            ProjectEstimate projectEstimate = new ProjectEstimate()
+            ProjectEstimate projectEstimate = new()
             {
                 Id = 4,
                 ProjectId = 4,

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ProjectTime.Data;
 using ProjectTime.Models;
 using ProjectTime.Utility;
@@ -28,13 +27,13 @@ namespace ProjectTime.Controllers
         public IActionResult Index()
         {
             IEnumerable<Department> objDepartmentList = _db.departments;
-                return View(objDepartmentList);
+            return View(objDepartmentList);
         }
 
         // Get method to return create department page
         public IActionResult Create()
         {
-                return View();
+            return View();
         }
 
         // Post async method with validation to prevent duplicate department names being created
@@ -42,43 +41,43 @@ namespace ProjectTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Department obj)
         {
-                var userId = _sessionHelper.GetUserId();
-                var searchDepartment = _db.departments.FirstOrDefault(x => x.Name == obj.Name);
-                if (searchDepartment != null)
-                {
-                    ModelState.AddModelError("Name", "Department Name already exists");
-                }
+            var userId = _sessionHelper.GetUserId();
+            var searchDepartment = _db.departments.FirstOrDefault(x => x.Name == obj.Name);
+            if (searchDepartment != null)
+            {
+                ModelState.AddModelError("Name", "Department Name already exists");
+            }
 
-                obj.CreatedByUserId = userId;
-                 
-                if (ModelState.IsValid)
-                {
-                    _db.departments.Add(obj);
-                    await _db.SaveChangesAsync();
-                    TempData["save"] = "Department Created Successfully!!";
-                    return RedirectToAction("Index");
-                }
-                return View(obj);
-            
+            obj.CreatedByUserId = userId;
+
+            if (ModelState.IsValid)
+            {
+                _db.departments.Add(obj);
+                await _db.SaveChangesAsync();
+                TempData["save"] = "Department Created Successfully!!";
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+
         }
 
         // Get method to return Edit department page
         public IActionResult Edit(int? id)
         {
-                if (id == null)
-                {
-                    _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {0}:", DateTime.Now);
-                    return View("Error");
-                }
+            if (id == null)
+            {
+                _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {date}:", DateTime.Now);
+                return View("Error");
+            }
 
-                var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
+            var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
 
-                if (departmentSearch == null)
-                {
-                    _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {0}:", DateTime.Now);
-                    return View("Error");
-                }
-                return View(departmentSearch);
+            if (departmentSearch == null)
+            {
+                _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {date}:", DateTime.Now);
+                return View("Error");
+            }
+            return View(departmentSearch);
         }
 
         // Post async method to edit departments with validation to prevent duplicate department names being created during edit
@@ -86,55 +85,55 @@ namespace ProjectTime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Department obj)
         {
-                var userId = _sessionHelper.GetUserId();
-                var dupCheck = !_db.departments.Any(x => x.Id != obj.Id && x.Name.ToLower().Trim() == obj.Name.ToLower().Trim());
+            var userId = _sessionHelper.GetUserId();
+            var dupCheck = !_db.departments.Any(x => x.Id != obj.Id && x.Name.ToLower().Trim() == obj.Name.ToLower().Trim());
 
-                if (dupCheck == false)
-                {
-                    ModelState.AddModelError("Name", "Department Name already exists");
-                }
+            if (!dupCheck)
+            {
+                ModelState.AddModelError("Name", "Department Name already exists");
+            }
 
-                var department = _db.departments.FirstOrDefault(x => x.Id == obj.Id);
+            var department = _db.departments.FirstOrDefault(x => x.Id == obj.Id);
 
-                if (department == null)
-                {
-                    _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {0}:", DateTime.Now);
-                    return View("Error");
-                }
+            if (department == null)
+            {
+                _logger.LogError((EventId)101, "Invalid operation on edit get department, null object Id {date}:", DateTime.Now);
+                return View("Error");
+            }
 
-                department.Name = obj.Name;
-                department.Rate = obj.Rate;
-                department.ModifyDateTime = DateTime.Now;
-                department.ModifiedByUserId = userId;
+            department.Name = obj.Name;
+            department.Rate = obj.Rate;
+            department.ModifyDateTime = DateTime.Now;
+            department.ModifiedByUserId = userId;
 
-                if (ModelState.IsValid)
-                {
-                    _db.departments.Update(department);
-                    await _db.SaveChangesAsync();
-                    TempData["edit"] = "Department Updated Successfully!!";
-                    return RedirectToAction("Index");
-                }
-                return View(obj);
+            if (ModelState.IsValid)
+            {
+                _db.departments.Update(department);
+                await _db.SaveChangesAsync();
+                TempData["edit"] = "Department Updated Successfully!!";
+                return RedirectToAction("Index");
+            }
+            return View(obj);
 
         }
 
         // Get method to return Delete department page by Department Id
         public IActionResult Delete(int? id)
         {
-                if (id == null)
-                {
-                    _logger.LogError((EventId)101, "Invalid operation on delete get department, null object Id {0}:", DateTime.Now);
-                    return View("Error");
-                }
+            if (id == null)
+            {
+                _logger.LogError((EventId)101, "Invalid operation on delete get department, null object Id {date}:", DateTime.Now);
+                return View("Error");
+            }
 
-                var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
+            var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
 
-                if (departmentSearch == null)
-                {
-                    _logger.LogError((EventId)101, "Invalid operation on delete get department, null object Id {0}:", DateTime.Now);
-                    return View("Error");
-                }
-                return View(departmentSearch);
+            if (departmentSearch == null)
+            {
+                _logger.LogError((EventId)101, "Invalid operation on delete get department, null object Id {date}:", DateTime.Now);
+                return View("Error");
+            }
+            return View(departmentSearch);
         }
 
         // Post async method to delete departments by department Id with custom exception handling if the user tries to delete a department
@@ -145,32 +144,32 @@ namespace ProjectTime.Controllers
         {
             var departmentSearch = _db.departments.FirstOrDefault(x => x.Id == id);
             var userId = _sessionHelper.GetUserId();
-            
+
             try
             {
                 if (departmentSearch == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on post action delete department, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on post action delete department, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 _db.departments.Remove(departmentSearch);
                 await _db.SaveChangesAsync();
-                _logger.LogWarning((EventId)102, "UserId {0} deleted {1} department object, on {2}", userId, departmentSearch.Name, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {id} deleted {name} department object, on {date}", userId, departmentSearch.Name, DateTime.Now);
                 TempData["delete"] = "Department Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException ex)
             {
-                
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on {1} department object, database exception error {2}: " + ex.InnerException, userId, departmentSearch.Name, DateTime.Now);
+
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on {name} department object, database exception error {date}: " + ex.InnerException, userId, departmentSearch.Name, DateTime.Now);
                 ViewBag.ErrorTitle = $"{departmentSearch.Name} Department is in use";
                 ViewBag.ErrorMessage = $"{departmentSearch.Name} Department cannot be deleted as there are system users assigned " +
                 $"to the department, please use the edit functionaility to change department name or update rates";
                 return View("Error");
-                
+
             }
-              
+
         }
 
         // Get method to return Department data in API call for Data Tables 
@@ -180,7 +179,7 @@ namespace ProjectTime.Controllers
         public IActionResult IndexAPI()
         {
             IEnumerable<Department> objDepartmentList = _db.departments;
-            return Json(new {data = objDepartmentList});
+            return Json(new { data = objDepartmentList });
         }
         #endregion 
     }

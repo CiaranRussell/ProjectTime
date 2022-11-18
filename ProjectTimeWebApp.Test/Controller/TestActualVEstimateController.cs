@@ -1,19 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProjectTime.Data;
-using NUnit.Framework;
-using Microsoft.AspNetCore.Mvc;
-using Assert = NUnit.Framework.Assert;
-using ProjectTime.Areas.SuperUser.Controllers;
 using Moq;
+using NUnit.Framework;
+using ProjectTime.Areas.SuperUser.Controllers;
+using ProjectTime.Data;
 using ProjectTime.Utility;
+using Assert = NUnit.Framework.Assert;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
     [TestClass]
     public class TestActualVEstimateController
     {
-        private static DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+        private static readonly DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "ActualVEstimateControllerTest").Options;
 
         ApplicationDbContext dbContext;

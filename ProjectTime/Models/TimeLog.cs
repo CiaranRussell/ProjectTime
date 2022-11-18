@@ -51,8 +51,8 @@ namespace ProjectTime.Models
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
         public DateTime ModifyDateTime { get; set; }
-        
-        // Estiamte Properties 
+
+        // Estiamte Properties to hold to store field values in memory
 
         [NotMapped]
         [ValidateNever]
@@ -70,7 +70,7 @@ namespace ProjectTime.Models
         [ValidateNever]
         public decimal EstimateTotalCost { get; set; }
 
-        // Variance Properties
+        // Variance Properties to store field values in memory
         [NotMapped]
         [ValidateNever]
         public decimal TotalCostVariance { get; set; }

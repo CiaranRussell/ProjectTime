@@ -1,4 +1,4 @@
-﻿var dataTable;
+﻿let dataTable;
 
 
 $(document).ready(function () {
@@ -17,16 +17,17 @@ function loadDataTable() {
 
         "columns": [
 
-            { "data": "project.projectCode", "width": "12%" },
+            { "data": "project.projectCode", "width": "10%" },
             { "data": "project.name", "width": "10%" },
+            { "data": "project.projectStage.stage", "width": "10%" },
             {
                 "data": "minDate", render: function (data) {
                 return moment(data).format('DD/MM/YYYY');
-                }, "width": "15%"
+                }, "width": "13%"
             },
-            { "data": "maxDate", "width": "15%" },
-            { "data": "durationDays", "width": "20%" },
-            { "data": "totalCost", "width": "15%" },
+            { "data": "maxDate", "width": "10%" },
+            { "data": "durationDays", "width": "13%" },
+            { "data": "totalCost", "width": "10%" },
             {
                 "data": "project.id",
                 "render": function (data) {
@@ -37,7 +38,7 @@ function loadDataTable() {
 					</div>
                           `
                 },
-                "width": "23%"
+                "width": "20%"
 
             }
         ]

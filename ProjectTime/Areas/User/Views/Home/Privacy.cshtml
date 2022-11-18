@@ -1,6 +1,71 @@
-﻿@{
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject UserManager<ApplicationUser> usermanager
+@using ProjectTime.Utility;
+
+@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<body class="welcome">
+  <div class="container">
+    <div class="row text-left text-primary">
+      <div class="col-6 my-auto">
+        <h1>ProjectTime</h1>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
+{
+    <h4>My Time Logs :</h4>
+    <p>Users with this permission have access to the My Log screen.</p>
+    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
+    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
+    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
+    <p>The user has the option to edit or delete there time logs.</p>
+    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
+{
+    <h4>Reports:</h4>
+    <p>Users with this permission have access to the My Log screen.</p>
+    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
+    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
+    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
+    <p>The user has the option to edit or delete there time logs.</p>
+    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p> 
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser))
+{
+    <h4>Project Estimates:</h4>
+    <p>Users with this permission have access to the My Log screen.</p>
+    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
+    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
+    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
+    <p>The user has the option to edit or delete there time logs.</p>
+    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_Admin))
+{
+    <h4>Content Management:</h4>
+    <p>Users with this permission have access to the My Log screen.</p>
+    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
+    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
+    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
+    <p>The user has the option to edit or delete there time logs.</p>
+    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
+}
+
+    </div>
+        <div class="col-6 py-0 mobile-img">
+            <img src="~/images/ProjectTime_Image_Jpg_V5.jpg" class="img-fluid" alt="mobile screen">
+        </div>
+    </div>
+  </div>
+</body>
+

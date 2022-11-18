@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ProjectTime.Models;
+﻿using ProjectTime.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectTime.Utility
 {
@@ -11,9 +11,9 @@ namespace ProjectTime.Utility
             {
                 var userRole = (UserRolesViewModel)validationContext.ObjectInstance;
 
-                if (userRole.IsSelected == false)
+                if (!userRole.IsSelected)
                 {
-                    return new ValidationResult(ErrorMessage == null ? "User must have a Role" : ErrorMessage);
+                    return new ValidationResult(ErrorMessage ?? "User must have a Role");
                 }
                 return ValidationResult.Success;
             }

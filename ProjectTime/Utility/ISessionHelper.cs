@@ -6,6 +6,6 @@
 
         string GetUserRole();
 
-        
+
     }
 }

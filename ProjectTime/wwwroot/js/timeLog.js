@@ -1,18 +1,18 @@
-﻿var dataTable;
+﻿let dataTable;
 
 function getProjectId() {
 
-    var url = window.location.href;
-    var parts = url.split("=");
-    var projectId = parts[parts.length - 1];
+    let url = window.location.href;
+    let parts = url.split("=");
+    let projectId = parts[parts.length - 1];
     return projectId
-};
+}
 
 
 $(document).ready(function () {
 
     
-    var projectId = getProjectId();
+    let projectId = getProjectId();
     loadDataTable(projectId);
 });
 

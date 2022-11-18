@@ -11,12 +11,12 @@ namespace ProjectTime.Areas.SuperUser.Controllers
     [Authorize(Roles = SD.Role_SuperUser + "," + SD.Role_Admin)]
     public class ReportController : Controller
     {
-        
+
         private readonly ApplicationDbContext _db;
-        
-        public ReportController( ApplicationDbContext db)
+
+        public ReportController(ApplicationDbContext db)
         {
-            _db = db; 
+            _db = db;
         }
 
         // get method to return Time Log Report view
@@ -57,10 +57,11 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                                .Include(p => p.Project)
                                                                .ToList();
-                                                               
+
 
             var projectSummary = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
 
@@ -69,7 +70,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
                 var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
                 var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
-                project.Duration = Math.Round(durationSum / (decimal)7.5, 1);
+                project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
 
@@ -99,10 +100,11 @@ namespace ProjectTime.Areas.SuperUser.Controllers
 
             var projectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Include(d => d.Department)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
-                                                              
+
 
             decimal projectTotalCost = 0;
 
@@ -111,7 +113,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.DurationDays);
 
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
                                                  .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
@@ -123,7 +125,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 project.DurationDays = Math.Round((decimal)durationSum, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
-                projectTotalCost += project.TotalCost = Math.Round((decimal)totalCost, 2);
+                decimal value = project.TotalCost = Math.Round((decimal)totalCost, 2);
+                projectTotalCost += value;
 
             }
 
@@ -151,7 +154,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             {
                 var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId
                                                           && x.DurationDays == projectEstimate.DurationDays)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 projectEstimate.TotalCost = Math.Round((decimal)totalCost, 2);
             }
@@ -199,7 +202,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
 
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId && x.DepartmentId == project.DepartmentId
                                                     && x.DurationDays == project.DurationDays)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var actualDurationSum = timeLogs.Where(x => x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId
                                                  && x.ProjectId == project.ProjectId)
@@ -218,11 +221,11 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                               .Sum(x => x?.Duration * project.Department.Rate);
 
                 project.TotalCost = Math.Round((decimal)totalCost, 2);
-                project.ActualDurationDays = Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.ActualDurationDays = Math.Round((decimal)actualDurationSum / SD.WorkingDay, 1);
                 project.ActualMinDate = actualMinDate;
                 project.ActualMaxDate = actualMaxDate;
                 project.ActualTotalCost = Math.Round((decimal)actualTotalCost, 2);
-                project.DurationDaysVariance = Math.Round(project.DurationDays, 1) - Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.DurationDaysVariance = Math.Round(project.DurationDays, 1) - Math.Round((decimal)actualDurationSum / SD.WorkingDay, 1);
                 project.TotalCostVariance = Math.Round((decimal)totalCost, 2) - Math.Round((decimal)actualTotalCost, 2);
 
                 if (project.TotalCostVariance >= 0)
@@ -281,6 +284,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                                                   .ThenInclude(a => a.ApplicationUser)
                                                                   .ThenInclude(d => d.Department)
                                                                   .Include(p => p.Project)
+                                                                  .ThenInclude(p => p.ProjectStage)
                                                                   .GroupBy(p => p.ProjectId)
                                                                   .Select(y => y.First());
 
@@ -297,7 +301,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                                  .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
 
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var actualDurationSum = timeLogs.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.Duration);
 
@@ -314,7 +318,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 project.EstimateMinDate = minDate;
                 project.EstimateMaxDate = maxDate;
                 project.EstimateTotalCost = Math.Round((decimal)totalCost, 2);
-                project.Duration = Math.Round((decimal)actualDurationSum / (decimal)7.5, 1);
+                project.Duration = Math.Round((decimal)actualDurationSum / SD.WorkingDay, 1);
                 project.MinDate = actualMinDate;
                 project.MaxDate = actualMaxDate;
                 project.TotalCost = Math.Round((decimal)actualTotalCost, 2);
@@ -352,7 +356,7 @@ namespace ProjectTime.Areas.SuperUser.Controllers
         }
 
         // Get method to return API Project Estimate data for datatables rescourcing report with where conditions   
-        // to return future data department estiamntes 
+        // to filter report with only department estiamntes with dates > current date 
         #region API CALLS
         [HttpGet]
 
@@ -363,7 +367,6 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                                                                         .Include(d => d.Department)
                                                                                         .Where(x => x.DateTo > DateTime.Now)
                                                                                         .ToList();
-
             return Json(new { data = projectEstimateList });
         }
         #endregion

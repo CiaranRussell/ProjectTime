@@ -2,12 +2,14 @@
 @{
     ViewData["Title"] = "IndexProjectTracker";
     var projectName = ViewBag.projectName;
+    var projectStage = ViewBag.projectStage;
 }
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">ProjectTime Tracker</h2>
-            <h4 class="text-danger">Project: @projectName </h4>
+            <h5 class="text-secondary">Project Name: @projectName</h5>
+            <h5 class="text-secondary">Project Stage: @projectStage </h5>
         </div>
         <div class="col-6 text-end">
            <a asp-controller="ActualVEstimate" asp-action="Index" class="btn btn-primary" 

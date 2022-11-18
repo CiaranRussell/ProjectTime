@@ -63,7 +63,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             try
             {
-                if (dupCheck == false)
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "User is already assigned to this project");
                 }
@@ -94,7 +94,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (id == null)
             {
-                _logger.LogError((EventId)101,"Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -102,7 +102,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101,"Invalid operation on edit get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get ProjectUser, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(user);
@@ -122,12 +122,12 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             try
             {
-                if (dupCheck == false)
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "User is already assigned to this project");
                     return View(obj);
                 }
-                if (logCheck == true)
+                if (logCheck)
                 {
                     ModelState.AddModelError("", "Unable to edit, The Project User has created time logs");
                     return View(obj);
@@ -137,7 +137,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
                 if (projectUser == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on edit post ProjectUser, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on edit post ProjectUser, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
@@ -172,7 +172,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -180,7 +180,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (projectUser == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get ProjectUser, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(projectUser);
@@ -200,19 +200,19 @@ namespace ProjectTime.Areas.Admin.Controllers
             {
                 if (projectusers == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on delete post ProjectUser, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on delete post ProjectUser, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 _db.projectUsers.Remove(projectusers);
                 await _db.SaveChangesAsync();
-                _logger.LogWarning((EventId)102, "UserId {0} deleted ProjectUser object: {1} on {2}", userId, projectusers.Id, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {id} deleted ProjectUser object: {id} on {date}", userId, projectusers.Id, DateTime.Now);
                 TempData["delete"] = "Project User Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on Id {1} projectUser object, database exception error {2}: " + ex.InnerException, userId, projectusers.Id, DateTime.Now);
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on Id {id} projectUser object, database exception error {date}: " + ex.InnerException, userId, projectusers.Id, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {projectusers.ApplicationUser.FullName} has logged time aganist this Project";
                 ViewBag.ErrorMessage = $"The Project User cannot be deleted as the user has logged time against this project";
                 return View("Error");

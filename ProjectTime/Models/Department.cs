@@ -7,7 +7,7 @@ namespace ProjectTime.Models
 {
     public class Department
     {
-        
+
         [Key]
         public int Id { get; set; }
 
@@ -17,7 +17,7 @@ namespace ProjectTime.Models
 
         [Required(ErrorMessage = "Rate/Hr Amount is required")]
         [DisplayName("€ Rate/Hr")]
-        [Range(1,1000,ErrorMessage = "Rate/Hr Amount must be between €1 & €1000")]
+        [Range(1, 1000, ErrorMessage = "Rate/Hr Amount must be between €1 & €1000")]
         public decimal Rate { get; set; }
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 

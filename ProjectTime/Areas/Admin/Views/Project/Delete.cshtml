@@ -16,6 +16,10 @@
             <input asp-for="Name" disabled class="form-control" />
         </div>
         <div class="mb-3">
+            <label asp-for="ProjectStage.Stage"></label>
+            <select asp-for ="ProjectStageId" asp-items = "ViewBag.projectStageId" class="form-control" disabled></select>
+        </div>
+        <div class="mb-3">
             <label asp-for="Description"></label>
             <textarea asp-for= "Description" class="form-control" disabled></textarea>
         </div>

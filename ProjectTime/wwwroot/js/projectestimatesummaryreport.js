@@ -1,4 +1,4 @@
-﻿var dataTable;
+﻿let dataTable;
 
 
 $(document).ready(function () {
@@ -18,6 +18,7 @@ function loadDataTable() {
 
             { "data": "project.projectCode", "width": "12%" },
             { "data": "project.name", "width": "10%" },
+            { "data": "project.projectStage.stage", "width": "10%" },
             {
                 "data": "minDate", render: function (data) {
                 return moment(data).format('DD/MM/YYYY');
@@ -26,7 +27,7 @@ function loadDataTable() {
             { "data": "maxDate", "width": "12%" },
             { "data": "durationDays", "width": "16%" },
             { "data": "totalCost", "width": "12%" },
-            { "data": "project.description", "width": "30%" }
+            { "data": "project.description", "width": "20%" }
             
         ],
 

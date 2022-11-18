@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ProjectTime.Data;
-using ProjectTime.Models;
-using System.Security.Claims;
-using System.Web;
+﻿using System.Security.Claims;
 
 namespace ProjectTime.Utility
 {
@@ -27,6 +23,6 @@ namespace ProjectTime.Utility
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.Role);
         }
 
-    
+
     }
 }

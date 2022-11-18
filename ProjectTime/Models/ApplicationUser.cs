@@ -10,8 +10,8 @@ namespace ProjectTime.Models
     {
         [Required(ErrorMessage = "Full Name is required")]
         [DisplayName("Full Name")]
-        [MinLength(3, ErrorMessage ="Full Name must be greather than 3 characters!!")]
-    
+        [MinLength(3, ErrorMessage = "Full Name must be greather than 3 characters!!")]
+
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Department Name is required")]
@@ -23,9 +23,6 @@ namespace ProjectTime.Models
         [NotMapped]
         [ValidateNever]
         public string Role { get; set; }
-
-        
-
 
     }
 }

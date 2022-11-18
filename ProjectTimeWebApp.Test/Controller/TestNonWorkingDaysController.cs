@@ -1,27 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProjectTime.Data;
-using NUnit.Framework;
-using ProjectTime.Models;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Assert = NUnit.Framework.Assert;
-using ProjectTime.Areas.Admin.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ProjectTime.Utility;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
+using ProjectTime.Areas.Admin.Controllers;
+using ProjectTime.Data;
+using ProjectTime.Models;
+using ProjectTime.Utility;
+using System.Collections.Generic;
+using Assert = NUnit.Framework.Assert;
 
 namespace ProjectTimeWebApp.Test.Controller
 {
     [TestClass]
     public class TestNonWorkingDaysController
     {
-        private static DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+        private static readonly DbContextOptions<ApplicationDbContext> dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "NonWorkingDaysControllerTest").Options;
 
         ApplicationDbContext dbContext;
         NonWorkingDaysController nonWorkingDays;
-        ILogger<NonWorkingDaysController> logger;
+        readonly ILogger<NonWorkingDaysController> logger;
 
 
         [OneTimeSetUp]
@@ -80,14 +80,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_CreateControllerPost_WithResponse()
         {
             // Arrange
-            NonWorkingDays NWD = new NonWorkingDays() 
-            { 
-                Id = 5, 
-                Date = new System.DateTime(), 
-                Description = "BankHoliday5", 
-                AllowTimeLog = false, 
-                CreateDateTime = new System.DateTime(), 
-                CreatedByUserId = "UserId" 
+            NonWorkingDays NWD = new()
+            {
+                Id = 5,
+                Date = new System.DateTime(),
+                Description = "BankHoliday5",
+                AllowTimeLog = false,
+                CreateDateTime = new System.DateTime(),
+                CreatedByUserId = "UserId"
             };
 
             // Act
@@ -106,14 +106,14 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_EditNWDsPost_WithResponse()
         {
             // Arrange
-            NonWorkingDays NWD = new NonWorkingDays() 
-            { 
-                Id = 5, 
-                Date = new System.DateTime(), 
-                Description = "BankHolidayTestEdit", 
-                AllowTimeLog = true, 
-                ModifyDateTime = new System.DateTime(), 
-                ModifiedByUserId = "UserId" 
+            NonWorkingDays NWD = new()
+            {
+                Id = 5,
+                Date = new System.DateTime(),
+                Description = "BankHolidayTestEdit",
+                AllowTimeLog = true,
+                ModifyDateTime = new System.DateTime(),
+                ModifiedByUserId = "UserId"
             };
 
             // Act
@@ -169,7 +169,7 @@ namespace ProjectTimeWebApp.Test.Controller
             nonWorkingDays = new NonWorkingDaysController(dbContext, mock.Object, logger);
 
             // Act
-            var result = nonWorkingDays.DeleteConfirm(2);
+            var result = nonWorkingDays.DeleteNWD(2);
 
             // Arrange
             Assert.IsNotNull(result);
@@ -187,41 +187,41 @@ namespace ProjectTimeWebApp.Test.Controller
         {
             var nonWorkingDays = new List<NonWorkingDays>
             {
-                new NonWorkingDays() 
-                { 
-                    Id = 1, 
-                    Date = new System.DateTime(), 
-                    Description = "BankHoliday1", 
-                    AllowTimeLog = false, 
-                    CreateDateTime = new System.DateTime(), 
-                    CreatedByUserId = "UserId" 
-                },
-                new NonWorkingDays() 
-                { 
-                    Id = 2, 
-                    Date = new System.DateTime(), 
-                    Description = "BankHoliday2", 
-                    AllowTimeLog = false, 
-                    CreateDateTime = new System.DateTime(), 
-                    CreatedByUserId = "UserId" 
-                },
-                new NonWorkingDays() 
-                { 
-                    Id = 3, 
-                    Date = new System.DateTime(), 
-                    Description = "BankHoliday3", 
-                    AllowTimeLog = false, 
-                    CreateDateTime = new System.DateTime(), 
-                    CreatedByUserId = "UserId" 
+                new NonWorkingDays()
+                {
+                    Id = 1,
+                    Date = new System.DateTime(),
+                    Description = "BankHoliday1",
+                    AllowTimeLog = false,
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
                 },
                 new NonWorkingDays()
-                { 
-                    Id = 4, 
-                    Date = new System.DateTime(), 
-                    Description = "BankHoliday4", 
-                    AllowTimeLog = false, 
-                    CreateDateTime = new System.DateTime(), 
-                    CreatedByUserId = "UserId" 
+                {
+                    Id = 2,
+                    Date = new System.DateTime(),
+                    Description = "BankHoliday2",
+                    AllowTimeLog = false,
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
+                new NonWorkingDays()
+                {
+                    Id = 3,
+                    Date = new System.DateTime(),
+                    Description = "BankHoliday3",
+                    AllowTimeLog = false,
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
+                },
+                new NonWorkingDays()
+                {
+                    Id = 4,
+                    Date = new System.DateTime(),
+                    Description = "BankHoliday4",
+                    AllowTimeLog = false,
+                    CreateDateTime = new System.DateTime(),
+                    CreatedByUserId = "UserId"
                 },
 
             };

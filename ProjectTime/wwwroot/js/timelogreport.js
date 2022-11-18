@@ -1,21 +1,16 @@
-﻿var minDate, maxDate;
+﻿let minDate, maxDate;
 
 // Custom filtering function which will search data in column three between two date values
 $.fn.dataTable.ext.search.push(
     function (settings, data, dataIndex) {
-        var min = minDate.val();
-        var max = maxDate.val();
-        var date = moment(data[3], 'DD/MM/YYYY h:m A');
+        let min = minDate.val();
+        let max = maxDate.val();
+        let date = moment(data[3], 'DD/MM/YYYY h:m A');
 
-        if (
-            (min === null && max === null) ||
+        return !!((min === null && max === null) ||
             (min === null && date <= max) ||
             (min <= date && max === null) ||
-            (min <= date && date <= max)
-        ) {
-            return true;
-        }
-        return false;
+            (min <= date && date <= max));
     }
 );
 
@@ -29,7 +24,7 @@ $(document).ready(function () {
     });
 
     // DataTables initialisation
-    var table = $('#tblDatatimelogreport').DataTable({
+    let table = $('#tblDatatimelogreport').DataTable({
 
 
         "ajax": { "url": "/SuperUser/Report/TimeLogReportAPI", "type": "GET", "datatype": "json" },

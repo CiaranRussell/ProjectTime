@@ -1,25 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
 using ProjectTime.Models;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Linq;
-using ProjectTime.Utility;
 using ProjectTime.Models.ViewModels;
+using ProjectTime.Utility;
 
 namespace ProjectTime.Areas.User.Controllers
 {
     [Area("User")]
-    
+    [Authorize(Roles = SD.Role_SuperUser + "," + SD.Role_Admin + "," + SD.Role_User)]
+
     public class TimeLogController : Controller
     {
 
         private readonly ISessionHelper _sessionHelper;
         private readonly ApplicationDbContext _db;
-        private readonly IEnumerable<NonWorkingDays> nonWorkingDays = new List<NonWorkingDays>();
+        private readonly IEnumerable<NonWorkingDays> nonWorkingDays;
         private readonly ILogger<TimeLogController> _logger;
 
         public TimeLogController(ApplicationDbContext db, ISessionHelper sessionHelper, ILogger<TimeLogController> logger)
@@ -53,7 +51,7 @@ namespace ProjectTime.Areas.User.Controllers
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
                 var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
                 var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
-                project.Duration = Math.Round(durationSum / (decimal)7.5, 1);
+                project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
 
@@ -65,17 +63,17 @@ namespace ProjectTime.Areas.User.Controllers
         // Get method to return a list of timelogs by projectId for the logged in user or the all timelogs for the PMO user role view page 
         public IActionResult IndexTimeLog()
         {
-                                       
+
             return View();
         }
 
         // Get method to return create ProjectTime log with Linq query UserHelper utility to return Project Users Active Projects only
         public IActionResult Create()
         {
-            
+
             var userId = _sessionHelper.GetUserId();
             ViewData["projectId"] = new SelectList(UserHelper.GetUserProjects(_db, userId).ToList(), "Id", "Name");
-            
+
             return View();
         }
 
@@ -96,18 +94,18 @@ namespace ProjectTime.Areas.User.Controllers
             {
                 foreach (var item in nonWorkingDays)
                 {
-                    if (obj.Date == item.Date && item.AllowTimeLog == false)
+                    if (obj.Date == item.Date && !item.AllowTimeLog)
                     {
                         ModelState.AddModelError("", "The log date is listed as a Non-Working day, Please contact the PMO's office for assistance");
                         return View(obj);
                     }
                 }
-                if (dupCheck == false)
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "Time has already been logged for this project on the log date");
                     return View(obj);
                 }
-                if (dateValidation == true)
+                if (dateValidation)
                 {
                     ModelState.AddModelError("", "Cannot create a Time Log in the future or greather than 40 days in the past");
                     return View(obj);
@@ -116,14 +114,14 @@ namespace ProjectTime.Areas.User.Controllers
                 var projectId = obj.ProjectId;
                 var ProjectUserId = UserHelper.GetProjectUserId(_db, userId, projectId);
                 var timeLog = new TimeLog()
-                { 
+                {
 
-                   Duration = obj.Duration,
-                   Date = obj.Date,
-                   Description = obj.Description,
-                   ProjectId = projectId,
-                   ProjectUserId = ProjectUserId,
-                   CreateDateTime = DateTime.Now,
+                    Duration = obj.Duration,
+                    Date = obj.Date,
+                    Description = obj.Description,
+                    ProjectId = projectId,
+                    ProjectUserId = ProjectUserId,
+                    CreateDateTime = DateTime.Now,
 
                 };
 
@@ -139,7 +137,7 @@ namespace ProjectTime.Areas.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog create object on {1}: " + ex.InnerException, userId, DateTime.Now);
+                _logger.LogError((EventId)100, $"Invalid operation by UserId {{0}} on TimeLog create object on {{1}}: {ex.InnerException}", userId, DateTime.Now);
                 return View("Error");
             }
 
@@ -158,7 +156,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (timeLogSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get TimeLog, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get TimeLog, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -167,7 +165,7 @@ namespace ProjectTime.Areas.User.Controllers
 
         // Post async method to edit timelog with validation to prevent duplication of time logs being created for the same project
         // on the same date & validation to prevent time logs being edited after 40 days 
-        [HttpPost,ActionName("Edit")]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTimeLog(TimeLog obj)
         {
@@ -178,7 +176,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             try
             {
-                if (dupCheck == false)
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "Time has already been logged for this project on this date, Please edit to update");
                     return View(obj);
@@ -187,7 +185,7 @@ namespace ProjectTime.Areas.User.Controllers
                 var dateValidation = (DateTime.Now - timeLog.Date).TotalDays >= SD.Prevent_After_NoDays;
                 ViewBag.timeLogDate = timeLog.Date.ToLongDateString();
 
-                if (dateValidation == true)
+                if (dateValidation)
                 {
                     ModelState.AddModelError("", "Cannot edit a Time Log > 40 days old");
                     return View(timeLog);
@@ -195,7 +193,7 @@ namespace ProjectTime.Areas.User.Controllers
 
                 if (timeLog == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on edit post TimeLog, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on edit post TimeLog, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
                 timeLog.Duration = obj.Duration;
@@ -216,7 +214,7 @@ namespace ProjectTime.Areas.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog edit object on {1}: " + ex.InnerException, userId, DateTime.Now);
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on TimeLog edit object on {date}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
 
@@ -231,7 +229,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get TimeLog, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get TimeLog, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -241,7 +239,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             if (timeLog == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(timeLog);
@@ -262,7 +260,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             try
             {
-                if (dateValidation == true)
+                if (dateValidation)
                 {
                     ModelState.AddModelError("", "Cannot delete a Time Log > 40 days old");
                     return View(timeLog);
@@ -270,19 +268,19 @@ namespace ProjectTime.Areas.User.Controllers
 
                 if (timeLog == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on delete post TimeLog, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 _db.timeLog.Remove(timeLog);
                 await _db.SaveChangesAsync();
-                _logger.LogWarning((EventId)102, "UserId {0} deleted TimeLog object Id {1} on {2}", userId, timeLog.Id, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {id} deleted TimeLog object Id {id} on {date}", userId, timeLog.Id, DateTime.Now);
                 TempData["delete"] = "Time Log Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog object, database exception error {1}: " + ex.InnerException, userId, DateTime.Now);
+                _logger.LogError((EventId)100, $"Invalid operation by UserId {{id}} on TimeLog object, database exception error {{date}}: {ex.InnerException}", userId, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {timeLog.ProjectUser.ApplicationUser.FullName} has logged time aganist this Project";
                 ViewBag.ErrorMessage = $"The Time Log cannot be deleted as the user has logged time";
                 return View("Error");
@@ -300,11 +298,13 @@ namespace ProjectTime.Areas.User.Controllers
 
             var timeLogList = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                                .Include(p => p.Project)
+                                                               .ThenInclude(p => p.ProjectStage)
                                                                .Where(u => u.ProjectUser.UserId == userId)
                                                                .ToList();
 
             var myProjects = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Where(u => u.ProjectUser.UserId == userId)
                                                               .GroupBy(p => p.ProjectId)
                                                               .Select(y => y.First());
@@ -314,7 +314,7 @@ namespace ProjectTime.Areas.User.Controllers
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
                 var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
                 var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
-                project.Duration = Math.Round(durationSum / (decimal)7.5, 1);
+                project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
 
@@ -336,7 +336,7 @@ namespace ProjectTime.Areas.User.Controllers
 
             var objTimeLog = (IEnumerable<TimeLog>)_db.timeLog.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
-                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId )
+                                                              .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId)
                                                               .ToList();
 
             return Json(new { Data = objTimeLog });

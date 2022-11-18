@@ -25,7 +25,7 @@ namespace ProjectTimeWebApp.Test.Controller
             var logger = factory.CreateLogger<HomeController>();
 
             //// Arrange
-            HomeController controller = new HomeController(logger);
+            HomeController controller = new(logger);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;

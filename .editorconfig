@@ -37,6 +37,39 @@ dotnet_diagnostic.CS8604.severity = none
 # CS8629: Nullable value type may be null.
 dotnet_diagnostic.CS8629.severity = none
 
+# S2583: Conditionally executed code should be reachable
+dotnet_diagnostic.S2583.severity = none
+
+# S2486: Generic exceptions should not be ignored
+dotnet_diagnostic.S2486.severity = none
+
+# S3626: Jump statements should not be redundant
+dotnet_diagnostic.S3626.severity = none
+
+# S3459: Unassigned members should be removed
+dotnet_diagnostic.S3459.severity = none
+
+# S3415: Assertion arguments should be passed in the correct order
+dotnet_diagnostic.S3415.severity = none
+
+# S1117: Local variables should not shadow class fields
+dotnet_diagnostic.S1117.severity = none
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
+
+# S3376: Attribute, EventArgs, and Exception type names should end with the type being extended
+dotnet_diagnostic.S3376.severity = none
+
+# S2259: Null pointers should not be dereferenced
+dotnet_diagnostic.S2259.severity = none
+
+# IDE0008: Use explicit type
+dotnet_diagnostic.IDE0008.severity = none
+
+# CA2254: Template should be a static expression
+dotnet_diagnostic.CA2254.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
@@ -92,3 +125,6 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix = 
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# IDE0040: Add accessibility modifiers
+dotnet_diagnostic.IDE0040.severity = none

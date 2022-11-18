@@ -37,7 +37,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         // Post async method with validation to prevent duplicate Non-Working Days date being created
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> Create(NonWorkingDays obj)
+        public async Task<IActionResult> Create(NonWorkingDays obj)
         {
             var userId = _sessionHelper.GetUserId();
             var dupCheck = _db.nonWorkingDays.FirstOrDefault(x => x.Date == obj.Date);
@@ -63,7 +63,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -71,7 +71,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (NonWorkingDaysSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(NonWorkingDaysSearch);
@@ -85,7 +85,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             var userId = _sessionHelper.GetUserId();
             var dupCheck = !_db.nonWorkingDays.Any(x => x.Id != obj.Id && x.Date == obj.Date);
 
-            if (dupCheck == false)
+            if (!dupCheck)
             {
                 ModelState.AddModelError("Date", "Non-Working already exists");
             }
@@ -94,7 +94,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (nonWorkingDays == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit post Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit post Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -120,7 +120,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         {
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -128,7 +128,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (NonWorkingDaysSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(NonWorkingDaysSearch);
@@ -137,21 +137,21 @@ namespace ProjectTime.Areas.Admin.Controllers
         // Post async method to delete Non-Working day by Non-Working day Id
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int? id)
+        public async Task<IActionResult> DeleteNWD(int? id)
         {
             var userId = _sessionHelper.GetUserId();
             var NonWorkingDaysSearch = _db.nonWorkingDays.FirstOrDefault(x => x.Id == id);
 
             if (NonWorkingDaysSearch == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete post Non-Working days, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete post Non-Working days, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
             _db.nonWorkingDays.Remove(NonWorkingDaysSearch);
             await _db.SaveChangesAsync();
             TempData["delete"] = "Non-Working day Deleted Successfully!!";
-            _logger.LogWarning((EventId)102, "UserId {0} deleted Non-Working day object Id {1} on {2}", userId, NonWorkingDaysSearch.Id, DateTime.Now);
+            _logger.LogWarning((EventId)102, "UserId {id} deleted Non-Working day object Id {id} on {date}", userId, NonWorkingDaysSearch.Id, DateTime.Now);
             return RedirectToAction("Index");
         }
 

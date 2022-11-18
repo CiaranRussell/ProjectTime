@@ -1,4 +1,4 @@
-﻿var dataTable;
+﻿let dataTable;
 
 
 $(document).ready(function () {
@@ -17,6 +17,7 @@ function loadDataTable() {
         "columns": [
 
             { "data": "project.name", "width": "10%" },
+            { "data": "project.projectStage.stage", "width": "10%" },
             {
                 "data": "estimateMinDate", render: function (data) {
                     return moment(data).format('DD/MM/YYYY');

@@ -18,6 +18,12 @@
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="mb-3">
+            <label asp-for="ProjectStage.Stage"></label>
+            <select asp-for ="ProjectStageId" asp-items = "ViewBag.projectStageId" class="form-select">
+            <option disabled selected>-Select Project Stage-</option></select>
+            <span asp-validation-for="ProjectStageId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
             <label asp-for="Description"></label>
             <textarea asp-for="Description" class="form-control"></textarea>
         </div>

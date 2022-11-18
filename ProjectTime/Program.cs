@@ -22,8 +22,16 @@ builder.Services.AddSingleton<IEmailSender, EmailSender>();
 // add Razor pages to builder serivce 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-// add ISessionHelper to services
+// add ISessionHelper & IDbInitializer to services
 builder.Services.AddScoped<ISessionHelper, SessionHelper>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+// add path to access denied page
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
+builder.Services.AddAuthentication().AddCookie();
 
 var app = builder.Build();
 
@@ -44,6 +52,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Seed Database with department and Admin User
+DbInitializer.Seed(app);
+SeedDataBase();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -54,3 +65,12 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+void SeedDataBase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProjectTime.Data;
+using ProjectTime.Models;
 using ProjectTime.Models.ViewModels;
 using ProjectTime.Utility;
-using ProjectTime.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectTime.Areas.SuperUser
 {
@@ -26,7 +26,7 @@ namespace ProjectTime.Areas.SuperUser
         // Get method to return Project Estimates 
         public IActionResult Index()
         {
-            
+
             return View();
         }
 
@@ -54,10 +54,10 @@ namespace ProjectTime.Areas.SuperUser
             {
                 var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId
                                                           && x.DurationDays == projectEstimate.DurationDays)
-                                                   .Sum(x => (x.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x.DurationDays * SD.WorkingDay) * x.Department.Rate);
                 projectEstimate.TotalCost = Math.Round(totalCost, 2);
                 projectTotalCost += totalCost;
-                ViewBag.ProjectTotalCost = Math.Round(projectTotalCost,2);
+                ViewBag.ProjectTotalCost = Math.Round(projectTotalCost, 2);
 
             }
 
@@ -90,16 +90,16 @@ namespace ProjectTime.Areas.SuperUser
             var totalDays = (obj.DateTo - obj.DateFrom).TotalDays;
             var days = Convert.ToDecimal(totalDays);
             var dateToFrom = days > obj.DurationDays;
-            
+
             try
             {
-            
-                if (dupCheck == false)
+
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "Project Estiamte has already been logged for this Department, use edit to update.");
                     return View(obj);
                 }
-                if (dateToFrom == false)
+                if (!dateToFrom)
                 {
                     ModelState.AddModelError("", "Department from / to date is less than required duration days.");
                     return View(obj);
@@ -152,7 +152,7 @@ namespace ProjectTime.Areas.SuperUser
 
             if (projectEstimate == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get Project Estimate, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get Project Estimate, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -176,24 +176,24 @@ namespace ProjectTime.Areas.SuperUser
 
             try
             {
-                if (dupCheck == false)
+                if (!dupCheck)
                 {
                     ModelState.AddModelError("", "Project Estimate has already been logged for this Department");
                     return View(obj);
                 }
-                if(dateToFrom == false)
+                if (!dateToFrom)
                 {
                     ModelState.AddModelError("", "Department from / to date is less than required duration days.");
                     return View(obj);
                 }
                 var projectEstimate = await _db.projectEstimates.FindAsync(obj.Id);
-                
+
                 if (projectEstimate == null)
                 {
                     _logger.LogError((EventId)101, "Invalid operation on edit post Project Estimate, null object Id {0}:", DateTime.Now);
                     return View("Error");
                 }
-                
+
                 projectEstimate.ProjectId = obj.ProjectId;
                 projectEstimate.DepartmentId = obj.DepartmentId;
                 projectEstimate.DateFrom = obj.DateFrom;
@@ -231,17 +231,17 @@ namespace ProjectTime.Areas.SuperUser
 
             if (id == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Project Estimate, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Project Estimate, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
             var projectEstimate = _db.projectEstimates.FirstOrDefault(x => x.Id == id);
 
-            
+
 
             if (projectEstimate == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get Project Estimate, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get Project Estimate, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(projectEstimate);
@@ -256,24 +256,24 @@ namespace ProjectTime.Areas.SuperUser
         {
             var userId = _sessionHelper.GetUserId();
             var projectEstimate = _db.projectEstimates.Include(a => a.ProjectUser.ApplicationUser).FirstOrDefault(x => x.Id == id);
-          
+
             try
             {
                 if (projectEstimate == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on delete post Project estimate, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on delete post Project estimate, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 _db.projectEstimates.Remove(projectEstimate);
                 await _db.SaveChangesAsync();
-                _logger.LogWarning((EventId)102, "UserId {0} deleted TimeLog object Id {1} on {2}", userId, projectEstimate.Id, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {id} deleted TimeLog object Id {id} on {date}", userId, projectEstimate.Id, DateTime.Now);
                 TempData["delete"] = "Project Estimate Deleted Successfully!!";
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on TimeLog object, database exception error {1}: " + ex.InnerException, userId, DateTime.Now);
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on TimeLog object, database exception error {date}: " + ex.InnerException, userId, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {projectEstimate.ProjectUser.ApplicationUser.FullName} has logged an Estimate aganist this Project";
                 ViewBag.ErrorMessage = $"The Project Estimate cannot be deleted as the user has logged time";
                 return View("Error");
@@ -291,12 +291,14 @@ namespace ProjectTime.Areas.SuperUser
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Include(d => d.Department)
                                                               .ToList();
 
 
             var myProjectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .ThenInclude(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Include(d => d.Department)
                                                               .Where(u => u.ProjectUser.UserId == userId)
                                                               .GroupBy(p => p.ProjectId)
@@ -309,23 +311,24 @@ namespace ProjectTime.Areas.SuperUser
                 var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.DurationDays);
 
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
                                                  .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
 
                 var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
                                                  .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
-                
+
 
                 project.DurationDays = Math.Round((decimal)durationSum, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
-                projectTotalCost += project.TotalCost = Math.Round((decimal)totalCost, 2);
+                decimal value = project.TotalCost = Math.Round((decimal)totalCost, 2);
+                projectTotalCost += value;
 
             }
 
-                return Json(new { data = myProjectEstimate });
+            return Json(new { data = myProjectEstimate });
         }
         #endregion
 
@@ -341,6 +344,7 @@ namespace ProjectTime.Areas.SuperUser
 
             var projectEstimateList = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Include(d => d.Department)
                                                               .Where(u => u.ProjectId == projectId)
                                                               .ToList();
@@ -348,14 +352,15 @@ namespace ProjectTime.Areas.SuperUser
             var objProjectEstimate = (IEnumerable<ProjectEstimate>)_db.projectEstimates.Include(p => p.ProjectUser)
                                                               .Include(d => d.Department)
                                                               .Include(p => p.Project)
+                                                              .ThenInclude(p => p.ProjectStage)
                                                               .Where(u => u.ProjectId == projectId && u.ProjectUser.UserId == userId)
                                                               .ToList();
 
             foreach (var projectEstimate in objProjectEstimate)
             {
-                var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId 
+                var totalCost = projectEstimateList.Where(x => x.DepartmentId == projectEstimate.DepartmentId
                                                           && x.DurationDays == projectEstimate.DurationDays)
-                                                   .Sum(x => (x?.DurationDays * (decimal)7.5) * x.Department.Rate);
+                                                   .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 projectEstimate.TotalCost = Math.Round((decimal)totalCost, 2);
             }

@@ -12,7 +12,7 @@ namespace ProjectTime.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
     public class AccountController : Controller
-    {   
+    {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _db;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -20,7 +20,7 @@ namespace ProjectTime.Areas.Admin.Controllers
         private readonly ISessionHelper _sessionHelper;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> userManager,
             ApplicationDbContext db, RoleManager<IdentityRole> roleManager, ILogger<AccountController> logger, ISessionHelper sessionHelper)
 
         {
@@ -44,7 +44,7 @@ namespace ProjectTime.Areas.Admin.Controllers
                 user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
             }
             return View(objUsersList);
-            
+
 
         }
 
@@ -58,7 +58,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit get User, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit get User, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -74,7 +74,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
             var dupCheckEmail = !_userManager.Users.Any(x => x.Id != appUser.Id && x.Email.ToLower().Trim() ==
                                                                                appUser.Email.ToLower().Trim());
-            if (dupCheckEmail == false)
+            if (!dupCheckEmail)
             {
                 ModelState.AddModelError("Email", "Email address already exists");
                 return View(appUser);
@@ -84,7 +84,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on edit post User, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on edit post User, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             else
@@ -93,7 +93,7 @@ namespace ProjectTime.Areas.Admin.Controllers
                 user.FullName = appUser.FullName;
                 user.Email = appUser.Email;
                 user.DepartmentId = appUser.DepartmentId;
-                
+
             }
 
             ModelState.Remove("Role");
@@ -108,13 +108,13 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         }
 
-        
 
-        // Get method to return user roles by user Id   
+
+        // Get method to return user role view by user Id with logging and validation to return error view if no UserId is found   
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.UserId = userId;
-            
+
 
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -122,7 +122,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles get, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles get, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
@@ -133,7 +133,7 @@ namespace ProjectTime.Areas.Admin.Controllers
                 var userRoles = new UserRolesViewModel
                 {
                     RoleId = role.Id,
-                    RoleName = role.Name
+                    Name = role.Name
                 };
 
                 if (await _userManager.IsInRoleAsync(user, role.Name))
@@ -146,17 +146,17 @@ namespace ProjectTime.Areas.Admin.Controllers
                 }
 
                 model.Add(userRoles);
-                
+
             }
             return View(model);
 
         }
 
-        // Post async method to allow the adimn user add or delete roles for a selected user with validation to prevent
+        // Post async method to allow the adimn user add or remove roles for a selected user with validation to prevent
         // removing all roles
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> userRoles,string userId)
+        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> userRoles, string userId)
         {
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -164,11 +164,11 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles post, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on ManageUserRoles post, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
-            if (! userRoles.Any(x => x.IsSelected == true))
+            if (!userRoles.Any(x => x.IsSelected))
             {
                 ModelState.AddModelError("", "No Role Assigned!!");
                 return View(userRoles);
@@ -183,7 +183,7 @@ namespace ProjectTime.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Cannot remove user existing roles");
                 return View(userRoles);
             }
-            result = await _userManager.AddToRolesAsync(user, userRoles.Where(x => x.IsSelected).Select(y => y.RoleName));
+            result = await _userManager.AddToRolesAsync(user, userRoles.Where(x => x.IsSelected).Select(y => y.Name));
 
             if (!result.Succeeded)
             {
@@ -205,11 +205,11 @@ namespace ProjectTime.Areas.Admin.Controllers
             var user = _userManager.Users.Include(d => d.Department).FirstOrDefault(x => x.Id == identityUser.Id);
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on delete get User, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on delete get User, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(user);
-            
+
         }
 
         // Post async method to delete User by identity userId
@@ -224,19 +224,19 @@ namespace ProjectTime.Areas.Admin.Controllers
             {
                 if (user == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on delete post User, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on delete post User, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
                 await _userManager.DeleteAsync(user);
                 await _db.SaveChangesAsync();
                 TempData["delete"] = "User Account Deleted Successfully!!";
-                _logger.LogWarning((EventId)102, "UserId {0} deleted User object Id {1} on {2}", userId, identityUser.Id, DateTime.Now);
+                _logger.LogWarning((EventId)102, "UserId {user} deleted User object Id {id} on {date}", userId, identityUser.Id, DateTime.Now);
                 return RedirectToAction("Index");
-            } 
+            }
             catch (DbUpdateException ex)
             {
-                _logger.LogError((EventId)100, "Invalid operation by UserId {0} on {1} User object, database exception error {2}: " + ex.InnerException, userId, user.FullName, DateTime.Now);
+                _logger.LogError((EventId)100, $"Invalid operation by UserId {{0}} on {{1}} User object, database exception error {{2}}: {ex.InnerException}", userId, user.FullName, DateTime.Now);
                 ViewBag.ErrorTitle = $"{user.FullName} is Assigned to Projects or Departments";
                 ViewBag.ErrorMessage = $"{user.FullName} cannot be deleted as this user is assigned to projects or departments";
                 return View("Error");
@@ -273,7 +273,7 @@ namespace ProjectTime.Areas.Admin.Controllers
 
             if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on LockUnLock get User, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on LockUnLock get User, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
             return View(user);
@@ -286,30 +286,30 @@ namespace ProjectTime.Areas.Admin.Controllers
 
         public IActionResult LockUnlockUser(string id)
         {
-            
+
             var user = _db.applicationUsers.FirstOrDefault(u => u.Id == id);
 
-            if(user == null)
+            if (user == null)
             {
-                _logger.LogError((EventId)101, "Invalid operation on LockUnlockUser post, null object Id {0}:", DateTime.Now);
+                _logger.LogError((EventId)101, "Invalid operation on LockUnlockUser post, null object Id {date}:", DateTime.Now);
                 return View("Error");
             }
 
-            if (user.LockoutEnd!= null && user.LockoutEnd > DateTime.Now)
+            if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
             {
                 user.LockoutEnd = DateTime.Now;
-                
+
             }
             else
             {
-                user.LockoutEnd= DateTime.Now.AddYears(100); 
+                user.LockoutEnd = DateTime.Now.AddYears(100);
             }
 
             _db.SaveChanges();
 
             if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
             {
-                TempData["delete"] = "User Account locked Successfully!!";  
+                TempData["delete"] = "User Account locked Successfully!!";
             }
             else
             {

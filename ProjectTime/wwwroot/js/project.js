@@ -1,4 +1,4 @@
-﻿var dataTable;
+﻿let dataTable;
 
 $(document).ready(function () {
 
@@ -14,9 +14,10 @@ function loadDataTable() {
         },
         "columns": [
 
-            { "data": "projectCode", "width": "25%" },
-            { "data": "name", "width": "25%" },
-            { "data": "description", "width": "25%" },
+            { "data": "projectCode", "width": "15%" },
+            { "data": "name", "width": "15%" },
+            { "data": "projectStage.stage", "width": "15%" },
+            { "data": "description", "width": "35%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -29,7 +30,7 @@ function loadDataTable() {
 					</div>
                         `
                 },
-                "width": "25%"
+                "width": "20%"
             }
         ]
 
