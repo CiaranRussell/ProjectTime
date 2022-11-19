@@ -19,11 +19,7 @@ function loadDataTable() {
             { "data": "project.projectCode", "width": "12%" },
             { "data": "project.name", "width": "10%" },
             { "data": "project.projectStage.stage", "width": "10%" },
-            {
-                "data": "minDate", render: function (data) {
-                return moment(data).format('DD/MM/YYYY');
-                }, "width": "12%"
-            },
+            { "data": "minDate", "width": "12%" },
             { "data": "maxDate", "width": "12%" },
             { "data": "durationDays", "width": "16%" },
             { "data": "totalCost", "width": "12%" },
