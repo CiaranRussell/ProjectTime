@@ -137,7 +137,7 @@ namespace ProjectTime.Areas.User.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError((EventId)100, $"Invalid operation by UserId {{0}} on TimeLog create object on {{1}}: {ex.InnerException}", userId, DateTime.Now);
+                _logger.LogError((EventId)100, "Invalid operation by UserId {id} on TimeLog create object on {date}: " + ex.InnerException, userId, DateTime.Now);
                 return View("Error");
             }
 

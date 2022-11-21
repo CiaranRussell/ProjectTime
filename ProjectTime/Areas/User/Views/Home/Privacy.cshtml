@@ -12,53 +12,66 @@
     <div class="row text-left text-primary">
       <div class="col-6 my-auto">
         <h1>ProjectTime</h1>
+        <p>Your all-in-one suite to manage people, projects,</p>
+        <p>and everything in between.....</p>
+
+@if (!User.IsInRole(SD.Role_User) && !User.IsInRole(SD.Role_SuperUser) && !User.IsInRole(SD.Role_Admin))
+{
+    <p>Login or Register to view the contents in this section.</p>
+}
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
 {
     <h4>My Time Logs :</h4>
-    <p>Users with this permission have access to the My Log screen.</p>
+    <p>Users with this permission have access to the My Time Logs drop-down.</p>
     <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
     <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
-    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <p>The My Time Logs drop-down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
     <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
-    <p>The user has the option to edit or delete there time logs.</p>
-    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
-}
-
-@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
-{
-    <h4>Reports:</h4>
-    <p>Users with this permission have access to the My Log screen.</p>
-    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
-    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
-    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
-    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
-    <p>The user has the option to edit or delete there time logs.</p>
-    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p> 
+    <p>The user has the option to edit or delete a time log in the itemised Time log view.</p>
+    <p>The create, edit and delete functions contain validation to prevent the user from creating duplicate logs for the same project or deleting after 40 days.</p>
+    
+    <h4>All List Views:</h4>
+    <p>List views in the application allow the user to increase or decrease the number of entries to display.</p>
+    <p>The user has the ability to filter the data they want to display by inputting the criteria in the Search bar</p>
+    <p>Column ordering is provided and orders the current page of the grid only.</p>
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser))
 {
-    <h4>Project Estimates:</h4>
-    <p>Users with this permission have access to the My Log screen.</p>
-    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
-    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
-    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
+    <h4>My Projects:</h4>
+    <p>Users with this permission have access to the My Projects drop-down.</p>
+    <p>The Add Project Estimate button opens the Add Project Estimate view for the user to create Project Estimate.</p>
+    <p>The user can then select the relevant Project and Department, enter a date from / to and duration days (an optional Description can be included).</p>
+    <p>The My Projects drop-down allows the user access a summary view for all the Projects they have created estimates against.</p>
     <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
-    <p>The user has the option to edit or delete there time logs.</p>
-    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
+    <p>The user has the option to edit or delete there project estimates in the itemised Project Estimate view.</p>
+    <p>The create and edit functions contain validation to prevent the user from creating duplicate estimates for the same project & 
+       inputting duration days that are greater than the Date from / to.</p>
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_Admin))
 {
     <h4>Content Management:</h4>
-    <p>Users with this permission have access to the My Log screen.</p>
-    <p>The Log ProjectTime button opens the create Time Log view for user to log Time against.</p>
-    <p>The user can then select the relevant Project and enter a time & date (an optional Description can be included).</p>
-    <p>The My Time Logs drop down allows the user access a summary view for all the the projects they have logged ProjectTime against.</p>
-    <p>Each project summary has a Time Log's button that allows the user access the list of all logs they have recorded against the project</p>
-    <p>The user has the option to edit or delete there time logs.</p>
-    <p>The create, edit and delete functions contain validation to prevent the user from double recording logs and prevents deleting after 40 days.</p>
+    <p>Users with this permission have access to the Content Management drop-down.</p>
+    <p>The content management drop-down contains the Department, Non-Working Days, Projects, Project Stage, Project User & Manage Users views.</p>
+    <p>The user has the option to create, edit and delete the Department, Non-Working Days, Projects, Project Stage and Project User.</p>
+    <p>In addition to create, edit and delete in the Manage User view, the user can update user roles and lock user accounts.</p>
+    <p>Cascade Delete has been enable to prevent the user from deleting Departments, Projects or Users once they become active against a Project.</p>
+    <p>The create and edit functions contain validation to prevent the user from creating duplicate records in all the objects in the Content Management section.</p>
+}
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
+{
+    <h4>Reports:</h4>
+    <p>Users with this permission have access to the Reports drop-down.</p>
+    <p>The Reports drop-down, lists all the reports available to the user with this permission.</p>
+    <p>The user can select the required report from the drop-down options list.</p>
+    <p>The report data is displayed in the view with options for the user to increase or decrease the number of entries.</p>
+    <p>The user has the ability to filter the data they want to display by inputting the criteria in the Search bar</p>
+    <p>Column ordering is provided and orders the current page of the grid only.</p>
+    <p>The user has the option to Copy, Print or download the report data into Excel, CSV, & PDF.</p>
+    <p>Please use filters when perfoming a search to ensure best performance and avoid slowing down the application.</p>
 }
 
     </div>

@@ -20,16 +20,13 @@
   <p>and everything in between.....</p>
 @if (!SignInManager.IsSignedIn(User))
 {
- <tr>
-     <td>
+ 
         <div class="w-45 btn-group" role="group">
             <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register"><i class = "bi bi-person-plus" ></i>Register</a>
         </div>
         <div class="w-45 btn-group" role="group">
             <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login"><i class = "bi bi-box-arrow-in-right" ></i>Login</a>
         </div>
-    </td>
-</tr>
 }
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
 {
