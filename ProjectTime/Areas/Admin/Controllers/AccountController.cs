@@ -237,8 +237,8 @@ namespace ProjectTime.Areas.Admin.Controllers
             catch (DbUpdateException ex)
             {
                 _logger.LogError((EventId)100, $"Invalid operation by UserId {{0}} on {{1}} User object, database exception error {{2}}: {ex.InnerException}", userId, user.FullName, DateTime.Now);
-                ViewBag.ErrorTitle = $"{user.FullName} is Assigned to Projects or Departments";
-                ViewBag.ErrorMessage = $"{user.FullName} cannot be deleted as this user is assigned to projects or departments";
+                ViewBag.ErrorTitle = $"{user.FullName} is Assigned to a Role or Projects";
+                ViewBag.ErrorMessage = $"{user.FullName} cannot be deleted as this user is assigned to a role or project";
                 return View("Error");
             }
         }

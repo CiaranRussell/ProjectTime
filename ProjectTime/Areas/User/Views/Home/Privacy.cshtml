@@ -17,7 +17,7 @@
 
 @if (!User.IsInRole(SD.Role_User) && !User.IsInRole(SD.Role_SuperUser) && !User.IsInRole(SD.Role_Admin))
 {
-    <p>Login or Register to view the contents in this section.</p>
+    <p>Login or Register to view the contents in the About page.</p>
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))

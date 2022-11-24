@@ -31,11 +31,11 @@ namespace ProjectTime.Data
 
         // On model creation method to loop through all tables with FK relationships & prevent cascade deletion of record
         // when deleting parent value
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
             
-            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+            foreach (var foreignKey in builder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys()))
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
