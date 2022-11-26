@@ -49,8 +49,8 @@ namespace ProjectTime.Areas.User.Controllers
             foreach (var project in myProjects)
             {
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
-                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
-                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
+                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToString("dd/MM/yyyy");
+                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToString("dd/MM/yyyy");
                 project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
@@ -312,8 +312,8 @@ namespace ProjectTime.Areas.User.Controllers
             foreach (var project in myProjects)
             {
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
-                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
-                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
+                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToString("dd/MM/yyyy");
+                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToString("dd/MM/yyyy");
                 project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;

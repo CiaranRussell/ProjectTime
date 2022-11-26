@@ -190,7 +190,7 @@ namespace ProjectTime.Areas.SuperUser
 
                 if (projectEstimate == null)
                 {
-                    _logger.LogError((EventId)101, "Invalid operation on edit post Project Estimate, null object Id {0}:", DateTime.Now);
+                    _logger.LogError((EventId)101, "Invalid operation on edit post Project Estimate, null object Id {date}:", DateTime.Now);
                     return View("Error");
                 }
 
@@ -314,10 +314,10 @@ namespace ProjectTime.Areas.SuperUser
                                                    .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
+                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToString("dd/MM/yyyy");
 
                 var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
+                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToString("dd/MM/yyyy");
 
 
                 project.DurationDays = Math.Round((decimal)durationSum, 1);

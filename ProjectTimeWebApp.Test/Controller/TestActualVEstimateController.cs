@@ -33,9 +33,7 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_Index_ReturnsSuccess()
         {
             // Arrange
-            var mock = new Mock<ISessionHelper>();
-            mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
+            var actualVEstimateController = new ActualVEstimateController(dbContext);
 
             // Act
             var result = actualVEstimateController.Index() as ViewResult;
@@ -51,9 +49,7 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_IndexProjectTracker_ReturnsSuccess()
         {
             // Arrange
-            var mock = new Mock<ISessionHelper>();
-            mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
+            var actualVEstimateController = new ActualVEstimateController(dbContext);
 
             // Act
             var result = actualVEstimateController.IndexProjectTracker("1") as ViewResult;
@@ -70,9 +66,7 @@ namespace ProjectTimeWebApp.Test.Controller
         public void Test_Controller_IndexProjectTrackerCost_ReturnsSuccess()
         {
             // Arrange
-            var mock = new Mock<ISessionHelper>();
-            mock.Setup(p => p.GetUserId()).Returns("UserId");
-            var actualVEstimateController = new ActualVEstimateController(dbContext, mock.Object);
+            var actualVEstimateController = new ActualVEstimateController(dbContext);
 
             // Act
             var result = actualVEstimateController.IndexProjectTrackerCost("1") as ViewResult;

@@ -76,6 +76,8 @@
     <Compile Include="UserInterfaceTestcases\AdminUserUITest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInterfaceTestcases\SuperUserUITest.cs" />
+    <Compile Include="UserInterfaceTestcases\UserUITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -68,8 +68,8 @@ namespace ProjectTime.Areas.SuperUser.Controllers
             foreach (var project in projectSummary)
             {
                 var durationSum = timeLogList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x.Duration);
-                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToShortDateString();
-                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToShortDateString();
+                var minDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Min(x => x.Date).ToString("dd/MM/yyyy"); 
+                var maxDate = timeLogList.Where(x => x.ProjectId == project.ProjectId).Max(x => x.Date).ToString("dd/MM/yyyy"); 
                 project.Duration = Math.Round(durationSum / SD.WorkingDay, 1);
                 project.MinDate = minDate;
                 project.MaxDate = maxDate;
@@ -116,10 +116,10 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                                                    .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
 
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
+                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToString("dd/MM/yyyy");
 
                 var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
+                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToString("dd/MM/yyyy");
 
 
                 project.DurationDays = Math.Round((decimal)durationSum, 1);
@@ -210,11 +210,11 @@ namespace ProjectTime.Areas.SuperUser.Controllers
 
                 var actualMinDate = timeLogs.Where(x => x.ProjectId == project.ProjectId
                                              && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
-                                            .Select(x => x.Date).DefaultIfEmpty().Min().ToShortDateString();
+                                            .Select(x => x.Date).DefaultIfEmpty().Min().ToString("dd/MM/yyyy");
 
                 var actualMaxDate = timeLogs.Where(x => x.ProjectId == project.ProjectId
                                              && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
-                                            .Select(x => x.Date).DefaultIfEmpty().Max().ToShortDateString();
+                                            .Select(x => x.Date).DefaultIfEmpty().Max().ToString("dd/MM/yyyy");
 
                 var actualTotalCost = timeLogs.Where(x => x.ProjectId == project.ProjectId
                                                && x.ProjectUser.ApplicationUser.DepartmentId == project.DepartmentId)
@@ -295,10 +295,10 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 var durationSum = projectEstimateList.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.DurationDays);
 
                 var minDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToShortDateString();
+                                                 .Select(x => x.DateFrom).DefaultIfEmpty().Min().ToString("dd/MM/yyyy");
 
                 var maxDate = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
-                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToShortDateString();
+                                                 .Select(x => x.DateTo).DefaultIfEmpty().Max().ToString("dd/MM/yyyy");
 
                 var totalCost = projectEstimateList.Where(x => x.ProjectId == project.ProjectId)
                                                    .Sum(x => (x?.DurationDays * SD.WorkingDay) * x.Department.Rate);
@@ -306,10 +306,10 @@ namespace ProjectTime.Areas.SuperUser.Controllers
                 var actualDurationSum = timeLogs.Where(x => x.ProjectId == project.ProjectId).Sum(x => x?.Duration);
 
                 var actualMinDate = timeLogs.Where(x => x.ProjectId == project.ProjectId).Select(x => x.Date)
-                                            .DefaultIfEmpty().Min().ToShortDateString();
+                                            .DefaultIfEmpty().Min().ToString("dd/MM/yyyy");
 
                 var actualMaxDate = timeLogs.Where(x => x.ProjectId == project.ProjectId).Select(x => x.Date)
-                                            .DefaultIfEmpty().Max().ToShortDateString();
+                                            .DefaultIfEmpty().Max().ToString("dd/MM/yyyy");
 
                 var actualTotalCost = timeLogs.Where(x => x.ProjectId == project.ProjectId)
                                               .Sum(x => x?.Duration * x.ProjectUser.ApplicationUser.Department.Rate);

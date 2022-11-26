@@ -14,7 +14,7 @@ using SeleniumExtras.WaitHelpers;
 using NUnit.Framework;
 
 
-namespace ProjectTime_UITest.AdminUser
+namespace ProjectTime_UITest.UserInterfaceTestcases
 { 
     [TestFixture]
     public class AdminUserTest
@@ -31,6 +31,7 @@ namespace ProjectTime_UITest.AdminUser
             js = (IJavaScriptExecutor)driver;
             Vars = new Dictionary<string, object>();
             driver.Navigate().GoToUrl("https://projecttime-app.azurewebsites.net/");
+            driver.Manage().Window.Size = new System.Drawing.Size(1600, 900);
         }
 
         [TearDown]
@@ -39,7 +40,7 @@ namespace ProjectTime_UITest.AdminUser
             driver.Quit();
         }
 
-        // UI Admin User test case begins by logging in as an admin user and logs out the admin user
+        // UI Admin User test case begins by logging in as an admin user and logging of the application
 
         [Test, Order(1)]
         public void Test_AdminLogIn_LogOut()
