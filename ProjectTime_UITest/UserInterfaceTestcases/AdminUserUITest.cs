@@ -17,7 +17,7 @@ using NUnit.Framework;
 namespace ProjectTime_UITest.UserInterfaceTestcases
 { 
     [TestFixture]
-    public class AdminUserTest
+    public class AdminUserUITest
     {
         private IWebDriver driver;
         public IDictionary<string, object> Vars { get; private set; }

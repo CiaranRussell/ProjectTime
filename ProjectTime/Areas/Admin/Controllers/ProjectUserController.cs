@@ -214,7 +214,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             {
                 _logger.LogError((EventId)100, "Invalid operation by UserId {id} on Id {id} projectUser object, database exception error {date}: " + ex.InnerException, userId, projectusers.Id, DateTime.Now);
                 ViewBag.ErrorTitle = $"Error {projectusers.ApplicationUser.FullName} has logged time aganist this Project";
-                ViewBag.ErrorMessage = $"The Project User cannot be deleted as the user has logged time against this project";
+                ViewBag.ErrorMessage = $"The Project User cannot be deleted as the user has logged time or estimates against this project";
                 return View("Error");
             }
         }

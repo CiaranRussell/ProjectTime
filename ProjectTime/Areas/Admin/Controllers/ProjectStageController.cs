@@ -158,7 +158,7 @@ namespace ProjectTime.Areas.Admin.Controllers
             catch (DbUpdateException ex)
             {
                 _logger.LogError((EventId)100, "Invalid operation by UserId {id} on Id {id} Project Stage, database exception error {date}: " + ex.InnerException, userId, projectStageSearch.Id, DateTime.Now);
-                ViewBag.ErrorTitle = $"Error {projectStageSearch.Stage} is assigned to Projects";
+                ViewBag.ErrorTitle = $"Error {projectStageSearch.Stage} Stage is assigned to Projects";
                 ViewBag.ErrorMessage = $"The Project Stage cannot be deleted as it has been assigned to Projects";
                 return View("Error");
             }

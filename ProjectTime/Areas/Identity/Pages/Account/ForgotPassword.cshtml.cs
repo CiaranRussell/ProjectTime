@@ -76,7 +76,7 @@ namespace ProjectTime.Areas.Identity.Pages.Account
                     Input.Email,
                     "ProjectTime Reset Password",
                     $"Hi {Input.Email} \n\n,  " +
-                    $"Please confirm your account by <a href=' {HtmlEncoder.Default.Encode(callbackUrl)} '>clicking here</a> \n\n." +
+                    $"Please reset your password by <a href=' {HtmlEncoder.Default.Encode(callbackUrl)} '>clicking here</a> \n\n." +
                     $" Regards, ProjectTime");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");

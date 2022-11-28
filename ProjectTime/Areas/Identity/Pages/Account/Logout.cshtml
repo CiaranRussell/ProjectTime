@@ -5,7 +5,6 @@
 }
 
 <header>
-    <h1>@ViewData["Title"]</h1>
     @{
         if (User.Identity.IsAuthenticated)
         {
@@ -15,7 +14,13 @@
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                <h1 class="text-primary text-center">Log out</h1>
+                <h4 class="text-primary text-center">You have successfully logged out of the application.</h4>
+                <a asp-area="User" asp-controller="Home" asp-action="Index">Home</a>
+                </div>
+            </div>    
         }
     }
 </header>

@@ -25,10 +25,12 @@ builder.Services.AddControllersWithViews();
 // add ISessionHelper & IDbInitializer to services
 builder.Services.AddScoped<ISessionHelper, SessionHelper>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
-// add path to access denied page
+// add path to access denied & login page
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.LoginPath = "/Identity/Account/Login";
+    
 });
 
 builder.Services.AddAuthentication().AddCookie();

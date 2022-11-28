@@ -72,8 +72,9 @@ namespace ProjectTime.Areas.Admin.Controllers
         public async Task<IActionResult> EditUser(ApplicationUser appUser)
         {
             ViewData["departmentId"] = new SelectList(_db.departments.ToList(), "Id", "Name");
-            var dupCheckEmail = !_userManager.Users.Any(x => x.Id != appUser.Id && x.Email.ToLower().Trim() ==
-                                                                               appUser.Email.ToLower().Trim());
+            var dupCheckEmail = !_userManager.Users.Any(x => x.Id != appUser.Id && x.Email.ToLower().Trim() 
+                                                          == appUser.Email.ToLower().Trim());
+
             if (!dupCheckEmail)
             {
                 ModelState.AddModelError("Email", "Email address already exists");

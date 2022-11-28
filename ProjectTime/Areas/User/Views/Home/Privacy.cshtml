@@ -15,9 +15,15 @@
         <p>Your all-in-one suite to manage people, projects,</p>
         <p>and everything in between.....</p>
 
-@if (!User.IsInRole(SD.Role_User) && !User.IsInRole(SD.Role_SuperUser) && !User.IsInRole(SD.Role_Admin))
+@if (!SignInManager.IsSignedIn(User))
 {
-    <p>Login or Register to view the contents in the About page.</p>
+        <p>Login or Register to view the contents in the About page.</p>
+        <div class="w-45 btn-group" role="group">
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register"><i class = "bi bi-person-plus" ></i>Register</a>
+        </div>
+        <div class="w-45 btn-group" role="group">
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login"><i class = "bi bi-box-arrow-in-right" ></i>Login</a>
+        </div>
 }
 
 @if (User.Identity.IsAuthenticated && User.IsInRole(SD.Role_User) || User.IsInRole(SD.Role_SuperUser) || User.IsInRole(SD.Role_Admin))
