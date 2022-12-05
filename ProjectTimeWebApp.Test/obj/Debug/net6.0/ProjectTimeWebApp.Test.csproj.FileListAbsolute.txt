@@ -1,4 +1,3 @@
-C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\CoverletSourceRootsMapping
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\testhost.dll
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\ProjectTime.deps.json
 C:\EAD\ProjectTime\ProjectTimeWebApp.Test\bin\Debug\net6.0\ProjectTime.runtimeconfig.json

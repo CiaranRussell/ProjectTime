@@ -126,7 +126,7 @@ namespace ProjectTimeWebApp.Test.Controller
 
         [Test, Order(5)]
 
-        public void Test_EditNWDsGet_WithResponse()
+        public void Test_EditGet_WithResponse()
         {
             // Arrange
             var mock = new Mock<ISessionHelper>();

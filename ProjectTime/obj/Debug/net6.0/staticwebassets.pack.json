@@ -1,0 +1,357 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\ProjectTime.bundle.scp.css",
+      "PackagePath": "staticwebassets\\ProjectTime.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\Images\\ProjectTime_Image_Jpg_V5.jpg",
+      "PackagePath": "staticwebassets\\Images\\ProjectTime_Image_Jpg_V5.jpg"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\css\\BootswatchTheme.css",
+      "PackagePath": "staticwebassets\\css\\BootswatchTheme.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\actualveatimate.js",
+      "PackagePath": "staticwebassets\\js\\actualveatimate.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\actualvestimateeffortreport.js",
+      "PackagePath": "staticwebassets\\js\\actualvestimateeffortreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\actualvestimatesummaryreport.js",
+      "PackagePath": "staticwebassets\\js\\actualvestimatesummaryreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\actualvestimatevariancereport.js",
+      "PackagePath": "staticwebassets\\js\\actualvestimatevariancereport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\department.js",
+      "PackagePath": "staticwebassets\\js\\department.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indexProjectTracker.js",
+      "PackagePath": "staticwebassets\\js\\indexProjectTracker.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indexProjectTrackerCost.js",
+      "PackagePath": "staticwebassets\\js\\indexProjectTrackerCost.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indexprojectestimate.js",
+      "PackagePath": "staticwebassets\\js\\indexprojectestimate.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\indextimelog.js",
+      "PackagePath": "staticwebassets\\js\\indextimelog.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\nonWorkingDays.js",
+      "PackagePath": "staticwebassets\\js\\nonWorkingDays.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\project.js",
+      "PackagePath": "staticwebassets\\js\\project.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectUser.js",
+      "PackagePath": "staticwebassets\\js\\projectUser.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectestimate.js",
+      "PackagePath": "staticwebassets\\js\\projectestimate.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectestimatereport.js",
+      "PackagePath": "staticwebassets\\js\\projectestimatereport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectestimatesummaryreport.js",
+      "PackagePath": "staticwebassets\\js\\projectestimatesummaryreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\projectstage.js",
+      "PackagePath": "staticwebassets\\js\\projectstage.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\rescourcingreport.js",
+      "PackagePath": "staticwebassets\\js\\rescourcingreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\timeLog.js",
+      "PackagePath": "staticwebassets\\js\\timeLog.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\timelogreport.js",
+      "PackagePath": "staticwebassets\\js\\timelogreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\timelogsummaryreport.js",
+      "PackagePath": "staticwebassets\\js\\timelogsummaryreport.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\js\\users.js",
+      "PackagePath": "staticwebassets\\js\\users.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\EAD\\ProjectTime\\ProjectTime\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.ProjectTime.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.ProjectTime.props",
+      "PackagePath": "build\\ProjectTime.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.ProjectTime.props",
+      "PackagePath": "buildMultiTargeting\\ProjectTime.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.ProjectTime.props",
+      "PackagePath": "buildTransitive\\ProjectTime.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
