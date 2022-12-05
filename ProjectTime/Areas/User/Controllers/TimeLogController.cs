@@ -29,7 +29,7 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Get method to return TimeLog Projects view to include ProjectUsers and Projects with where condition   
-        // to return distinct projects by User Id or all projects for PMO Role  
+        // to return distinct projects by User Id
         public IActionResult Index()
         {
             var userId = _sessionHelper.GetUserId();
@@ -60,7 +60,7 @@ namespace ProjectTime.Areas.User.Controllers
             return View(myProjects);
         }
 
-        // Get method to return a list of timelogs by projectId for the logged in user or the all timelogs for the PMO user role view page 
+        // Get method to return a list of timelogs by projectId for the logged in user 
         public IActionResult IndexTimeLog()
         {
 
@@ -288,7 +288,7 @@ namespace ProjectTime.Areas.User.Controllers
         }
 
         // Get method to return TimeLog Projects view to include ProjectUsers and Projects with where condition   
-        // to return distinct projects by User Id or all projects for PMO Role
+        // to return distinct projects by User Id
         #region API CALLS
         [HttpGet]
         public IActionResult IndexTimeLogAPI()
@@ -325,7 +325,7 @@ namespace ProjectTime.Areas.User.Controllers
         #endregion
 
         // Get method to return API TimeLog data for datatables with where condition   
-        // to return ProjectTime logs for user by Project Id or all logs for PMO Role
+        // to return ProjectTime logs for user by Project Id
         #region API CALLS
         [HttpGet]
 
